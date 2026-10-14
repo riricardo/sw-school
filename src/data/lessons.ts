@@ -72,6 +72,18 @@ export const lessons: Lesson[] = [
         ],
         "correct": 0,
         "explanation": "Connect the analogy back to the precise technical definition."
+      },
+      {
+        "id": "challenge-1",
+        "prompt": "What is the output of `int x = 5; Console.WriteLine(x++);`?",
+        "options": [
+          "5",
+          "6",
+          "4",
+          "Compiler error"
+        ],
+        "correct": 0,
+        "explanation": "Post-increment returns the original value, then increments x."
       }
     ]
   },
@@ -147,6 +159,18 @@ export const lessons: Lesson[] = [
         ],
         "correct": 3,
         "explanation": "Connect the analogy back to the precise technical definition."
+      },
+      {
+        "id": "challenge-2",
+        "prompt": "Which keyword ensures a nullable reference warning is handled when a value may be missing?",
+        "options": [
+          "?.",
+          "lock",
+          "sealed",
+          "override"
+        ],
+        "correct": 0,
+        "explanation": "The null-conditional operator ?. safely accesses members when the reference may be null."
       }
     ]
   },
@@ -222,6 +246,18 @@ export const lessons: Lesson[] = [
         ],
         "correct": 2,
         "explanation": "Connect the analogy back to the precise technical definition."
+      },
+      {
+        "id": "challenge-3",
+        "prompt": "What does `await` do in an async method?",
+        "options": [
+          "Suspends the method until the awaited operation completes without blocking its caller thread",
+          "Starts a new thread every time",
+          "Makes all code parallel",
+          "Blocks the UI thread"
+        ],
+        "correct": 0,
+        "explanation": "Await yields control while the task is incomplete; it does not inherently create a thread."
       }
     ]
   },
@@ -297,6 +333,18 @@ export const lessons: Lesson[] = [
         ],
         "correct": 1,
         "explanation": "Connect the analogy back to the precise technical definition."
+      },
+      {
+        "id": "challenge-4",
+        "prompt": "What is the key difference between IEnumerable<T> and List<T>?",
+        "options": [
+          "IEnumerable<T> is an iteration abstraction; List<T> is a concrete collection",
+          "Both are database tables",
+          "List<T> is always lazy",
+          "IEnumerable<T> cannot be used with LINQ"
+        ],
+        "correct": 0,
+        "explanation": "IEnumerable<T> describes enumeration; List<T> provides storage and operations."
       }
     ]
   },
@@ -372,6 +420,18 @@ export const lessons: Lesson[] = [
         ],
         "correct": 0,
         "explanation": "Connect the analogy back to the precise technical definition."
+      },
+      {
+        "id": "challenge-5",
+        "prompt": "What is the result of `new[] {1,2,3}.Where(x => x > 1).Count()`?",
+        "options": [
+          "2",
+          "1",
+          "3",
+          "0"
+        ],
+        "correct": 0,
+        "explanation": "The filter returns 2 and 3."
       }
     ]
   },
@@ -447,6 +507,18 @@ export const lessons: Lesson[] = [
         ],
         "correct": 3,
         "explanation": "Connect the analogy back to the precise technical definition."
+      },
+      {
+        "id": "challenge-6",
+        "prompt": "When should you use `using` with IDisposable?",
+        "options": [
+          "To release resources deterministically",
+          "To import only JSON",
+          "To make a class static",
+          "To force garbage collection"
+        ],
+        "correct": 0,
+        "explanation": "using disposes an IDisposable at scope exit, even when exceptions occur."
       }
     ]
   },
@@ -522,6 +594,18 @@ export const lessons: Lesson[] = [
         ],
         "correct": 2,
         "explanation": "Connect the analogy back to the precise technical definition."
+      },
+      {
+        "id": "challenge-7",
+        "prompt": "What does a `sealed` class prevent?",
+        "options": [
+          "Inheritance from that class",
+          "Instantiating the class",
+          "Calling methods",
+          "Using interfaces"
+        ],
+        "correct": 0,
+        "explanation": "A sealed class cannot be used as a base class."
       }
     ]
   },
@@ -597,6 +681,18 @@ export const lessons: Lesson[] = [
         ],
         "correct": 1,
         "explanation": "Connect the analogy back to the precise technical definition."
+      },
+      {
+        "id": "challenge-10",
+        "prompt": "Which SOLID principle says a class should have one reason to change?",
+        "options": [
+          "Single Responsibility",
+          "Open/Closed",
+          "Liskov Substitution",
+          "Interface Segregation"
+        ],
+        "correct": 0,
+        "explanation": "SRP encourages cohesive responsibilities."
       }
     ]
   },
@@ -672,6 +768,30 @@ export const lessons: Lesson[] = [
         ],
         "correct": 0,
         "explanation": "Connect the analogy back to the precise technical definition."
+      },
+      {
+        "id": "challenge-8",
+        "prompt": "Which lifetime creates one service instance per HTTP request in ASP.NET Core?",
+        "options": [
+          "Scoped",
+          "Singleton",
+          "Transient",
+          "Static"
+        ],
+        "correct": 0,
+        "explanation": "Scoped services are created once per request scope."
+      },
+      {
+        "id": "challenge-11",
+        "prompt": "A service creates `new EmailSender()` internally. What is the main testing drawback?",
+        "options": [
+          "Harder to replace EmailSender with a fake",
+          "It always leaks memory",
+          "It makes email asynchronous",
+          "It cannot compile"
+        ],
+        "correct": 0,
+        "explanation": "Direct construction tightly couples the service to a concrete implementation."
       }
     ]
   },
@@ -747,6 +867,18 @@ export const lessons: Lesson[] = [
         ],
         "correct": 3,
         "explanation": "Connect the analogy back to the precise technical definition."
+      },
+      {
+        "id": "challenge-9",
+        "prompt": "Why is injecting a scoped DbContext into a singleton dangerous?",
+        "options": [
+          "The singleton can capture a scoped instance beyond its intended lifetime",
+          "It always causes a compiler error",
+          "It improves concurrency",
+          "It disables EF Core"
+        ],
+        "correct": 0,
+        "explanation": "Lifetime mismatches can cause stale state and concurrency bugs; scope validation can detect them."
       }
     ]
   },
@@ -822,6 +954,18 @@ export const lessons: Lesson[] = [
         ],
         "correct": 2,
         "explanation": "Connect the analogy back to the precise technical definition."
+      },
+      {
+        "id": "challenge-16",
+        "prompt": "What is middleware in ASP.NET Core?",
+        "options": [
+          "A component in the HTTP request/response pipeline",
+          "A database migration",
+          "A C# compiler switch",
+          "A UI framework"
+        ],
+        "correct": 0,
+        "explanation": "Middleware processes requests and may invoke the next component."
       }
     ]
   },
@@ -897,6 +1041,18 @@ export const lessons: Lesson[] = [
         ],
         "correct": 1,
         "explanation": "Connect the analogy back to the precise technical definition."
+      },
+      {
+        "id": "challenge-12",
+        "prompt": "Which response code is typical for a successful POST that creates a resource?",
+        "options": [
+          "201 Created",
+          "404 Not Found",
+          "401 Unauthorized",
+          "503 Unavailable"
+        ],
+        "correct": 0,
+        "explanation": "201 Created is commonly paired with a Location header."
       }
     ]
   },
@@ -972,6 +1128,18 @@ export const lessons: Lesson[] = [
         ],
         "correct": 0,
         "explanation": "Connect the analogy back to the precise technical definition."
+      },
+      {
+        "id": "challenge-13",
+        "prompt": "What is the difference between 401 and 403?",
+        "options": [
+          "401 requires authentication; 403 means authenticated or identified client lacks permission",
+          "They mean the same",
+          "401 is for missing resources",
+          "403 is a server crash"
+        ],
+        "correct": 0,
+        "explanation": "401 means credentials are missing/invalid; 403 means access is forbidden."
       }
     ]
   },
@@ -1047,6 +1215,18 @@ export const lessons: Lesson[] = [
         ],
         "correct": 3,
         "explanation": "Connect the analogy back to the precise technical definition."
+      },
+      {
+        "id": "challenge-14",
+        "prompt": "What is the safest way to handle invalid user input?",
+        "options": [
+          "Validate and return an appropriate 4xx response",
+          "Return 500 for every error",
+          "Trust the client",
+          "Log secrets"
+        ],
+        "correct": 0,
+        "explanation": "Validation catches malformed or unacceptable input at boundaries."
       }
     ]
   },
@@ -1122,6 +1302,18 @@ export const lessons: Lesson[] = [
         ],
         "correct": 2,
         "explanation": "Connect the analogy back to the precise technical definition."
+      },
+      {
+        "id": "challenge-15",
+        "prompt": "Which HTTP method is intended for partial updates?",
+        "options": [
+          "PATCH",
+          "GET",
+          "DELETE",
+          "HEAD"
+        ],
+        "correct": 0,
+        "explanation": "PATCH represents partial modification; PUT typically replaces the resource representation."
       }
     ]
   },
@@ -1197,6 +1389,18 @@ export const lessons: Lesson[] = [
         ],
         "correct": 1,
         "explanation": "Connect the analogy back to the precise technical definition."
+      },
+      {
+        "id": "challenge-21",
+        "prompt": "Which ACID property ensures committed data survives a crash?",
+        "options": [
+          "Durability",
+          "Atomicity",
+          "Isolation",
+          "Consistency"
+        ],
+        "correct": 0,
+        "explanation": "Durability means committed changes persist."
       }
     ]
   },
@@ -1272,6 +1476,18 @@ export const lessons: Lesson[] = [
         ],
         "correct": 0,
         "explanation": "Connect the analogy back to the precise technical definition."
+      },
+      {
+        "id": "challenge-17",
+        "prompt": "Which JOIN keeps all rows from the left table, even without a match?",
+        "options": [
+          "LEFT JOIN",
+          "INNER JOIN",
+          "CROSS JOIN",
+          "RIGHT JOIN"
+        ],
+        "correct": 0,
+        "explanation": "LEFT JOIN preserves every left-side row and fills missing right-side values with NULL."
       }
     ]
   },
@@ -1347,6 +1563,18 @@ export const lessons: Lesson[] = [
         ],
         "correct": 3,
         "explanation": "Connect the analogy back to the precise technical definition."
+      },
+      {
+        "id": "challenge-18",
+        "prompt": "What is a primary purpose of an index?",
+        "options": [
+          "Speed up some reads at the cost of storage and write overhead",
+          "Encrypt every column",
+          "Remove the need for WHERE",
+          "Guarantee no deadlocks"
+        ],
+        "correct": 0,
+        "explanation": "Indexes improve selected queries but have maintenance costs."
       }
     ]
   },
@@ -1422,6 +1650,18 @@ export const lessons: Lesson[] = [
         ],
         "correct": 2,
         "explanation": "Connect the analogy back to the precise technical definition."
+      },
+      {
+        "id": "challenge-19",
+        "prompt": "What does `COUNT(*)` count?",
+        "options": [
+          "Rows, including rows with NULL values",
+          "Only non-null values in a chosen column",
+          "Distinct tables",
+          "Columns"
+        ],
+        "correct": 0,
+        "explanation": "COUNT(*) counts all qualifying rows."
       }
     ]
   },
@@ -1497,6 +1737,18 @@ export const lessons: Lesson[] = [
         ],
         "correct": 1,
         "explanation": "Connect the analogy back to the precise technical definition."
+      },
+      {
+        "id": "challenge-20",
+        "prompt": "What is a parameterized SQL query mainly protecting against?",
+        "options": [
+          "SQL injection",
+          "Network latency",
+          "Deadlocks",
+          "Lost backups"
+        ],
+        "correct": 0,
+        "explanation": "Parameters separate query structure from untrusted data."
       }
     ]
   },
@@ -1572,6 +1824,18 @@ export const lessons: Lesson[] = [
         ],
         "correct": 0,
         "explanation": "Connect the analogy back to the precise technical definition."
+      },
+      {
+        "id": "challenge-23",
+        "prompt": "What is EF Core change tracking used for?",
+        "options": [
+          "Detecting entity modifications for SaveChanges",
+          "Tracking browser clicks",
+          "Caching CSS",
+          "Running unit tests"
+        ],
+        "correct": 0,
+        "explanation": "Tracked entities can be updated and persisted through SaveChanges."
       }
     ]
   },
@@ -1647,6 +1911,30 @@ export const lessons: Lesson[] = [
         ],
         "correct": 3,
         "explanation": "Connect the analogy back to the precise technical definition."
+      },
+      {
+        "id": "challenge-22",
+        "prompt": "Why use Dapper parameters instead of string concatenation?",
+        "options": [
+          "Safety and correct value binding",
+          "Automatic schema migrations",
+          "Automatic UI updates",
+          "To avoid SQL entirely"
+        ],
+        "correct": 0,
+        "explanation": "Parameterized commands protect against SQL injection and correctly bind values."
+      },
+      {
+        "id": "challenge-24",
+        "prompt": "What is a common benefit of AsNoTracking in EF Core?",
+        "options": [
+          "Lower overhead for read-only queries",
+          "Automatic updates",
+          "Encryption",
+          "Transaction rollback"
+        ],
+        "correct": 0,
+        "explanation": "No-tracking queries avoid change-tracker overhead when updates are unnecessary."
       }
     ]
   },
@@ -1722,6 +2010,18 @@ export const lessons: Lesson[] = [
         ],
         "correct": 2,
         "explanation": "Connect the analogy back to the precise technical definition."
+      },
+      {
+        "id": "challenge-25",
+        "prompt": "Which test is most appropriate for a pure price calculation function?",
+        "options": [
+          "Unit test",
+          "End-to-end browser test only",
+          "Manual production test",
+          "Load test"
+        ],
+        "correct": 0,
+        "explanation": "Unit tests are fast and deterministic for isolated business logic."
       }
     ]
   },
@@ -1797,6 +2097,18 @@ export const lessons: Lesson[] = [
         ],
         "correct": 1,
         "explanation": "Connect the analogy back to the precise technical definition."
+      },
+      {
+        "id": "challenge-26",
+        "prompt": "What does mocking an external email gateway help test?",
+        "options": [
+          "Service behavior without sending real emails",
+          "The real gateway uptime",
+          "Network speed",
+          "Browser rendering"
+        ],
+        "correct": 0,
+        "explanation": "Mocks/fakes isolate dependencies and make tests predictable."
       }
     ]
   },
@@ -1872,6 +2184,18 @@ export const lessons: Lesson[] = [
         ],
         "correct": 0,
         "explanation": "Connect the analogy back to the precise technical definition."
+      },
+      {
+        "id": "challenge-27",
+        "prompt": "Why should tests avoid depending on execution order?",
+        "options": [
+          "Order-dependent tests are fragile and unreliable",
+          "It always speeds up tests",
+          "It enables SQL injection",
+          "It removes assertions"
+        ],
+        "correct": 0,
+        "explanation": "Each test should set up its own state and run independently."
       }
     ]
   },
@@ -1947,6 +2271,18 @@ export const lessons: Lesson[] = [
         ],
         "correct": 3,
         "explanation": "Connect the analogy back to the precise technical definition."
+      },
+      {
+        "id": "challenge-29",
+        "prompt": "What is the difference between `git fetch` and `git pull`?",
+        "options": [
+          "Fetch downloads remote refs; pull also integrates them into the current branch",
+          "They always delete local files",
+          "Fetch pushes changes",
+          "Pull never contacts the remote"
+        ],
+        "correct": 0,
+        "explanation": "git pull commonly performs fetch followed by merge or rebase."
       }
     ]
   },
@@ -2022,6 +2358,30 @@ export const lessons: Lesson[] = [
         ],
         "correct": 2,
         "explanation": "Connect the analogy back to the precise technical definition."
+      },
+      {
+        "id": "challenge-28",
+        "prompt": "What is the purpose of a CI pipeline?",
+        "options": [
+          "Automatically validate changes through build/tests",
+          "Replace version control",
+          "Manually upload screenshots",
+          "Disable reviews"
+        ],
+        "correct": 0,
+        "explanation": "Continuous Integration automatically checks changes and detects regressions early."
+      },
+      {
+        "id": "challenge-30",
+        "prompt": "Why should secrets be stored in CI secret management rather than source code?",
+        "options": [
+          "To prevent credential exposure in the repository",
+          "To make builds slower",
+          "To bypass tests",
+          "To disable access control"
+        ],
+        "correct": 0,
+        "explanation": "Keep credentials out of tracked files and restrict their permissions."
       }
     ]
   },
@@ -2247,6 +2607,135 @@ export const lessons: Lesson[] = [
         ],
         "correct": 3,
         "explanation": "Connect the analogy back to the precise technical definition."
+      },
+      {
+        "id": "challenge-40",
+        "prompt": "Which response is strongest when you do not know a tool?",
+        "options": [
+          "I haven't used it in production, but I understand its purpose and can explain how I'd learn it.",
+          "I know everything about it.",
+          "That question is irrelevant.",
+          "I would guess and pretend."
+        ],
+        "correct": 0,
+        "explanation": "Be honest, show related knowledge, and explain a practical learning approach."
+      }
+    ]
+  },
+  {
+    "id": "security",
+    "module": "Security",
+    "title": "Authentication vs Authorization",
+    "minutes": 9,
+    "priority": "Important",
+    "simple": "Authentication verifies identity; authorization checks permissions.",
+    "details": "Protect endpoints with identity verification and role/policy checks.",
+    "analogy": "A building badge identifies you, but a room key grants access.",
+    "code": "[Authorize(Policy = \"CanEditOrders\")]",
+    "interview": "Authentication answers who you are; authorization answers what you can do.",
+    "pitfall": "Do not assume authenticated users can access every resource.",
+    "questions": [
+      {
+        "id": "challenge-34",
+        "prompt": "What is the best way to store user passwords?",
+        "options": [
+          "A modern salted password hash",
+          "Plain text",
+          "Base64 encoding",
+          "Client-side localStorage"
+        ],
+        "correct": 0,
+        "explanation": "Use an appropriate password hashing algorithm and never store plaintext passwords."
+      },
+      {
+        "id": "challenge-35",
+        "prompt": "What is the principle of least privilege?",
+        "options": [
+          "Grant only permissions needed for a task",
+          "Give admin access by default",
+          "Share credentials",
+          "Disable auditing"
+        ],
+        "correct": 0,
+        "explanation": "Limit permissions to reduce the impact of compromise."
+      }
+    ]
+  },
+  {
+    "id": "algorithms",
+    "module": "Algorithms",
+    "title": "Big O and Data Structures",
+    "minutes": 9,
+    "priority": "Important",
+    "simple": "Big O describes how resource use grows as input size grows.",
+    "details": "Understand O(1), O(log n), O(n), O(n log n), and O(n²).",
+    "analogy": "Searching one drawer differs from checking every drawer.",
+    "code": "var exists = values.Contains(target);",
+    "interview": "I compare complexity and choose structures based on expected operations.",
+    "pitfall": "Measure actual performance too; Big O is not the whole story.",
+    "questions": [
+      {
+        "id": "challenge-36",
+        "prompt": "What is the average lookup complexity of a Dictionary<TKey,TValue>?",
+        "options": [
+          "O(1)",
+          "O(n²)",
+          "O(n log n)",
+          "O(2ⁿ)"
+        ],
+        "correct": 0,
+        "explanation": "Hash-based dictionaries provide average constant-time lookup, though worst-case behavior differs."
+      },
+      {
+        "id": "challenge-37",
+        "prompt": "Which structure naturally supports FIFO processing?",
+        "options": [
+          "Queue",
+          "Stack",
+          "Tree",
+          "Set"
+        ],
+        "correct": 0,
+        "explanation": "A queue processes first-in, first-out."
+      }
+    ]
+  },
+  {
+    "id": "architecture",
+    "module": "Architecture",
+    "title": "Layered Architecture",
+    "minutes": 9,
+    "priority": "Important",
+    "simple": "Separate responsibilities into clear application layers.",
+    "details": "Keep HTTP concerns away from business rules and persistence details.",
+    "analogy": "A restaurant separates waiter, chef, and supplier.",
+    "code": "public class OrdersController(OrderService service) { }",
+    "interview": "I keep controllers thin and business logic testable.",
+    "pitfall": "Avoid creating layers with no clear responsibility.",
+    "questions": [
+      {
+        "id": "challenge-38",
+        "prompt": "What is the main purpose of separating business logic from HTTP controllers?",
+        "options": [
+          "Make domain behavior easier to test and reuse",
+          "Guarantee zero bugs",
+          "Avoid all dependencies",
+          "Remove the need for APIs"
+        ],
+        "correct": 0,
+        "explanation": "Thin controllers delegate to application/domain services."
+      },
+      {
+        "id": "challenge-39",
+        "prompt": "When is a monolith a reasonable choice?",
+        "options": [
+          "When simplicity and deployment speed matter more than distributed scaling",
+          "Never",
+          "Only for frontend apps",
+          "Only without a database"
+        ],
+        "correct": 0,
+        "explanation": "A modular monolith can be a good starting point; distributed systems add complexity."
       }
     ]
   }

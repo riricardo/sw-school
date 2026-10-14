@@ -9,13 +9,14 @@ export default defineConfig(({ command }) => ({
     injectRegister: 'auto',
     includeAssets: ['icons/icon.svg'],
     manifest: {
-      name: 'DevPrep — ITDS Interview', short_name: 'DevPrep', description: 'Offline-first .NET interview study companion',
+      name: 'Software Learning — Offline', short_name: 'DevPrep', description: 'Offline-first software engineering learning and optional local AI',
       theme_color: '#101429', background_color: '#101429', display: 'standalone',
       icons: [{ src: 'icons/icon.svg', sizes: 'any', type: 'image/svg+xml', purpose: 'any maskable' }]
     },
     workbox: {
       globPatterns: ['**/*.{js,css,html,svg,webmanifest,json,woff2}'],
       navigateFallback: 'index.html',
+      maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
       cleanupOutdatedCaches: true,
       skipWaiting: false,
       clientsClaim: true
