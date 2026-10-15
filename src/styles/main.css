@@ -26,3 +26,8 @@ html,body,#root{min-height:100%;width:100%;overflow-x:clip}
 .ai-history button{flex:none;max-width:170px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:10px}
 .ai-page textarea{font-size:16px}
 @media(max-width:390px){.top{gap:5px}.top-right{gap:6px}.ai-trigger{padding:8px}.ai-trigger span{display:none}.nav button small{font-size:10px}}
+
+.lesson-block pre.code-example{overflow-x:auto;white-space:pre;overflow-wrap:normal;tab-size:2}.syntax-keyword{color:#9bbdff}.syntax-string{color:#a4e9b0}.syntax-number{color:#ffcc91}.syntax-comment{color:#98a3b8}html[data-theme=light] .syntax-keyword{color:#2859b5}html[data-theme=light] .syntax-string{color:#23733c}html[data-theme=light] .syntax-number{color:#a6530a}html[data-theme=light] .syntax-comment{color:#667085}
+
+html[data-theme=light] .lesson-block pre{background:var(--surface2);color:var(--text)}
+.ai-page input{display:block;width:100%;min-width:0;margin-top:8px;padding:12px;border:1px solid var(--border);border-radius:10px;background:var(--surface2);color:var(--text);font:inherit;font-size:16px}

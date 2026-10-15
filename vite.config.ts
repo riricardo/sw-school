@@ -2,20 +2,21 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 
-export default defineConfig(({ command }) => ({
-  base: command === 'build' ? process.env.GITHUB_REPOSITORY ? `/${process.env.GITHUB_REPOSITORY.split('/')[1]}/` : './' : '/',
+export default defineConfig(({ command, isPreview }) => ({
+  base: command === 'build' || isPreview ? process.env.GITHUB_REPOSITORY ? `/${process.env.GITHUB_REPOSITORY.split('/')[1]}/` : '/sw-school/' : '/',
   plugins: [react(), VitePWA({
     registerType: 'prompt',
     injectRegister: 'auto',
-    includeAssets: ['icons/icon.svg'],
+    includeAssets: ['icons/icon.svg','icons/icon-192.png','icons/icon-512.png','icons/icon-maskable-512.png'],
     manifest: {
       name: 'Software Learning — Offline', short_name: 'DevPrep', description: 'Offline-first software engineering learning and optional local AI',
       theme_color: '#101429', background_color: '#101429', display: 'standalone',
-      icons: [{ src: 'icons/icon.svg', sizes: 'any', type: 'image/svg+xml', purpose: 'any maskable' }]
+      icons: [{src:'icons/icon-192.png',sizes:'192x192',type:'image/png',purpose:'any'},{src:'icons/icon-512.png',sizes:'512x512',type:'image/png',purpose:'any'},{src:'icons/icon-maskable-512.png',sizes:'512x512',type:'image/png',purpose:'maskable'}]
     },
     workbox: {
-      globPatterns: ['**/*.{js,css,html,svg,webmanifest,json,woff2,wasm}'],
+      globPatterns: ['**/*.{js,css,html,svg,png,webmanifest,json,woff2,wasm}'],
       navigateFallback: 'index.html',
+      navigateFallbackDenylist: [/^\/[^/]+\/api\//],
       maximumFileSizeToCacheInBytes: 32 * 1024 * 1024,
       cleanupOutdatedCaches: true,
       skipWaiting: false,

@@ -38,18 +38,6 @@ export const lessons: Lesson[] = [
         "explanation": "Use interfaces to express capabilities without coupling consumers to one concrete implementation. C# supports multiple interfaces per class."
       },
       {
-        "id": "interfaces-3",
-        "prompt": "Which explanation would be strongest in a technical interview?",
-        "options": [
-          "I always use it without thinking about trade-offs.",
-          "I do not need to explain it because it is obvious.",
-          "An interface defines a contract. I use it to depend on behavior rather than a concrete class.",
-          "It is useful because it is modern."
-        ],
-        "correct": 2,
-        "explanation": "Give a definition, a benefit, and a concrete use case."
-      },
-      {
         "id": "interfaces-4",
         "prompt": "Which is a common mistake related to Interfaces?",
         "options": [
@@ -62,30 +50,32 @@ export const lessons: Lesson[] = [
         "explanation": "An interface is not the same as an abstract class."
       },
       {
-        "id": "interfaces-5",
-        "prompt": "Which analogy helps explain Interfaces?",
+        "id": "interfaces-scenario-1",
+        "prompt": "An API must send notifications through email or SMS without changing its business logic. What design fits best?",
         "options": [
-          "A universal charging port defines what fits, not how electricity is produced.",
-          "A random number generator that always succeeds.",
-          "A shortcut that removes every bug.",
-          "A system that requires no human decisions."
+          "Create an IMessageSender interface with EmailSender and SmsSender implementations.",
+          "Use x++ to count messages.",
+          "Duplicate the business logic for each provider.",
+          "Make all sender fields public."
         ],
         "correct": 0,
-        "explanation": "Connect the analogy back to the precise technical definition."
+        "explanation": "An interface defines the SendAsync contract; the service depends on the contract, and each provider implements it."
       },
       {
-        "id": "challenge-1",
-        "prompt": "What is the output of `int x = 5; Console.WriteLine(x++);`?",
+        "id": "interfaces-code-1",
+        "prompt": "Given `interface IStore { void Save(); }`, what must a non-abstract class implementing IStore provide?",
         "options": [
-          "5",
-          "6",
-          "4",
-          "Compiler error"
+          "A public compatible Save() implementation (or explicit interface implementation).",
+          "An override of ToString() only.",
+          "A constructor named IStore.",
+          "A static Save() method only."
         ],
         "correct": 0,
-        "explanation": "Post-increment returns the original value, then increments x."
+        "explanation": "Implementing a C# interface requires satisfying its members; a static method alone does not implement an instance method."
       }
-    ]
+    ],
+    "useCase": "Use an interface when a service needs interchangeable implementations, such as sending notifications by email or SMS.",
+    "avoid": "Avoid creating an interface for every class when no abstraction is needed."
   },
   {
     "id": "abstract-classes",
@@ -125,18 +115,6 @@ export const lessons: Lesson[] = [
         "explanation": "It can provide shared fields, constructors, implemented methods, and abstract members subclasses must implement. A class can inherit only one class."
       },
       {
-        "id": "abstract-classes-3",
-        "prompt": "Which explanation would be strongest in a technical interview?",
-        "options": [
-          "I do not need to explain it because it is obvious.",
-          "I choose an abstract class when closely related types need shared implementation or state.",
-          "It is useful because it is modern.",
-          "I always use it without thinking about trade-offs."
-        ],
-        "correct": 1,
-        "explanation": "Give a definition, a benefit, and a concrete use case."
-      },
-      {
         "id": "abstract-classes-4",
         "prompt": "Which is a common mistake related to Abstract classes?",
         "options": [
@@ -149,30 +127,20 @@ export const lessons: Lesson[] = [
         "explanation": "Abstract classes can be inherited; they cannot be instantiated directly."
       },
       {
-        "id": "abstract-classes-5",
-        "prompt": "Which analogy helps explain Abstract classes?",
+        "id": "abstract-classes-scenario-1",
+        "prompt": "Several report classes need the same Print() implementation but each builds different content. Which approach fits?",
         "options": [
-          "A random number generator that always succeeds.",
-          "A shortcut that removes every bug.",
-          "A system that requires no human decisions.",
-          "A partially assembled template that specialized models complete."
-        ],
-        "correct": 3,
-        "explanation": "Connect the analogy back to the precise technical definition."
-      },
-      {
-        "id": "challenge-2",
-        "prompt": "Which keyword ensures a nullable reference warning is handled when a value may be missing?",
-        "options": [
-          "?.",
-          "lock",
-          "sealed",
-          "override"
+          "An abstract Report base class with shared Print() and abstract Build().",
+          "Increment a local integer.",
+          "Put all methods in unrelated static classes.",
+          "Use a database index."
         ],
         "correct": 0,
-        "explanation": "The null-conditional operator ?. safely accesses members when the reference may be null."
+        "explanation": "Abstract classes can share implementation and require subclasses to implement abstract members."
       }
-    ]
+    ],
+    "useCase": "Use a base class for related report types that share validation and formatting logic.",
+    "avoid": "Prefer an interface when unrelated types only need a common contract."
   },
   {
     "id": "encapsulation",
@@ -212,18 +180,6 @@ export const lessons: Lesson[] = [
         "explanation": "Keep fields private and expose methods or properties that enforce invariants."
       },
       {
-        "id": "encapsulation-3",
-        "prompt": "Which explanation would be strongest in a technical interview?",
-        "options": [
-          "Encapsulation helps keep objects valid by controlling how their state changes.",
-          "It is useful because it is modern.",
-          "I always use it without thinking about trade-offs.",
-          "I do not need to explain it because it is obvious."
-        ],
-        "correct": 0,
-        "explanation": "Give a definition, a benefit, and a concrete use case."
-      },
-      {
         "id": "encapsulation-4",
         "prompt": "Which is a common mistake related to Encapsulation?",
         "options": [
@@ -236,30 +192,20 @@ export const lessons: Lesson[] = [
         "explanation": "Public mutable fields can bypass validation."
       },
       {
-        "id": "encapsulation-5",
-        "prompt": "Which analogy helps explain Encapsulation?",
+        "id": "encapsulation-scenario-1",
+        "prompt": "A Wallet must reject negative deposits. Which design protects the invariant?",
         "options": [
-          "A shortcut that removes every bug.",
-          "A system that requires no human decisions.",
-          "An ATM lets you withdraw without accessing its internal vault.",
-          "A random number generator that always succeeds."
-        ],
-        "correct": 2,
-        "explanation": "Connect the analogy back to the precise technical definition."
-      },
-      {
-        "id": "challenge-3",
-        "prompt": "What does `await` do in an async method?",
-        "options": [
-          "Suspends the method until the awaited operation completes without blocking its caller thread",
-          "Starts a new thread every time",
-          "Makes all code parallel",
-          "Blocks the UI thread"
+          "Keep balance private and validate the amount in Deposit().",
+          "Expose balance as a public field.",
+          "Allow any caller to assign balance.",
+          "Disable exceptions everywhere."
         ],
         "correct": 0,
-        "explanation": "Await yields control while the task is incomplete; it does not inherently create a thread."
+        "explanation": "Encapsulation controls changes to state and enforces valid values."
       }
-    ]
+    ],
+    "useCase": "Use private fields and validated methods in accounts, shopping carts and business entities.",
+    "avoid": "Do not expose mutable state that bypasses business rules."
   },
   {
     "id": "polymorphism",
@@ -299,18 +245,6 @@ export const lessons: Lesson[] = [
         "explanation": "An interface or virtual method enables calling common behavior while each implementation handles it in its own way."
       },
       {
-        "id": "polymorphism-3",
-        "prompt": "Which explanation would be strongest in a technical interview?",
-        "options": [
-          "It is useful because it is modern.",
-          "I always use it without thinking about trade-offs.",
-          "I do not need to explain it because it is obvious.",
-          "Polymorphism lets callers use a common contract while implementations vary."
-        ],
-        "correct": 3,
-        "explanation": "Give a definition, a benefit, and a concrete use case."
-      },
-      {
         "id": "polymorphism-4",
         "prompt": "Which is a common mistake related to Polymorphism?",
         "options": [
@@ -323,30 +257,20 @@ export const lessons: Lesson[] = [
         "explanation": "Do not confuse overloading with runtime overriding."
       },
       {
-        "id": "polymorphism-5",
-        "prompt": "Which analogy helps explain Polymorphism?",
+        "id": "polymorphism-application",
+        "prompt": "Which approach is most appropriate when applying Polymorphism in a project?",
         "options": [
-          "A system that requires no human decisions.",
-          "The same play button works with different media players.",
-          "A random number generator that always succeeds.",
-          "A shortcut that removes every bug."
-        ],
-        "correct": 1,
-        "explanation": "Connect the analogy back to the precise technical definition."
-      },
-      {
-        "id": "challenge-4",
-        "prompt": "What is the key difference between IEnumerable<T> and List<T>?",
-        "options": [
-          "IEnumerable<T> is an iteration abstraction; List<T> is a concrete collection",
-          "Both are database tables",
-          "List<T> is always lazy",
-          "IEnumerable<T> cannot be used with LINQ"
+          "Polymorphism lets callers use a common contract while implementations vary.",
+          "Use it everywhere regardless of requirements.",
+          "Avoid reviewing trade-offs or writing tests.",
+          "Assume the concept eliminates all software bugs."
         ],
         "correct": 0,
-        "explanation": "IEnumerable<T> describes enumeration; List<T> provides storage and operations."
+        "explanation": "An interface or virtual method enables calling common behavior while each implementation handles it in its own way."
       }
-    ]
+    ],
+    "useCase": "In a real software project, apply polymorphism when the situation described in this lesson occurs. Example: An interface or virtual method enables calling common behavior while each implementation handles it in its own way.",
+    "avoid": "Do not apply polymorphism by default: first evaluate the requirements, complexity and alternatives. Do not confuse overloading with runtime overriding."
   },
   {
     "id": "collections-and-linq",
@@ -386,18 +310,6 @@ export const lessons: Lesson[] = [
         "explanation": "List<T> preserves ordered items; Dictionary<TKey,TValue> enables keyed lookups. LINQ Where filters, Select projects, and FirstOrDefault retrieves a match."
       },
       {
-        "id": "collections-and-linq-3",
-        "prompt": "Which explanation would be strongest in a technical interview?",
-        "options": [
-          "I always use it without thinking about trade-offs.",
-          "I do not need to explain it because it is obvious.",
-          "LINQ helps express data transformations clearly. I avoid unnecessary repeated enumeration.",
-          "It is useful because it is modern."
-        ],
-        "correct": 2,
-        "explanation": "Give a definition, a benefit, and a concrete use case."
-      },
-      {
         "id": "collections-and-linq-4",
         "prompt": "Which is a common mistake related to Collections & LINQ?",
         "options": [
@@ -410,30 +322,20 @@ export const lessons: Lesson[] = [
         "explanation": "Deferred execution means some queries run only when enumerated."
       },
       {
-        "id": "collections-and-linq-5",
-        "prompt": "Which analogy helps explain Collections & LINQ?",
+        "id": "collections-and-linq-application",
+        "prompt": "Which approach is most appropriate when applying Collections & LINQ in a project?",
         "options": [
-          "A library catalog that can be filtered and grouped.",
-          "A random number generator that always succeeds.",
-          "A shortcut that removes every bug.",
-          "A system that requires no human decisions."
+          "LINQ helps express data transformations clearly. I avoid unnecessary repeated enumeration.",
+          "Use it everywhere regardless of requirements.",
+          "Avoid reviewing trade-offs or writing tests.",
+          "Assume the concept eliminates all software bugs."
         ],
         "correct": 0,
-        "explanation": "Connect the analogy back to the precise technical definition."
-      },
-      {
-        "id": "challenge-5",
-        "prompt": "What is the result of `new[] {1,2,3}.Where(x => x > 1).Count()`?",
-        "options": [
-          "2",
-          "1",
-          "3",
-          "0"
-        ],
-        "correct": 0,
-        "explanation": "The filter returns 2 and 3."
+        "explanation": "List<T> preserves ordered items; Dictionary<TKey,TValue> enables keyed lookups. LINQ Where filters, Select projects, and FirstOrDefault retrieves a match."
       }
-    ]
+    ],
+    "useCase": "In a real software project, apply collections & linq when the situation described in this lesson occurs. Example: List<T> preserves ordered items; Dictionary<TKey,TValue> enables keyed lookups. LINQ Where filters, Select projects, and FirstOrDefault retrieves a match.",
+    "avoid": "Do not apply collections & linq by default: first evaluate the requirements, complexity and alternatives. Deferred execution means some queries run only when enumerated."
   },
   {
     "id": "async---await",
@@ -473,18 +375,6 @@ export const lessons: Lesson[] = [
         "explanation": "Await suspends the current async operation without blocking its thread while an I/O task is pending. Use Task and propagate cancellation when appropriate."
       },
       {
-        "id": "async---await-3",
-        "prompt": "Which explanation would be strongest in a technical interview?",
-        "options": [
-          "I do not need to explain it because it is obvious.",
-          "Async/await is especially useful for I/O-bound operations like HTTP and database calls.",
-          "It is useful because it is modern.",
-          "I always use it without thinking about trade-offs."
-        ],
-        "correct": 1,
-        "explanation": "Give a definition, a benefit, and a concrete use case."
-      },
-      {
         "id": "async---await-4",
         "prompt": "Which is a common mistake related to Async / Await?",
         "options": [
@@ -497,30 +387,20 @@ export const lessons: Lesson[] = [
         "explanation": "Async does not automatically make CPU-bound work faster; avoid .Result deadlocks."
       },
       {
-        "id": "async---await-5",
-        "prompt": "Which analogy helps explain Async / Await?",
+        "id": "async---await-application",
+        "prompt": "Which approach is most appropriate when applying Async / Await in a project?",
         "options": [
-          "A random number generator that always succeeds.",
-          "A shortcut that removes every bug.",
-          "A system that requires no human decisions.",
-          "You place an order and do something else while it is prepared."
-        ],
-        "correct": 3,
-        "explanation": "Connect the analogy back to the precise technical definition."
-      },
-      {
-        "id": "challenge-6",
-        "prompt": "When should you use `using` with IDisposable?",
-        "options": [
-          "To release resources deterministically",
-          "To import only JSON",
-          "To make a class static",
-          "To force garbage collection"
+          "Async/await is especially useful for I/O-bound operations like HTTP and database calls.",
+          "Use it everywhere regardless of requirements.",
+          "Avoid reviewing trade-offs or writing tests.",
+          "Assume the concept eliminates all software bugs."
         ],
         "correct": 0,
-        "explanation": "using disposes an IDisposable at scope exit, even when exceptions occur."
+        "explanation": "Await suspends the current async operation without blocking its thread while an I/O task is pending. Use Task and propagate cancellation when appropriate."
       }
-    ]
+    ],
+    "useCase": "In a real software project, apply async / await when the situation described in this lesson occurs. Example: Await suspends the current async operation without blocking its thread while an I/O task is pending. Use Task and propagate cancellation when appropriate.",
+    "avoid": "Do not apply async / await by default: first evaluate the requirements, complexity and alternatives. Async does not automatically make CPU-bound work faster; avoid .Result deadlocks."
   },
   {
     "id": "exceptions-and-logging",
@@ -560,18 +440,6 @@ export const lessons: Lesson[] = [
         "explanation": "Catch exceptions where you can handle them meaningfully. Use structured logging, appropriate levels, and never log passwords or secrets."
       },
       {
-        "id": "exceptions-and-logging-3",
-        "prompt": "Which explanation would be strongest in a technical interview?",
-        "options": [
-          "I catch specific exceptions, log useful context, and avoid hiding failures.",
-          "It is useful because it is modern.",
-          "I always use it without thinking about trade-offs.",
-          "I do not need to explain it because it is obvious."
-        ],
-        "correct": 0,
-        "explanation": "Give a definition, a benefit, and a concrete use case."
-      },
-      {
         "id": "exceptions-and-logging-4",
         "prompt": "Which is a common mistake related to Exceptions & Logging?",
         "options": [
@@ -584,30 +452,20 @@ export const lessons: Lesson[] = [
         "explanation": "Avoid empty catch blocks and logging sensitive information."
       },
       {
-        "id": "exceptions-and-logging-5",
-        "prompt": "Which analogy helps explain Exceptions & Logging?",
+        "id": "exceptions-and-logging-application",
+        "prompt": "Which approach is most appropriate when applying Exceptions & Logging in a project?",
         "options": [
-          "A shortcut that removes every bug.",
-          "A system that requires no human decisions.",
-          "A fire alarm reports an incident; an incident log records context.",
-          "A random number generator that always succeeds."
-        ],
-        "correct": 2,
-        "explanation": "Connect the analogy back to the precise technical definition."
-      },
-      {
-        "id": "challenge-7",
-        "prompt": "What does a `sealed` class prevent?",
-        "options": [
-          "Inheritance from that class",
-          "Instantiating the class",
-          "Calling methods",
-          "Using interfaces"
+          "I catch specific exceptions, log useful context, and avoid hiding failures.",
+          "Use it everywhere regardless of requirements.",
+          "Avoid reviewing trade-offs or writing tests.",
+          "Assume the concept eliminates all software bugs."
         ],
         "correct": 0,
-        "explanation": "A sealed class cannot be used as a base class."
+        "explanation": "Catch exceptions where you can handle them meaningfully. Use structured logging, appropriate levels, and never log passwords or secrets."
       }
-    ]
+    ],
+    "useCase": "In a real software project, apply exceptions & logging when the situation described in this lesson occurs. Example: Catch exceptions where you can handle them meaningfully. Use structured logging, appropriate levels, and never log passwords or secrets.",
+    "avoid": "Do not apply exceptions & logging by default: first evaluate the requirements, complexity and alternatives. Avoid empty catch blocks and logging sensitive information."
   },
   {
     "id": "solid-overview",
@@ -647,18 +505,6 @@ export const lessons: Lesson[] = [
         "explanation": "S: single responsibility; O: open/closed; L: Liskov substitution; I: interface segregation; D: dependency inversion. Apply pragmatically, not mechanically."
       },
       {
-        "id": "solid-overview-3",
-        "prompt": "Which explanation would be strongest in a technical interview?",
-        "options": [
-          "It is useful because it is modern.",
-          "I always use it without thinking about trade-offs.",
-          "I do not need to explain it because it is obvious.",
-          "SOLID encourages modularity, testability, and clear responsibilities."
-        ],
-        "correct": 3,
-        "explanation": "Give a definition, a benefit, and a concrete use case."
-      },
-      {
         "id": "solid-overview-4",
         "prompt": "Which is a common mistake related to SOLID Overview?",
         "options": [
@@ -671,30 +517,20 @@ export const lessons: Lesson[] = [
         "explanation": "SOLID is guidance, not a requirement to create interfaces for every class."
       },
       {
-        "id": "solid-overview-5",
-        "prompt": "Which analogy helps explain SOLID Overview?",
+        "id": "solid-overview-application",
+        "prompt": "Which approach is most appropriate when applying SOLID Overview in a project?",
         "options": [
-          "A system that requires no human decisions.",
-          "Clear job descriptions prevent one worker from owning everything.",
-          "A random number generator that always succeeds.",
-          "A shortcut that removes every bug."
-        ],
-        "correct": 1,
-        "explanation": "Connect the analogy back to the precise technical definition."
-      },
-      {
-        "id": "challenge-10",
-        "prompt": "Which SOLID principle says a class should have one reason to change?",
-        "options": [
-          "Single Responsibility",
-          "Open/Closed",
-          "Liskov Substitution",
-          "Interface Segregation"
+          "SOLID encourages modularity, testability, and clear responsibilities.",
+          "Use it everywhere regardless of requirements.",
+          "Avoid reviewing trade-offs or writing tests.",
+          "Assume the concept eliminates all software bugs."
         ],
         "correct": 0,
-        "explanation": "SRP encourages cohesive responsibilities."
+        "explanation": "S: single responsibility; O: open/closed; L: Liskov substitution; I: interface segregation; D: dependency inversion. Apply pragmatically, not mechanically."
       }
-    ]
+    ],
+    "useCase": "In a real software project, apply solid overview when the situation described in this lesson occurs. Example: S: single responsibility; O: open/closed; L: Liskov substitution; I: interface segregation; D: dependency inversion. Apply pragmatically, not mechanically.",
+    "avoid": "Do not apply solid overview by default: first evaluate the requirements, complexity and alternatives. SOLID is guidance, not a requirement to create interfaces for every class."
   },
   {
     "id": "dependency-injection",
@@ -734,18 +570,6 @@ export const lessons: Lesson[] = [
         "explanation": "ASP.NET Core has a built-in container. Register abstractions and implementations, then request them through constructors. DI improves testing and reduces coupling."
       },
       {
-        "id": "dependency-injection-3",
-        "prompt": "Which explanation would be strongest in a technical interview?",
-        "options": [
-          "I always use it without thinking about trade-offs.",
-          "I do not need to explain it because it is obvious.",
-          "DI reduces coupling and helps testing. The ASP.NET Core container creates registered services.",
-          "It is useful because it is modern."
-        ],
-        "correct": 2,
-        "explanation": "Give a definition, a benefit, and a concrete use case."
-      },
-      {
         "id": "dependency-injection-4",
         "prompt": "Which is a common mistake related to Dependency Injection?",
         "options": [
@@ -758,42 +582,20 @@ export const lessons: Lesson[] = [
         "explanation": "DI and the Dependency Inversion Principle are related but not identical."
       },
       {
-        "id": "dependency-injection-5",
-        "prompt": "Which analogy helps explain Dependency Injection?",
+        "id": "dependency-injection-application",
+        "prompt": "Which approach is most appropriate when applying Dependency Injection in a project?",
         "options": [
-          "A chef receives ingredients rather than running a farm.",
-          "A random number generator that always succeeds.",
-          "A shortcut that removes every bug.",
-          "A system that requires no human decisions."
+          "DI reduces coupling and helps testing. The ASP.NET Core container creates registered services.",
+          "Use it everywhere regardless of requirements.",
+          "Avoid reviewing trade-offs or writing tests.",
+          "Assume the concept eliminates all software bugs."
         ],
         "correct": 0,
-        "explanation": "Connect the analogy back to the precise technical definition."
-      },
-      {
-        "id": "challenge-8",
-        "prompt": "Which lifetime creates one service instance per HTTP request in ASP.NET Core?",
-        "options": [
-          "Scoped",
-          "Singleton",
-          "Transient",
-          "Static"
-        ],
-        "correct": 0,
-        "explanation": "Scoped services are created once per request scope."
-      },
-      {
-        "id": "challenge-11",
-        "prompt": "A service creates `new EmailSender()` internally. What is the main testing drawback?",
-        "options": [
-          "Harder to replace EmailSender with a fake",
-          "It always leaks memory",
-          "It makes email asynchronous",
-          "It cannot compile"
-        ],
-        "correct": 0,
-        "explanation": "Direct construction tightly couples the service to a concrete implementation."
+        "explanation": "ASP.NET Core has a built-in container. Register abstractions and implementations, then request them through constructors. DI improves testing and reduces coupling."
       }
-    ]
+    ],
+    "useCase": "In a real software project, apply dependency injection when the situation described in this lesson occurs. Example: ASP.NET Core has a built-in container. Register abstractions and implementations, then request them through constructors. DI improves testing and reduces coupling.",
+    "avoid": "Do not apply dependency injection by default: first evaluate the requirements, complexity and alternatives. DI and the Dependency Inversion Principle are related but not identical."
   },
   {
     "id": "service-lifetimes",
@@ -833,18 +635,6 @@ export const lessons: Lesson[] = [
         "explanation": "Transient creates a service when requested; scoped normally lasts for one HTTP request; singleton is shared for the application lifetime."
       },
       {
-        "id": "service-lifetimes-3",
-        "prompt": "Which explanation would be strongest in a technical interview?",
-        "options": [
-          "I do not need to explain it because it is obvious.",
-          "I choose lifetimes based on state and thread safety. DbContext is normally scoped.",
-          "It is useful because it is modern.",
-          "I always use it without thinking about trade-offs."
-        ],
-        "correct": 1,
-        "explanation": "Give a definition, a benefit, and a concrete use case."
-      },
-      {
         "id": "service-lifetimes-4",
         "prompt": "Which is a common mistake related to Service Lifetimes?",
         "options": [
@@ -857,30 +647,20 @@ export const lessons: Lesson[] = [
         "explanation": "Do not inject a scoped service directly into a singleton."
       },
       {
-        "id": "service-lifetimes-5",
-        "prompt": "Which analogy helps explain Service Lifetimes?",
+        "id": "service-lifetimes-application",
+        "prompt": "Which approach is most appropriate when applying Service Lifetimes in a project?",
         "options": [
-          "A random number generator that always succeeds.",
-          "A shortcut that removes every bug.",
-          "A system that requires no human decisions.",
-          "Disposable cups, a table reservation, and the restaurant building."
-        ],
-        "correct": 3,
-        "explanation": "Connect the analogy back to the precise technical definition."
-      },
-      {
-        "id": "challenge-9",
-        "prompt": "Why is injecting a scoped DbContext into a singleton dangerous?",
-        "options": [
-          "The singleton can capture a scoped instance beyond its intended lifetime",
-          "It always causes a compiler error",
-          "It improves concurrency",
-          "It disables EF Core"
+          "I choose lifetimes based on state and thread safety. DbContext is normally scoped.",
+          "Use it everywhere regardless of requirements.",
+          "Avoid reviewing trade-offs or writing tests.",
+          "Assume the concept eliminates all software bugs."
         ],
         "correct": 0,
-        "explanation": "Lifetime mismatches can cause stale state and concurrency bugs; scope validation can detect them."
+        "explanation": "Transient creates a service when requested; scoped normally lasts for one HTTP request; singleton is shared for the application lifetime."
       }
-    ]
+    ],
+    "useCase": "In a real software project, apply service lifetimes when the situation described in this lesson occurs. Example: Transient creates a service when requested; scoped normally lasts for one HTTP request; singleton is shared for the application lifetime.",
+    "avoid": "Do not apply service lifetimes by default: first evaluate the requirements, complexity and alternatives. Do not inject a scoped service directly into a singleton."
   },
   {
     "id": "http-methods",
@@ -920,18 +700,6 @@ export const lessons: Lesson[] = [
         "explanation": "GET reads; POST creates or triggers processing; PUT replaces; PATCH partially updates; DELETE removes. GET, PUT, and DELETE are intended to be idempotent."
       },
       {
-        "id": "http-methods-3",
-        "prompt": "Which explanation would be strongest in a technical interview?",
-        "options": [
-          "For creation I typically return 201 Created; for missing resources, 404 Not Found.",
-          "It is useful because it is modern.",
-          "I always use it without thinking about trade-offs.",
-          "I do not need to explain it because it is obvious."
-        ],
-        "correct": 0,
-        "explanation": "Give a definition, a benefit, and a concrete use case."
-      },
-      {
         "id": "http-methods-4",
         "prompt": "Which is a common mistake related to HTTP Methods?",
         "options": [
@@ -944,30 +712,20 @@ export const lessons: Lesson[] = [
         "explanation": "POST is not guaranteed idempotent; PUT normally replaces the target representation."
       },
       {
-        "id": "http-methods-5",
-        "prompt": "Which analogy helps explain HTTP Methods?",
+        "id": "http-methods-application",
+        "prompt": "Which approach is most appropriate when applying HTTP Methods in a project?",
         "options": [
-          "A shortcut that removes every bug.",
-          "A system that requires no human decisions.",
-          "Reading, adding, replacing, editing, or removing a contact.",
-          "A random number generator that always succeeds."
-        ],
-        "correct": 2,
-        "explanation": "Connect the analogy back to the precise technical definition."
-      },
-      {
-        "id": "challenge-16",
-        "prompt": "What is middleware in ASP.NET Core?",
-        "options": [
-          "A component in the HTTP request/response pipeline",
-          "A database migration",
-          "A C# compiler switch",
-          "A UI framework"
+          "For creation I typically return 201 Created; for missing resources, 404 Not Found.",
+          "Use it everywhere regardless of requirements.",
+          "Avoid reviewing trade-offs or writing tests.",
+          "Assume the concept eliminates all software bugs."
         ],
         "correct": 0,
-        "explanation": "Middleware processes requests and may invoke the next component."
+        "explanation": "GET reads; POST creates or triggers processing; PUT replaces; PATCH partially updates; DELETE removes. GET, PUT, and DELETE are intended to be idempotent."
       }
-    ]
+    ],
+    "useCase": "In a real software project, apply http methods when the situation described in this lesson occurs. Example: GET reads; POST creates or triggers processing; PUT replaces; PATCH partially updates; DELETE removes. GET, PUT, and DELETE are intended to be idempotent.",
+    "avoid": "Do not apply http methods by default: first evaluate the requirements, complexity and alternatives. POST is not guaranteed idempotent; PUT normally replaces the target representation."
   },
   {
     "id": "http-status-codes",
@@ -1007,18 +765,6 @@ export const lessons: Lesson[] = [
         "explanation": "200 OK, 201 Created, 204 No Content, 400 Bad Request, 401 Unauthorized, 403 Forbidden, 404 Not Found, 409 Conflict, 500 Server Error."
       },
       {
-        "id": "http-status-codes-3",
-        "prompt": "Which explanation would be strongest in a technical interview?",
-        "options": [
-          "It is useful because it is modern.",
-          "I always use it without thinking about trade-offs.",
-          "I do not need to explain it because it is obvious.",
-          "I return 201 when creating a resource and 404 when the requested resource does not exist."
-        ],
-        "correct": 3,
-        "explanation": "Give a definition, a benefit, and a concrete use case."
-      },
-      {
         "id": "http-status-codes-4",
         "prompt": "Which is a common mistake related to HTTP Status Codes?",
         "options": [
@@ -1031,30 +777,20 @@ export const lessons: Lesson[] = [
         "explanation": "401 and 403 have different meanings."
       },
       {
-        "id": "http-status-codes-5",
-        "prompt": "Which analogy helps explain HTTP Status Codes?",
+        "id": "http-status-codes-application",
+        "prompt": "Which approach is most appropriate when applying HTTP Status Codes in a project?",
         "options": [
-          "A system that requires no human decisions.",
-          "A delivery receipt says accepted, missing, or failed.",
-          "A random number generator that always succeeds.",
-          "A shortcut that removes every bug."
-        ],
-        "correct": 1,
-        "explanation": "Connect the analogy back to the precise technical definition."
-      },
-      {
-        "id": "challenge-12",
-        "prompt": "Which response code is typical for a successful POST that creates a resource?",
-        "options": [
-          "201 Created",
-          "404 Not Found",
-          "401 Unauthorized",
-          "503 Unavailable"
+          "I return 201 when creating a resource and 404 when the requested resource does not exist.",
+          "Use it everywhere regardless of requirements.",
+          "Avoid reviewing trade-offs or writing tests.",
+          "Assume the concept eliminates all software bugs."
         ],
         "correct": 0,
-        "explanation": "201 Created is commonly paired with a Location header."
+        "explanation": "200 OK, 201 Created, 204 No Content, 400 Bad Request, 401 Unauthorized, 403 Forbidden, 404 Not Found, 409 Conflict, 500 Server Error."
       }
-    ]
+    ],
+    "useCase": "In a real software project, apply http status codes when the situation described in this lesson occurs. Example: 200 OK, 201 Created, 204 No Content, 400 Bad Request, 401 Unauthorized, 403 Forbidden, 404 Not Found, 409 Conflict, 500 Server Error.",
+    "avoid": "Do not apply http status codes by default: first evaluate the requirements, complexity and alternatives. 401 and 403 have different meanings."
   },
   {
     "id": "controllers-and-routing",
@@ -1094,18 +830,6 @@ export const lessons: Lesson[] = [
         "explanation": "Use attributes such as ApiController, Route, HttpGet and HttpPost. Keep controllers thin and delegate business logic to services."
       },
       {
-        "id": "controllers-and-routing-3",
-        "prompt": "Which explanation would be strongest in a technical interview?",
-        "options": [
-          "I always use it without thinking about trade-offs.",
-          "I do not need to explain it because it is obvious.",
-          "Controllers receive requests, validate inputs, call services, and return HTTP responses.",
-          "It is useful because it is modern."
-        ],
-        "correct": 2,
-        "explanation": "Give a definition, a benefit, and a concrete use case."
-      },
-      {
         "id": "controllers-and-routing-4",
         "prompt": "Which is a common mistake related to Controllers & Routing?",
         "options": [
@@ -1118,30 +842,20 @@ export const lessons: Lesson[] = [
         "explanation": "Avoid putting all business logic in controllers."
       },
       {
-        "id": "controllers-and-routing-5",
-        "prompt": "Which analogy helps explain Controllers & Routing?",
+        "id": "controllers-and-routing-application",
+        "prompt": "Which approach is most appropriate when applying Controllers & Routing in a project?",
         "options": [
-          "A receptionist routes a request to the right specialist.",
-          "A random number generator that always succeeds.",
-          "A shortcut that removes every bug.",
-          "A system that requires no human decisions."
+          "Controllers receive requests, validate inputs, call services, and return HTTP responses.",
+          "Use it everywhere regardless of requirements.",
+          "Avoid reviewing trade-offs or writing tests.",
+          "Assume the concept eliminates all software bugs."
         ],
         "correct": 0,
-        "explanation": "Connect the analogy back to the precise technical definition."
-      },
-      {
-        "id": "challenge-13",
-        "prompt": "What is the difference between 401 and 403?",
-        "options": [
-          "401 requires authentication; 403 means authenticated or identified client lacks permission",
-          "They mean the same",
-          "401 is for missing resources",
-          "403 is a server crash"
-        ],
-        "correct": 0,
-        "explanation": "401 means credentials are missing/invalid; 403 means access is forbidden."
+        "explanation": "Use attributes such as ApiController, Route, HttpGet and HttpPost. Keep controllers thin and delegate business logic to services."
       }
-    ]
+    ],
+    "useCase": "In a real software project, apply controllers & routing when the situation described in this lesson occurs. Example: Use attributes such as ApiController, Route, HttpGet and HttpPost. Keep controllers thin and delegate business logic to services.",
+    "avoid": "Do not apply controllers & routing by default: first evaluate the requirements, complexity and alternatives. Avoid putting all business logic in controllers."
   },
   {
     "id": "middleware",
@@ -1181,18 +895,6 @@ export const lessons: Lesson[] = [
         "explanation": "Middleware can handle errors, authentication, routing, authorization, and other cross-cutting concerns. Ordering matters."
       },
       {
-        "id": "middleware-3",
-        "prompt": "Which explanation would be strongest in a technical interview?",
-        "options": [
-          "I do not need to explain it because it is obvious.",
-          "Middleware runs around HTTP requests and responses; the order is important.",
-          "It is useful because it is modern.",
-          "I always use it without thinking about trade-offs."
-        ],
-        "correct": 1,
-        "explanation": "Give a definition, a benefit, and a concrete use case."
-      },
-      {
         "id": "middleware-4",
         "prompt": "Which is a common mistake related to Middleware?",
         "options": [
@@ -1205,30 +907,20 @@ export const lessons: Lesson[] = [
         "explanation": "Authorization should not run before authentication."
       },
       {
-        "id": "middleware-5",
-        "prompt": "Which analogy helps explain Middleware?",
+        "id": "middleware-application",
+        "prompt": "Which approach is most appropriate when applying Middleware in a project?",
         "options": [
-          "A random number generator that always succeeds.",
-          "A shortcut that removes every bug.",
-          "A system that requires no human decisions.",
-          "Airport checkpoints where each station has a distinct role."
-        ],
-        "correct": 3,
-        "explanation": "Connect the analogy back to the precise technical definition."
-      },
-      {
-        "id": "challenge-14",
-        "prompt": "What is the safest way to handle invalid user input?",
-        "options": [
-          "Validate and return an appropriate 4xx response",
-          "Return 500 for every error",
-          "Trust the client",
-          "Log secrets"
+          "Middleware runs around HTTP requests and responses; the order is important.",
+          "Use it everywhere regardless of requirements.",
+          "Avoid reviewing trade-offs or writing tests.",
+          "Assume the concept eliminates all software bugs."
         ],
         "correct": 0,
-        "explanation": "Validation catches malformed or unacceptable input at boundaries."
+        "explanation": "Middleware can handle errors, authentication, routing, authorization, and other cross-cutting concerns. Ordering matters."
       }
-    ]
+    ],
+    "useCase": "In a real software project, apply middleware when the situation described in this lesson occurs. Example: Middleware can handle errors, authentication, routing, authorization, and other cross-cutting concerns. Ordering matters.",
+    "avoid": "Do not apply middleware by default: first evaluate the requirements, complexity and alternatives. Authorization should not run before authentication."
   },
   {
     "id": "validation-and-dtos",
@@ -1268,18 +960,6 @@ export const lessons: Lesson[] = [
         "explanation": "Avoid exposing database entities directly. Use validation attributes or validators and return useful 400 responses for invalid input."
       },
       {
-        "id": "validation-and-dtos-3",
-        "prompt": "Which explanation would be strongest in a technical interview?",
-        "options": [
-          "I use DTOs to control API contracts and validate input at the boundary.",
-          "It is useful because it is modern.",
-          "I always use it without thinking about trade-offs.",
-          "I do not need to explain it because it is obvious."
-        ],
-        "correct": 0,
-        "explanation": "Give a definition, a benefit, and a concrete use case."
-      },
-      {
         "id": "validation-and-dtos-4",
         "prompt": "Which is a common mistake related to Validation & DTOs?",
         "options": [
@@ -1292,30 +972,20 @@ export const lessons: Lesson[] = [
         "explanation": "Never trust client-side validation alone."
       },
       {
-        "id": "validation-and-dtos-5",
-        "prompt": "Which analogy helps explain Validation & DTOs?",
+        "id": "validation-and-dtos-application",
+        "prompt": "Which approach is most appropriate when applying Validation & DTOs in a project?",
         "options": [
-          "A shortcut that removes every bug.",
-          "A system that requires no human decisions.",
-          "A form collects only the fields needed for one task.",
-          "A random number generator that always succeeds."
-        ],
-        "correct": 2,
-        "explanation": "Connect the analogy back to the precise technical definition."
-      },
-      {
-        "id": "challenge-15",
-        "prompt": "Which HTTP method is intended for partial updates?",
-        "options": [
-          "PATCH",
-          "GET",
-          "DELETE",
-          "HEAD"
+          "I use DTOs to control API contracts and validate input at the boundary.",
+          "Use it everywhere regardless of requirements.",
+          "Avoid reviewing trade-offs or writing tests.",
+          "Assume the concept eliminates all software bugs."
         ],
         "correct": 0,
-        "explanation": "PATCH represents partial modification; PUT typically replaces the resource representation."
+        "explanation": "Avoid exposing database entities directly. Use validation attributes or validators and return useful 400 responses for invalid input."
       }
-    ]
+    ],
+    "useCase": "In a real software project, apply validation & dtos when the situation described in this lesson occurs. Example: Avoid exposing database entities directly. Use validation attributes or validators and return useful 400 responses for invalid input.",
+    "avoid": "Do not apply validation & dtos by default: first evaluate the requirements, complexity and alternatives. Never trust client-side validation alone."
   },
   {
     "id": "select,-where,-order-by",
@@ -1355,18 +1025,6 @@ export const lessons: Lesson[] = [
         "explanation": "Use parameters for user input. Explicit column selection often improves clarity."
       },
       {
-        "id": "select,-where,-order-by-3",
-        "prompt": "Which explanation would be strongest in a technical interview?",
-        "options": [
-          "It is useful because it is modern.",
-          "I always use it without thinking about trade-offs.",
-          "I do not need to explain it because it is obvious.",
-          "I use WHERE to filter rows and ORDER BY to define result ordering."
-        ],
-        "correct": 3,
-        "explanation": "Give a definition, a benefit, and a concrete use case."
-      },
-      {
         "id": "select,-where,-order-by-4",
         "prompt": "Which is a common mistake related to SELECT, WHERE, ORDER BY?",
         "options": [
@@ -1379,30 +1037,20 @@ export const lessons: Lesson[] = [
         "explanation": "Do not concatenate untrusted values into SQL strings."
       },
       {
-        "id": "select,-where,-order-by-5",
-        "prompt": "Which analogy helps explain SELECT, WHERE, ORDER BY?",
+        "id": "select,-where,-order-by-application",
+        "prompt": "Which approach is most appropriate when applying SELECT, WHERE, ORDER BY in a project?",
         "options": [
-          "A system that requires no human decisions.",
-          "Choosing products by category and sorting by price.",
-          "A random number generator that always succeeds.",
-          "A shortcut that removes every bug."
-        ],
-        "correct": 1,
-        "explanation": "Connect the analogy back to the precise technical definition."
-      },
-      {
-        "id": "challenge-21",
-        "prompt": "Which ACID property ensures committed data survives a crash?",
-        "options": [
-          "Durability",
-          "Atomicity",
-          "Isolation",
-          "Consistency"
+          "I use WHERE to filter rows and ORDER BY to define result ordering.",
+          "Use it everywhere regardless of requirements.",
+          "Avoid reviewing trade-offs or writing tests.",
+          "Assume the concept eliminates all software bugs."
         ],
         "correct": 0,
-        "explanation": "Durability means committed changes persist."
+        "explanation": "Use parameters for user input. Explicit column selection often improves clarity."
       }
-    ]
+    ],
+    "useCase": "In a real software project, apply select, where, order by when the situation described in this lesson occurs. Example: Use parameters for user input. Explicit column selection often improves clarity.",
+    "avoid": "Do not apply select, where, order by by default: first evaluate the requirements, complexity and alternatives. Do not concatenate untrusted values into SQL strings."
   },
   {
     "id": "sql-joins",
@@ -1442,18 +1090,6 @@ export const lessons: Lesson[] = [
         "explanation": "INNER JOIN returns matching rows; LEFT JOIN keeps every row from the left table and adds matches from the right."
       },
       {
-        "id": "sql-joins-3",
-        "prompt": "Which explanation would be strongest in a technical interview?",
-        "options": [
-          "I always use it without thinking about trade-offs.",
-          "I do not need to explain it because it is obvious.",
-          "I use LEFT JOIN when I need customers even if they have no orders.",
-          "It is useful because it is modern."
-        ],
-        "correct": 2,
-        "explanation": "Give a definition, a benefit, and a concrete use case."
-      },
-      {
         "id": "sql-joins-4",
         "prompt": "Which is a common mistake related to SQL JOINs?",
         "options": [
@@ -1466,30 +1102,20 @@ export const lessons: Lesson[] = [
         "explanation": "A WHERE condition on the right table can accidentally remove unmatched LEFT JOIN rows."
       },
       {
-        "id": "sql-joins-5",
-        "prompt": "Which analogy helps explain SQL JOINs?",
+        "id": "sql-joins-application",
+        "prompt": "Which approach is most appropriate when applying SQL JOINs in a project?",
         "options": [
-          "Matching orders to customers by customer ID.",
-          "A random number generator that always succeeds.",
-          "A shortcut that removes every bug.",
-          "A system that requires no human decisions."
+          "I use LEFT JOIN when I need customers even if they have no orders.",
+          "Use it everywhere regardless of requirements.",
+          "Avoid reviewing trade-offs or writing tests.",
+          "Assume the concept eliminates all software bugs."
         ],
         "correct": 0,
-        "explanation": "Connect the analogy back to the precise technical definition."
-      },
-      {
-        "id": "challenge-17",
-        "prompt": "Which JOIN keeps all rows from the left table, even without a match?",
-        "options": [
-          "LEFT JOIN",
-          "INNER JOIN",
-          "CROSS JOIN",
-          "RIGHT JOIN"
-        ],
-        "correct": 0,
-        "explanation": "LEFT JOIN preserves every left-side row and fills missing right-side values with NULL."
+        "explanation": "INNER JOIN returns matching rows; LEFT JOIN keeps every row from the left table and adds matches from the right."
       }
-    ]
+    ],
+    "useCase": "In a real software project, apply sql joins when the situation described in this lesson occurs. Example: INNER JOIN returns matching rows; LEFT JOIN keeps every row from the left table and adds matches from the right.",
+    "avoid": "Do not apply sql joins by default: first evaluate the requirements, complexity and alternatives. A WHERE condition on the right table can accidentally remove unmatched LEFT JOIN rows."
   },
   {
     "id": "indexes",
@@ -1529,18 +1155,6 @@ export const lessons: Lesson[] = [
         "explanation": "Indexes improve reads for suitable queries but cost storage and write overhead. Inspect execution plans before optimizing."
       },
       {
-        "id": "indexes-3",
-        "prompt": "Which explanation would be strongest in a technical interview?",
-        "options": [
-          "I do not need to explain it because it is obvious.",
-          "Indexes can improve query performance, but too many indexes slow writes.",
-          "It is useful because it is modern.",
-          "I always use it without thinking about trade-offs."
-        ],
-        "correct": 1,
-        "explanation": "Give a definition, a benefit, and a concrete use case."
-      },
-      {
         "id": "indexes-4",
         "prompt": "Which is a common mistake related to Indexes?",
         "options": [
@@ -1553,30 +1167,20 @@ export const lessons: Lesson[] = [
         "explanation": "An index is not guaranteed to help every query."
       },
       {
-        "id": "indexes-5",
-        "prompt": "Which analogy helps explain Indexes?",
+        "id": "indexes-application",
+        "prompt": "Which approach is most appropriate when applying Indexes in a project?",
         "options": [
-          "A random number generator that always succeeds.",
-          "A shortcut that removes every bug.",
-          "A system that requires no human decisions.",
-          "A book index helps find topics without reading every page."
-        ],
-        "correct": 3,
-        "explanation": "Connect the analogy back to the precise technical definition."
-      },
-      {
-        "id": "challenge-18",
-        "prompt": "What is a primary purpose of an index?",
-        "options": [
-          "Speed up some reads at the cost of storage and write overhead",
-          "Encrypt every column",
-          "Remove the need for WHERE",
-          "Guarantee no deadlocks"
+          "Indexes can improve query performance, but too many indexes slow writes.",
+          "Use it everywhere regardless of requirements.",
+          "Avoid reviewing trade-offs or writing tests.",
+          "Assume the concept eliminates all software bugs."
         ],
         "correct": 0,
-        "explanation": "Indexes improve selected queries but have maintenance costs."
+        "explanation": "Indexes improve reads for suitable queries but cost storage and write overhead. Inspect execution plans before optimizing."
       }
-    ]
+    ],
+    "useCase": "In a real software project, apply indexes when the situation described in this lesson occurs. Example: Indexes improve reads for suitable queries but cost storage and write overhead. Inspect execution plans before optimizing.",
+    "avoid": "Do not apply indexes by default: first evaluate the requirements, complexity and alternatives. An index is not guaranteed to help every query."
   },
   {
     "id": "transactions",
@@ -1616,18 +1220,6 @@ export const lessons: Lesson[] = [
         "explanation": "ACID means Atomicity, Consistency, Isolation, Durability. Use transactions when multiple writes must succeed or fail together."
       },
       {
-        "id": "transactions-3",
-        "prompt": "Which explanation would be strongest in a technical interview?",
-        "options": [
-          "Transactions help preserve consistency across related database changes.",
-          "It is useful because it is modern.",
-          "I always use it without thinking about trade-offs.",
-          "I do not need to explain it because it is obvious."
-        ],
-        "correct": 0,
-        "explanation": "Give a definition, a benefit, and a concrete use case."
-      },
-      {
         "id": "transactions-4",
         "prompt": "Which is a common mistake related to Transactions?",
         "options": [
@@ -1640,30 +1232,20 @@ export const lessons: Lesson[] = [
         "explanation": "A transaction does not replace validation or concurrency design."
       },
       {
-        "id": "transactions-5",
-        "prompt": "Which analogy helps explain Transactions?",
+        "id": "transactions-application",
+        "prompt": "Which approach is most appropriate when applying Transactions in a project?",
         "options": [
-          "A shortcut that removes every bug.",
-          "A system that requires no human decisions.",
-          "Moving money requires a debit and credit together.",
-          "A random number generator that always succeeds."
-        ],
-        "correct": 2,
-        "explanation": "Connect the analogy back to the precise technical definition."
-      },
-      {
-        "id": "challenge-19",
-        "prompt": "What does `COUNT(*)` count?",
-        "options": [
-          "Rows, including rows with NULL values",
-          "Only non-null values in a chosen column",
-          "Distinct tables",
-          "Columns"
+          "Transactions help preserve consistency across related database changes.",
+          "Use it everywhere regardless of requirements.",
+          "Avoid reviewing trade-offs or writing tests.",
+          "Assume the concept eliminates all software bugs."
         ],
         "correct": 0,
-        "explanation": "COUNT(*) counts all qualifying rows."
+        "explanation": "ACID means Atomicity, Consistency, Isolation, Durability. Use transactions when multiple writes must succeed or fail together."
       }
-    ]
+    ],
+    "useCase": "In a real software project, apply transactions when the situation described in this lesson occurs. Example: ACID means Atomicity, Consistency, Isolation, Durability. Use transactions when multiple writes must succeed or fail together.",
+    "avoid": "Do not apply transactions by default: first evaluate the requirements, complexity and alternatives. A transaction does not replace validation or concurrency design."
   },
   {
     "id": "parameterized-queries",
@@ -1703,18 +1285,6 @@ export const lessons: Lesson[] = [
         "explanation": "Parameters prevent user input from becoming executable SQL and can help query plan reuse. Validate inputs as well."
       },
       {
-        "id": "parameterized-queries-3",
-        "prompt": "Which explanation would be strongest in a technical interview?",
-        "options": [
-          "It is useful because it is modern.",
-          "I always use it without thinking about trade-offs.",
-          "I do not need to explain it because it is obvious.",
-          "I use parameters instead of string concatenation to reduce SQL injection risk."
-        ],
-        "correct": 3,
-        "explanation": "Give a definition, a benefit, and a concrete use case."
-      },
-      {
         "id": "parameterized-queries-4",
         "prompt": "Which is a common mistake related to Parameterized Queries?",
         "options": [
@@ -1727,30 +1297,20 @@ export const lessons: Lesson[] = [
         "explanation": "Parameterization does not replace authorization checks."
       },
       {
-        "id": "parameterized-queries-5",
-        "prompt": "Which analogy helps explain Parameterized Queries?",
+        "id": "parameterized-queries-application",
+        "prompt": "Which approach is most appropriate when applying Parameterized Queries in a project?",
         "options": [
-          "A system that requires no human decisions.",
-          "Filling blanks on a fixed form rather than rewriting the form.",
-          "A random number generator that always succeeds.",
-          "A shortcut that removes every bug."
-        ],
-        "correct": 1,
-        "explanation": "Connect the analogy back to the precise technical definition."
-      },
-      {
-        "id": "challenge-20",
-        "prompt": "What is a parameterized SQL query mainly protecting against?",
-        "options": [
-          "SQL injection",
-          "Network latency",
-          "Deadlocks",
-          "Lost backups"
+          "I use parameters instead of string concatenation to reduce SQL injection risk.",
+          "Use it everywhere regardless of requirements.",
+          "Avoid reviewing trade-offs or writing tests.",
+          "Assume the concept eliminates all software bugs."
         ],
         "correct": 0,
-        "explanation": "Parameters separate query structure from untrusted data."
+        "explanation": "Parameters prevent user input from becoming executable SQL and can help query plan reuse. Validate inputs as well."
       }
-    ]
+    ],
+    "useCase": "In a real software project, apply parameterized queries when the situation described in this lesson occurs. Example: Parameters prevent user input from becoming executable SQL and can help query plan reuse. Validate inputs as well.",
+    "avoid": "Do not apply parameterized queries by default: first evaluate the requirements, complexity and alternatives. Parameterization does not replace authorization checks."
   },
   {
     "id": "dapper",
@@ -1790,18 +1350,6 @@ export const lessons: Lesson[] = [
         "explanation": "It maps query results to C# objects while you write SQL explicitly. Useful for controlled queries and performance-sensitive access patterns."
       },
       {
-        "id": "dapper-3",
-        "prompt": "Which explanation would be strongest in a technical interview?",
-        "options": [
-          "I always use it without thinking about trade-offs.",
-          "I do not need to explain it because it is obvious.",
-          "Dapper maps SQL query results to .NET objects while keeping SQL under developer control.",
-          "It is useful because it is modern."
-        ],
-        "correct": 2,
-        "explanation": "Give a definition, a benefit, and a concrete use case."
-      },
-      {
         "id": "dapper-4",
         "prompt": "Which is a common mistake related to Dapper?",
         "options": [
@@ -1814,30 +1362,20 @@ export const lessons: Lesson[] = [
         "explanation": "Dapper is not a full change-tracking ORM like EF Core."
       },
       {
-        "id": "dapper-5",
-        "prompt": "Which analogy helps explain Dapper?",
+        "id": "dapper-application",
+        "prompt": "Which approach is most appropriate when applying Dapper in a project?",
         "options": [
-          "A translator turns rows into C# objects without writing the SQL for you.",
-          "A random number generator that always succeeds.",
-          "A shortcut that removes every bug.",
-          "A system that requires no human decisions."
+          "Dapper maps SQL query results to .NET objects while keeping SQL under developer control.",
+          "Use it everywhere regardless of requirements.",
+          "Avoid reviewing trade-offs or writing tests.",
+          "Assume the concept eliminates all software bugs."
         ],
         "correct": 0,
-        "explanation": "Connect the analogy back to the precise technical definition."
-      },
-      {
-        "id": "challenge-23",
-        "prompt": "What is EF Core change tracking used for?",
-        "options": [
-          "Detecting entity modifications for SaveChanges",
-          "Tracking browser clicks",
-          "Caching CSS",
-          "Running unit tests"
-        ],
-        "correct": 0,
-        "explanation": "Tracked entities can be updated and persisted through SaveChanges."
+        "explanation": "It maps query results to C# objects while you write SQL explicitly. Useful for controlled queries and performance-sensitive access patterns."
       }
-    ]
+    ],
+    "useCase": "In a real software project, apply dapper when the situation described in this lesson occurs. Example: It maps query results to C# objects while you write SQL explicitly. Useful for controlled queries and performance-sensitive access patterns.",
+    "avoid": "Do not apply dapper by default: first evaluate the requirements, complexity and alternatives. Dapper is not a full change-tracking ORM like EF Core."
   },
   {
     "id": "entity-framework-core",
@@ -1877,18 +1415,6 @@ export const lessons: Lesson[] = [
         "explanation": "DbContext tracks entities, translates LINQ to SQL, and can manage migrations. Consider AsNoTracking for read-only queries."
       },
       {
-        "id": "entity-framework-core-3",
-        "prompt": "Which explanation would be strongest in a technical interview?",
-        "options": [
-          "I do not need to explain it because it is obvious.",
-          "EF Core reduces repetitive data-access code and supports LINQ queries.",
-          "It is useful because it is modern.",
-          "I always use it without thinking about trade-offs."
-        ],
-        "correct": 1,
-        "explanation": "Give a definition, a benefit, and a concrete use case."
-      },
-      {
         "id": "entity-framework-core-4",
         "prompt": "Which is a common mistake related to Entity Framework Core?",
         "options": [
@@ -1901,42 +1427,20 @@ export const lessons: Lesson[] = [
         "explanation": "Watch for N+1 queries and unintended tracking."
       },
       {
-        "id": "entity-framework-core-5",
-        "prompt": "Which analogy helps explain Entity Framework Core?",
+        "id": "entity-framework-core-application",
+        "prompt": "Which approach is most appropriate when applying Entity Framework Core in a project?",
         "options": [
-          "A random number generator that always succeeds.",
-          "A shortcut that removes every bug.",
-          "A system that requires no human decisions.",
-          "A librarian manages both the catalog and updates for you."
-        ],
-        "correct": 3,
-        "explanation": "Connect the analogy back to the precise technical definition."
-      },
-      {
-        "id": "challenge-22",
-        "prompt": "Why use Dapper parameters instead of string concatenation?",
-        "options": [
-          "Safety and correct value binding",
-          "Automatic schema migrations",
-          "Automatic UI updates",
-          "To avoid SQL entirely"
+          "EF Core reduces repetitive data-access code and supports LINQ queries.",
+          "Use it everywhere regardless of requirements.",
+          "Avoid reviewing trade-offs or writing tests.",
+          "Assume the concept eliminates all software bugs."
         ],
         "correct": 0,
-        "explanation": "Parameterized commands protect against SQL injection and correctly bind values."
-      },
-      {
-        "id": "challenge-24",
-        "prompt": "What is a common benefit of AsNoTracking in EF Core?",
-        "options": [
-          "Lower overhead for read-only queries",
-          "Automatic updates",
-          "Encryption",
-          "Transaction rollback"
-        ],
-        "correct": 0,
-        "explanation": "No-tracking queries avoid change-tracker overhead when updates are unnecessary."
+        "explanation": "DbContext tracks entities, translates LINQ to SQL, and can manage migrations. Consider AsNoTracking for read-only queries."
       }
-    ]
+    ],
+    "useCase": "In a real software project, apply entity framework core when the situation described in this lesson occurs. Example: DbContext tracks entities, translates LINQ to SQL, and can manage migrations. Consider AsNoTracking for read-only queries.",
+    "avoid": "Do not apply entity framework core by default: first evaluate the requirements, complexity and alternatives. Watch for N+1 queries and unintended tracking."
   },
   {
     "id": "unit-tests-with-nunit",
@@ -1976,18 +1480,6 @@ export const lessons: Lesson[] = [
         "explanation": "NUnit uses attributes such as Test and assertions to verify expected behavior. Tests should be deterministic and readable."
       },
       {
-        "id": "unit-tests-with-nunit-3",
-        "prompt": "Which explanation would be strongest in a technical interview?",
-        "options": [
-          "I write unit tests for business rules and edge cases to catch regressions early.",
-          "It is useful because it is modern.",
-          "I always use it without thinking about trade-offs.",
-          "I do not need to explain it because it is obvious."
-        ],
-        "correct": 0,
-        "explanation": "Give a definition, a benefit, and a concrete use case."
-      },
-      {
         "id": "unit-tests-with-nunit-4",
         "prompt": "Which is a common mistake related to Unit Tests with NUnit?",
         "options": [
@@ -2000,30 +1492,20 @@ export const lessons: Lesson[] = [
         "explanation": "Avoid relying on external network or current time in unit tests."
       },
       {
-        "id": "unit-tests-with-nunit-5",
-        "prompt": "Which analogy helps explain Unit Tests with NUnit?",
+        "id": "unit-tests-with-nunit-application",
+        "prompt": "Which approach is most appropriate when applying Unit Tests with NUnit in a project?",
         "options": [
-          "A shortcut that removes every bug.",
-          "A system that requires no human decisions.",
-          "Checking one Lego brick before assembling the model.",
-          "A random number generator that always succeeds."
-        ],
-        "correct": 2,
-        "explanation": "Connect the analogy back to the precise technical definition."
-      },
-      {
-        "id": "challenge-25",
-        "prompt": "Which test is most appropriate for a pure price calculation function?",
-        "options": [
-          "Unit test",
-          "End-to-end browser test only",
-          "Manual production test",
-          "Load test"
+          "I write unit tests for business rules and edge cases to catch regressions early.",
+          "Use it everywhere regardless of requirements.",
+          "Avoid reviewing trade-offs or writing tests.",
+          "Assume the concept eliminates all software bugs."
         ],
         "correct": 0,
-        "explanation": "Unit tests are fast and deterministic for isolated business logic."
+        "explanation": "NUnit uses attributes such as Test and assertions to verify expected behavior. Tests should be deterministic and readable."
       }
-    ]
+    ],
+    "useCase": "In a real software project, apply unit tests with nunit when the situation described in this lesson occurs. Example: NUnit uses attributes such as Test and assertions to verify expected behavior. Tests should be deterministic and readable.",
+    "avoid": "Do not apply unit tests with nunit by default: first evaluate the requirements, complexity and alternatives. Avoid relying on external network or current time in unit tests."
   },
   {
     "id": "mocking-dependencies",
@@ -2063,18 +1545,6 @@ export const lessons: Lesson[] = [
         "explanation": "They let you control behavior and verify interactions without hitting real external services. Test outcomes rather than implementation details where possible."
       },
       {
-        "id": "mocking-dependencies-3",
-        "prompt": "Which explanation would be strongest in a technical interview?",
-        "options": [
-          "It is useful because it is modern.",
-          "I always use it without thinking about trade-offs.",
-          "I do not need to explain it because it is obvious.",
-          "Mocking lets me test service logic without sending real emails or calling external APIs."
-        ],
-        "correct": 3,
-        "explanation": "Give a definition, a benefit, and a concrete use case."
-      },
-      {
         "id": "mocking-dependencies-4",
         "prompt": "Which is a common mistake related to Mocking Dependencies?",
         "options": [
@@ -2087,30 +1557,20 @@ export const lessons: Lesson[] = [
         "explanation": "Excessive mocking can make tests brittle."
       },
       {
-        "id": "mocking-dependencies-5",
-        "prompt": "Which analogy helps explain Mocking Dependencies?",
+        "id": "mocking-dependencies-application",
+        "prompt": "Which approach is most appropriate when applying Mocking Dependencies in a project?",
         "options": [
-          "A system that requires no human decisions.",
-          "A flight simulator replaces the real aircraft during training.",
-          "A random number generator that always succeeds.",
-          "A shortcut that removes every bug."
-        ],
-        "correct": 1,
-        "explanation": "Connect the analogy back to the precise technical definition."
-      },
-      {
-        "id": "challenge-26",
-        "prompt": "What does mocking an external email gateway help test?",
-        "options": [
-          "Service behavior without sending real emails",
-          "The real gateway uptime",
-          "Network speed",
-          "Browser rendering"
+          "Mocking lets me test service logic without sending real emails or calling external APIs.",
+          "Use it everywhere regardless of requirements.",
+          "Avoid reviewing trade-offs or writing tests.",
+          "Assume the concept eliminates all software bugs."
         ],
         "correct": 0,
-        "explanation": "Mocks/fakes isolate dependencies and make tests predictable."
+        "explanation": "They let you control behavior and verify interactions without hitting real external services. Test outcomes rather than implementation details where possible."
       }
-    ]
+    ],
+    "useCase": "In a real software project, apply mocking dependencies when the situation described in this lesson occurs. Example: They let you control behavior and verify interactions without hitting real external services. Test outcomes rather than implementation details where possible.",
+    "avoid": "Do not apply mocking dependencies by default: first evaluate the requirements, complexity and alternatives. Excessive mocking can make tests brittle."
   },
   {
     "id": "selenium-and-ui-testing",
@@ -2150,18 +1610,6 @@ export const lessons: Lesson[] = [
         "explanation": "Use it for end-to-end browser workflows, not every small business rule. Prefer stable selectors and wait for conditions rather than fixed sleeps."
       },
       {
-        "id": "selenium-and-ui-testing-3",
-        "prompt": "Which explanation would be strongest in a technical interview?",
-        "options": [
-          "I always use it without thinking about trade-offs.",
-          "I do not need to explain it because it is obvious.",
-          "Selenium tests user-facing browser flows; NUnit can run the test cases.",
-          "It is useful because it is modern."
-        ],
-        "correct": 2,
-        "explanation": "Give a definition, a benefit, and a concrete use case."
-      },
-      {
         "id": "selenium-and-ui-testing-4",
         "prompt": "Which is a common mistake related to Selenium & UI Testing?",
         "options": [
@@ -2174,30 +1622,20 @@ export const lessons: Lesson[] = [
         "explanation": "UI tests are slower and more fragile than unit tests."
       },
       {
-        "id": "selenium-and-ui-testing-5",
-        "prompt": "Which analogy helps explain Selenium & UI Testing?",
+        "id": "selenium-and-ui-testing-application",
+        "prompt": "Which approach is most appropriate when applying Selenium & UI Testing in a project?",
         "options": [
-          "A robot follows the same steps as a real website user.",
-          "A random number generator that always succeeds.",
-          "A shortcut that removes every bug.",
-          "A system that requires no human decisions."
+          "Selenium tests user-facing browser flows; NUnit can run the test cases.",
+          "Use it everywhere regardless of requirements.",
+          "Avoid reviewing trade-offs or writing tests.",
+          "Assume the concept eliminates all software bugs."
         ],
         "correct": 0,
-        "explanation": "Connect the analogy back to the precise technical definition."
-      },
-      {
-        "id": "challenge-27",
-        "prompt": "Why should tests avoid depending on execution order?",
-        "options": [
-          "Order-dependent tests are fragile and unreliable",
-          "It always speeds up tests",
-          "It enables SQL injection",
-          "It removes assertions"
-        ],
-        "correct": 0,
-        "explanation": "Each test should set up its own state and run independently."
+        "explanation": "Use it for end-to-end browser workflows, not every small business rule. Prefer stable selectors and wait for conditions rather than fixed sleeps."
       }
-    ]
+    ],
+    "useCase": "In a real software project, apply selenium & ui testing when the situation described in this lesson occurs. Example: Use it for end-to-end browser workflows, not every small business rule. Prefer stable selectors and wait for conditions rather than fixed sleeps.",
+    "avoid": "Do not apply selenium & ui testing by default: first evaluate the requirements, complexity and alternatives. UI tests are slower and more fragile than unit tests."
   },
   {
     "id": "git-workflow",
@@ -2237,18 +1675,6 @@ export const lessons: Lesson[] = [
         "explanation": "Typical workflow: create a branch, commit small changes, open a pull request, review, and merge."
       },
       {
-        "id": "git-workflow-3",
-        "prompt": "Which explanation would be strongest in a technical interview?",
-        "options": [
-          "I do not need to explain it because it is obvious.",
-          "I use feature branches and pull requests to keep changes reviewable.",
-          "It is useful because it is modern.",
-          "I always use it without thinking about trade-offs."
-        ],
-        "correct": 1,
-        "explanation": "Give a definition, a benefit, and a concrete use case."
-      },
-      {
         "id": "git-workflow-4",
         "prompt": "Which is a common mistake related to Git Workflow?",
         "options": [
@@ -2261,30 +1687,20 @@ export const lessons: Lesson[] = [
         "explanation": "Never commit secrets or credentials."
       },
       {
-        "id": "git-workflow-5",
-        "prompt": "Which analogy helps explain Git Workflow?",
+        "id": "git-workflow-application",
+        "prompt": "Which approach is most appropriate when applying Git Workflow in a project?",
         "options": [
-          "A random number generator that always succeeds.",
-          "A shortcut that removes every bug.",
-          "A system that requires no human decisions.",
-          "A history of drafts with safe checkpoints."
-        ],
-        "correct": 3,
-        "explanation": "Connect the analogy back to the precise technical definition."
-      },
-      {
-        "id": "challenge-29",
-        "prompt": "What is the difference between `git fetch` and `git pull`?",
-        "options": [
-          "Fetch downloads remote refs; pull also integrates them into the current branch",
-          "They always delete local files",
-          "Fetch pushes changes",
-          "Pull never contacts the remote"
+          "I use feature branches and pull requests to keep changes reviewable.",
+          "Use it everywhere regardless of requirements.",
+          "Avoid reviewing trade-offs or writing tests.",
+          "Assume the concept eliminates all software bugs."
         ],
         "correct": 0,
-        "explanation": "git pull commonly performs fetch followed by merge or rebase."
+        "explanation": "Typical workflow: create a branch, commit small changes, open a pull request, review, and merge."
       }
-    ]
+    ],
+    "useCase": "In a real software project, apply git workflow when the situation described in this lesson occurs. Example: Typical workflow: create a branch, commit small changes, open a pull request, review, and merge.",
+    "avoid": "Do not apply git workflow by default: first evaluate the requirements, complexity and alternatives. Never commit secrets or credentials."
   },
   {
     "id": "ci-cd-and-azure-devops",
@@ -2324,18 +1740,6 @@ export const lessons: Lesson[] = [
         "explanation": "Azure DevOps provides pipelines, repositories, boards, and artifacts. A pipeline can restore, build, test, and publish a .NET application."
       },
       {
-        "id": "ci-cd-and-azure-devops-3",
-        "prompt": "Which explanation would be strongest in a technical interview?",
-        "options": [
-          "CI/CD reduces manual deployment mistakes and catches regressions early.",
-          "It is useful because it is modern.",
-          "I always use it without thinking about trade-offs.",
-          "I do not need to explain it because it is obvious."
-        ],
-        "correct": 0,
-        "explanation": "Give a definition, a benefit, and a concrete use case."
-      },
-      {
         "id": "ci-cd-and-azure-devops-4",
         "prompt": "Which is a common mistake related to CI/CD & Azure DevOps?",
         "options": [
@@ -2348,42 +1752,20 @@ export const lessons: Lesson[] = [
         "explanation": "A green pipeline does not guarantee bug-free software."
       },
       {
-        "id": "ci-cd-and-azure-devops-5",
-        "prompt": "Which analogy helps explain CI/CD & Azure DevOps?",
+        "id": "ci-cd-and-azure-devops-application",
+        "prompt": "Which approach is most appropriate when applying CI/CD & Azure DevOps in a project?",
         "options": [
-          "A shortcut that removes every bug.",
-          "A system that requires no human decisions.",
-          "An assembly line checks each product before shipping.",
-          "A random number generator that always succeeds."
-        ],
-        "correct": 2,
-        "explanation": "Connect the analogy back to the precise technical definition."
-      },
-      {
-        "id": "challenge-28",
-        "prompt": "What is the purpose of a CI pipeline?",
-        "options": [
-          "Automatically validate changes through build/tests",
-          "Replace version control",
-          "Manually upload screenshots",
-          "Disable reviews"
+          "CI/CD reduces manual deployment mistakes and catches regressions early.",
+          "Use it everywhere regardless of requirements.",
+          "Avoid reviewing trade-offs or writing tests.",
+          "Assume the concept eliminates all software bugs."
         ],
         "correct": 0,
-        "explanation": "Continuous Integration automatically checks changes and detects regressions early."
-      },
-      {
-        "id": "challenge-30",
-        "prompt": "Why should secrets be stored in CI secret management rather than source code?",
-        "options": [
-          "To prevent credential exposure in the repository",
-          "To make builds slower",
-          "To bypass tests",
-          "To disable access control"
-        ],
-        "correct": 0,
-        "explanation": "Keep credentials out of tracked files and restrict their permissions."
+        "explanation": "Azure DevOps provides pipelines, repositories, boards, and artifacts. A pipeline can restore, build, test, and publish a .NET application."
       }
-    ]
+    ],
+    "useCase": "In a real software project, apply ci/cd & azure devops when the situation described in this lesson occurs. Example: Azure DevOps provides pipelines, repositories, boards, and artifacts. A pipeline can restore, build, test, and publish a .NET application.",
+    "avoid": "Do not apply ci/cd & azure devops by default: first evaluate the requirements, complexity and alternatives. A green pipeline does not guarantee bug-free software."
   },
   {
     "id": "idempotency-and-retries",
@@ -2423,18 +1805,6 @@ export const lessons: Lesson[] = [
         "explanation": "Retries help with transient failures but need backoff, timeouts, and duplicate protection. Avoid blindly retrying non-idempotent operations."
       },
       {
-        "id": "idempotency-and-retries-3",
-        "prompt": "Which explanation would be strongest in a technical interview?",
-        "options": [
-          "It is useful because it is modern.",
-          "I always use it without thinking about trade-offs.",
-          "I do not need to explain it because it is obvious.",
-          "For reliable automation, I use timeouts, bounded retries, logging, and idempotency where needed."
-        ],
-        "correct": 3,
-        "explanation": "Give a definition, a benefit, and a concrete use case."
-      },
-      {
         "id": "idempotency-and-retries-4",
         "prompt": "Which is a common mistake related to Idempotency & Retries?",
         "options": [
@@ -2447,18 +1817,20 @@ export const lessons: Lesson[] = [
         "explanation": "Never retry forever or duplicate payments accidentally."
       },
       {
-        "id": "idempotency-and-retries-5",
-        "prompt": "Which analogy helps explain Idempotency & Retries?",
+        "id": "idempotency-and-retries-application",
+        "prompt": "Which approach is most appropriate when applying Idempotency & Retries in a project?",
         "options": [
-          "A system that requires no human decisions.",
-          "Pressing an elevator button twice should not create two elevators.",
-          "A random number generator that always succeeds.",
-          "A shortcut that removes every bug."
+          "For reliable automation, I use timeouts, bounded retries, logging, and idempotency where needed.",
+          "Use it everywhere regardless of requirements.",
+          "Avoid reviewing trade-offs or writing tests.",
+          "Assume the concept eliminates all software bugs."
         ],
-        "correct": 1,
-        "explanation": "Connect the analogy back to the precise technical definition."
+        "correct": 0,
+        "explanation": "Retries help with transient failures but need backoff, timeouts, and duplicate protection. Avoid blindly retrying non-idempotent operations."
       }
-    ]
+    ],
+    "useCase": "In a real software project, apply idempotency & retries when the situation described in this lesson occurs. Example: Retries help with transient failures but need backoff, timeouts, and duplicate protection. Avoid blindly retrying non-idempotent operations.",
+    "avoid": "Do not apply idempotency & retries by default: first evaluate the requirements, complexity and alternatives. Never retry forever or duplicate payments accidentally."
   },
   {
     "id": "security-and-least-privilege",
@@ -2498,18 +1870,6 @@ export const lessons: Lesson[] = [
         "explanation": "Validate input, authorize each operation, store secrets securely, and avoid leaking sensitive data in logs or error responses."
       },
       {
-        "id": "security-and-least-privilege-3",
-        "prompt": "Which explanation would be strongest in a technical interview?",
-        "options": [
-          "I always use it without thinking about trade-offs.",
-          "I do not need to explain it because it is obvious.",
-          "In risk-related systems, I prioritize access control, auditability, and safe error handling.",
-          "It is useful because it is modern."
-        ],
-        "correct": 2,
-        "explanation": "Give a definition, a benefit, and a concrete use case."
-      },
-      {
         "id": "security-and-least-privilege-4",
         "prompt": "Which is a common mistake related to Security & Least Privilege?",
         "options": [
@@ -2522,18 +1882,20 @@ export const lessons: Lesson[] = [
         "explanation": "Authentication is not the same as authorization."
       },
       {
-        "id": "security-and-least-privilege-5",
-        "prompt": "Which analogy helps explain Security & Least Privilege?",
+        "id": "security-and-least-privilege-application",
+        "prompt": "Which approach is most appropriate when applying Security & Least Privilege in a project?",
         "options": [
-          "A staff badge opens only the doors required for the job.",
-          "A random number generator that always succeeds.",
-          "A shortcut that removes every bug.",
-          "A system that requires no human decisions."
+          "In risk-related systems, I prioritize access control, auditability, and safe error handling.",
+          "Use it everywhere regardless of requirements.",
+          "Avoid reviewing trade-offs or writing tests.",
+          "Assume the concept eliminates all software bugs."
         ],
         "correct": 0,
-        "explanation": "Connect the analogy back to the precise technical definition."
+        "explanation": "Validate input, authorize each operation, store secrets securely, and avoid leaking sensitive data in logs or error responses."
       }
-    ]
+    ],
+    "useCase": "In a real software project, apply security & least privilege when the situation described in this lesson occurs. Example: Validate input, authorize each operation, store secrets securely, and avoid leaking sensitive data in logs or error responses.",
+    "avoid": "Do not apply security & least privilege by default: first evaluate the requirements, complexity and alternatives. Authentication is not the same as authorization."
   },
   {
     "id": "clear-technical-answers",
@@ -2573,18 +1935,6 @@ export const lessons: Lesson[] = [
         "explanation": "Use simple accurate sentences. If unsure, state what you know, reason aloud, and avoid inventing experience."
       },
       {
-        "id": "clear-technical-answers-3",
-        "prompt": "Which explanation would be strongest in a technical interview?",
-        "options": [
-          "I do not need to explain it because it is obvious.",
-          "I have not used that tool professionally yet, but I understand its purpose and can explain how I would learn it.",
-          "It is useful because it is modern.",
-          "I always use it without thinking about trade-offs."
-        ],
-        "correct": 1,
-        "explanation": "Give a definition, a benefit, and a concrete use case."
-      },
-      {
         "id": "clear-technical-answers-4",
         "prompt": "Which is a common mistake related to Clear Technical Answers?",
         "options": [
@@ -2597,30 +1947,20 @@ export const lessons: Lesson[] = [
         "explanation": "Avoid long unstructured sentences and unsupported claims."
       },
       {
-        "id": "clear-technical-answers-5",
-        "prompt": "Which analogy helps explain Clear Technical Answers?",
+        "id": "clear-technical-answers-application",
+        "prompt": "Which approach is most appropriate when applying Clear Technical Answers in a project?",
         "options": [
-          "A random number generator that always succeeds.",
-          "A shortcut that removes every bug.",
-          "A system that requires no human decisions.",
-          "A three-part bridge from concept to evidence."
-        ],
-        "correct": 3,
-        "explanation": "Connect the analogy back to the precise technical definition."
-      },
-      {
-        "id": "challenge-40",
-        "prompt": "Which response is strongest when you do not know a tool?",
-        "options": [
-          "I haven't used it in production, but I understand its purpose and can explain how I'd learn it.",
-          "I know everything about it.",
-          "That question is irrelevant.",
-          "I would guess and pretend."
+          "I have not used that tool professionally yet, but I understand its purpose and can explain how I would learn it.",
+          "Use it everywhere regardless of requirements.",
+          "Avoid reviewing trade-offs or writing tests.",
+          "Assume the concept eliminates all software bugs."
         ],
         "correct": 0,
-        "explanation": "Be honest, show related knowledge, and explain a practical learning approach."
+        "explanation": "Use simple accurate sentences. If unsure, state what you know, reason aloud, and avoid inventing experience."
       }
-    ]
+    ],
+    "useCase": "In a real software project, apply clear technical answers when the situation described in this lesson occurs. Example: Use simple accurate sentences. If unsure, state what you know, reason aloud, and avoid inventing experience.",
+    "avoid": "Do not apply clear technical answers by default: first evaluate the requirements, complexity and alternatives. Avoid long unstructured sentences and unsupported claims."
   },
   {
     "id": "security",
@@ -2636,30 +1976,20 @@ export const lessons: Lesson[] = [
     "pitfall": "Do not assume authenticated users can access every resource.",
     "questions": [
       {
-        "id": "challenge-34",
-        "prompt": "What is the best way to store user passwords?",
+        "id": "security-application",
+        "prompt": "Which approach is most appropriate when applying Authentication vs Authorization in a project?",
         "options": [
-          "A modern salted password hash",
-          "Plain text",
-          "Base64 encoding",
-          "Client-side localStorage"
+          "Authentication answers who you are; authorization answers what you can do.",
+          "Use it everywhere regardless of requirements.",
+          "Avoid reviewing trade-offs or writing tests.",
+          "Assume the concept eliminates all software bugs."
         ],
         "correct": 0,
-        "explanation": "Use an appropriate password hashing algorithm and never store plaintext passwords."
-      },
-      {
-        "id": "challenge-35",
-        "prompt": "What is the principle of least privilege?",
-        "options": [
-          "Grant only permissions needed for a task",
-          "Give admin access by default",
-          "Share credentials",
-          "Disable auditing"
-        ],
-        "correct": 0,
-        "explanation": "Limit permissions to reduce the impact of compromise."
+        "explanation": "Protect endpoints with identity verification and role/policy checks."
       }
-    ]
+    ],
+    "useCase": "In a real software project, apply authentication vs authorization when the situation described in this lesson occurs. Example: Protect endpoints with identity verification and role/policy checks.",
+    "avoid": "Do not apply authentication vs authorization by default: first evaluate the requirements, complexity and alternatives. Do not assume authenticated users can access every resource."
   },
   {
     "id": "algorithms",
@@ -2675,30 +2005,20 @@ export const lessons: Lesson[] = [
     "pitfall": "Measure actual performance too; Big O is not the whole story.",
     "questions": [
       {
-        "id": "challenge-36",
-        "prompt": "What is the average lookup complexity of a Dictionary<TKey,TValue>?",
+        "id": "algorithms-application",
+        "prompt": "Which approach is most appropriate when applying Big O and Data Structures in a project?",
         "options": [
-          "O(1)",
-          "O(n²)",
-          "O(n log n)",
-          "O(2ⁿ)"
+          "I compare complexity and choose structures based on expected operations.",
+          "Use it everywhere regardless of requirements.",
+          "Avoid reviewing trade-offs or writing tests.",
+          "Assume the concept eliminates all software bugs."
         ],
         "correct": 0,
-        "explanation": "Hash-based dictionaries provide average constant-time lookup, though worst-case behavior differs."
-      },
-      {
-        "id": "challenge-37",
-        "prompt": "Which structure naturally supports FIFO processing?",
-        "options": [
-          "Queue",
-          "Stack",
-          "Tree",
-          "Set"
-        ],
-        "correct": 0,
-        "explanation": "A queue processes first-in, first-out."
+        "explanation": "Understand O(1), O(log n), O(n), O(n log n), and O(n²)."
       }
-    ]
+    ],
+    "useCase": "In a real software project, apply big o and data structures when the situation described in this lesson occurs. Example: Understand O(1), O(log n), O(n), O(n log n), and O(n²).",
+    "avoid": "Do not apply big o and data structures by default: first evaluate the requirements, complexity and alternatives. Measure actual performance too; Big O is not the whole story."
   },
   {
     "id": "architecture",
@@ -2714,29 +2034,19 @@ export const lessons: Lesson[] = [
     "pitfall": "Avoid creating layers with no clear responsibility.",
     "questions": [
       {
-        "id": "challenge-38",
-        "prompt": "What is the main purpose of separating business logic from HTTP controllers?",
+        "id": "architecture-application",
+        "prompt": "Which approach is most appropriate when applying Layered Architecture in a project?",
         "options": [
-          "Make domain behavior easier to test and reuse",
-          "Guarantee zero bugs",
-          "Avoid all dependencies",
-          "Remove the need for APIs"
+          "I keep controllers thin and business logic testable.",
+          "Use it everywhere regardless of requirements.",
+          "Avoid reviewing trade-offs or writing tests.",
+          "Assume the concept eliminates all software bugs."
         ],
         "correct": 0,
-        "explanation": "Thin controllers delegate to application/domain services."
-      },
-      {
-        "id": "challenge-39",
-        "prompt": "When is a monolith a reasonable choice?",
-        "options": [
-          "When simplicity and deployment speed matter more than distributed scaling",
-          "Never",
-          "Only for frontend apps",
-          "Only without a database"
-        ],
-        "correct": 0,
-        "explanation": "A modular monolith can be a good starting point; distributed systems add complexity."
+        "explanation": "Keep HTTP concerns away from business rules and persistence details."
       }
-    ]
+    ],
+    "useCase": "In a real software project, apply layered architecture when the situation described in this lesson occurs. Example: Keep HTTP concerns away from business rules and persistence details.",
+    "avoid": "Do not apply layered architecture by default: first evaluate the requirements, complexity and alternatives. Avoid creating layers with no clear responsibility."
   }
 ];
