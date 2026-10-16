@@ -17,6 +17,8 @@ No `gh-pages` branch or manual publish command. Vite computes the GitHub Pages b
 npm install
 npm run dev
 npm run build
+# Tests use Node.js 22.6+ for native TypeScript stripping.
+npm test
 ```
 
 ## Offline guarantees and limits
@@ -42,3 +44,12 @@ npm run build
 ## Optional online tutor
 
 AI Tutor also offers an online mode for an HTTPS chat completions endpoint you choose. The provider must allow browser requests (CORS). Online mode sends the question and up to eight previous messages to that endpoint. The API key stays in component memory and is cleared when the tutor closes; it is not saved with conversations. Requests time out after 60 seconds and are canceled when the tutor closes. Use a personal, limited credential; do not embed shared secrets in this public static app. No provider or key is configured by the project.
+
+## Practice and review
+
+- The question bank contains 99 authored questions across 33 lessons, including 28 code-reading questions. Alternatives are shuffled for each session while retaining the correct answer.
+- **Scheduled review** includes questions whose spaced repetition date has arrived. Incorrect answers return after 10 minutes; correct answers return after at least one day, with increasing intervals.
+- **Retry mistakes** includes only questions whose latest answer was incorrect, even before their scheduled review. A successful retry clears the mistake.
+- Empty review lists keep the current tab. Exiting or completing a quiz returns to its originating lesson or tab.
+- Code blocks preserve indentation and scroll horizontally on narrow screens. Inline code is marked with backticks in authored question text.
+- PWA icons use an opaque, edge-to-edge background and a maskable variant. Updated icon filenames let browsers detect the changed assets; installed launcher shortcuts can retain an older icon until refreshed or reinstalled.

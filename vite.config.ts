@@ -7,11 +7,11 @@ export default defineConfig(({ command, isPreview }) => ({
   plugins: [react(), VitePWA({
     registerType: 'prompt',
     injectRegister: 'auto',
-    includeAssets: ['icons/icon.svg','icons/icon-192.png','icons/icon-512.png','icons/icon-maskable-512.png'],
+    includeAssets: ['icons/icon.svg','icons/icon-fullbleed-192.png','icons/icon-fullbleed-512.png','icons/icon-maskable-fullbleed-512.png'],
     manifest: {
       name: 'Software Learning — Offline', short_name: 'DevPrep', description: 'Offline-first software engineering learning and optional local AI',
       theme_color: '#101429', background_color: '#101429', display: 'standalone',
-      icons: [{src:'icons/icon-192.png',sizes:'192x192',type:'image/png',purpose:'any'},{src:'icons/icon-512.png',sizes:'512x512',type:'image/png',purpose:'any'},{src:'icons/icon-maskable-512.png',sizes:'512x512',type:'image/png',purpose:'maskable'}]
+      icons: [{src:'icons/icon-fullbleed-192.png',sizes:'192x192',type:'image/png',purpose:'any'},{src:'icons/icon-fullbleed-512.png',sizes:'512x512',type:'image/png',purpose:'any'},{src:'icons/icon-maskable-fullbleed-512.png',sizes:'512x512',type:'image/png',purpose:'maskable'}]
     },
     workbox: {
       globPatterns: ['**/*.{js,css,html,svg,png,webmanifest,json,woff2,wasm}'],

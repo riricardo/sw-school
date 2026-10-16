@@ -9,69 +9,46 @@ export const lessons: Lesson[] = [
     "simple": "An interface describes a contract that implementing types must satisfy.",
     "details": "Use interfaces to express capabilities without coupling consumers to one concrete implementation. C# supports multiple interfaces per class.",
     "analogy": "A universal charging port defines what fits, not how electricity is produced.",
-    "code": "public interface IMessageSender { Task SendAsync(string text); }\npublic class EmailSender : IMessageSender {\n  public Task SendAsync(string text) => Task.CompletedTask;\n}",
+    "code": "public interface IMessageSender\n{\n    Task SendAsync(string text);\n}\n\npublic class EmailSender : IMessageSender\n{\n    public Task SendAsync(string text) => Task.CompletedTask;\n}",
     "interview": "An interface defines a contract. I use it to depend on behavior rather than a concrete class.",
     "pitfall": "An interface is not the same as an abstract class.",
     "questions": [
       {
         "id": "interfaces-1",
-        "prompt": "What best describes Interfaces?",
+        "prompt": "A notification service must support email and SMS. Which dependency keeps its business logic independent of the provider?",
         "options": [
-          "Contract",
-          "Database table",
-          "Runtime process",
-          "Compiler flag"
+          "An IMessageSender contract injected into the service.",
+          "An EmailSender base class inherited by the service.",
+          "A provider name checked inside each business method.",
+          "A static EmailSender selected by the controller."
         ],
         "correct": 0,
-        "explanation": "An interface describes a contract that implementing types must satisfy."
+        "explanation": "The service depends on the sending capability; each provider supplies an implementation."
       },
       {
         "id": "interfaces-2",
-        "prompt": "Which statement about Interfaces is accurate?",
+        "prompt": "Which design confuses an interface with shared implementation?",
         "options": [
-          "It always makes code run faster.",
-          "It removes the need for testing.",
-          "It is only useful in frontend code.",
-          "An interface describes a contract that implementing types must satisfy."
+          "Implementing two capability interfaces on one class.",
+          "Expecting an interface to store per-instance balance fields.",
+          "Using an interface as a constructor parameter type.",
+          "Providing a default implementation for an interface member."
         ],
-        "correct": 3,
-        "explanation": "Use interfaces to express capabilities without coupling consumers to one concrete implementation. C# supports multiple interfaces per class."
+        "correct": 1,
+        "explanation": "Interfaces can include default members, but cannot hold instance fields. Shared instance state belongs in a class."
       },
       {
         "id": "interfaces-4",
-        "prompt": "Which is a common mistake related to Interfaces?",
+        "prompt": "Which member satisfies this instance-method contract?",
         "options": [
-          "Reviewing a change before merging.",
-          "An interface is not the same as an abstract class.",
-          "Writing a clear test case.",
-          "Explaining trade-offs."
+          "`public static void Save() { }`",
+          "`private void Save() { }`",
+          "`public void Save() { }`",
+          "`public void Save(string path) { }`"
         ],
-        "correct": 1,
-        "explanation": "An interface is not the same as an abstract class."
-      },
-      {
-        "id": "interfaces-scenario-1",
-        "prompt": "An API must send notifications through email or SMS without changing its business logic. What design fits best?",
-        "options": [
-          "Create an IMessageSender interface with EmailSender and SmsSender implementations.",
-          "Use x++ to count messages.",
-          "Duplicate the business logic for each provider.",
-          "Make all sender fields public."
-        ],
-        "correct": 0,
-        "explanation": "An interface defines the SendAsync contract; the service depends on the contract, and each provider implements it."
-      },
-      {
-        "id": "interfaces-code-1",
-        "prompt": "Given `interface IStore { void Save(); }`, what must a non-abstract class implementing IStore provide?",
-        "options": [
-          "A public compatible Save() implementation (or explicit interface implementation).",
-          "An override of ToString() only.",
-          "A constructor named IStore.",
-          "A static Save() method only."
-        ],
-        "correct": 0,
-        "explanation": "Implementing a C# interface requires satisfying its members; a static method alone does not implement an instance method."
+        "correct": 2,
+        "explanation": "The implementation must match the parameter list and be public, unless implemented explicitly.",
+        "code": "public interface IStore\n{\n    void Save();\n}"
       }
     ],
     "useCase": "Use an interface when a service needs interchangeable implementations, such as sending notifications by email or SMS.",
@@ -86,57 +63,46 @@ export const lessons: Lesson[] = [
     "simple": "An abstract class is a base class that cannot be instantiated directly.",
     "details": "It can provide shared fields, constructors, implemented methods, and abstract members subclasses must implement. A class can inherit only one class.",
     "analogy": "A partially assembled template that specialized models complete.",
-    "code": "public abstract class Report {\n  public void Print() => Console.WriteLine(\"Ready\");\n  public abstract string Build();\n}\npublic class SalesReport : Report {\n  public override string Build() => \"Sales\";\n}",
+    "code": "public abstract class Report\n{\n    public void Print() => Console.WriteLine(\"Ready\");\n\n    public abstract string Build();\n}\n\npublic class SalesReport : Report\n{\n    public override string Build() => \"Sales\";\n}",
     "interview": "I choose an abstract class when closely related types need shared implementation or state.",
     "pitfall": "Abstract classes can be inherited; they cannot be instantiated directly.",
     "questions": [
       {
         "id": "abstract-classes-1",
-        "prompt": "What best describes Abstract classes?",
+        "prompt": "Several reports share a title and printing workflow, but build their content differently. Which design fits?",
         "options": [
-          "Multiple unrelated contracts",
-          "SQL optimization",
-          "Dependency registration",
-          "Shared base behavior"
+          "An interface that stores the title in an instance field.",
+          "An abstract Report class with an abstract Build method.",
+          "A static Report class with virtual instance methods.",
+          "A sealed Report class with an overridable Build method."
         ],
-        "correct": 3,
-        "explanation": "An abstract class is a base class that cannot be instantiated directly."
+        "correct": 1,
+        "explanation": "An abstract base can hold shared state and behavior while requiring derived classes to implement Build."
       },
       {
         "id": "abstract-classes-2",
-        "prompt": "Which statement about Abstract classes is accurate?",
+        "prompt": "Which use of an abstract class is invalid?",
         "options": [
-          "It removes the need for testing.",
-          "It is only useful in frontend code.",
-          "An abstract class is a base class that cannot be instantiated directly.",
-          "It always makes code run faster."
+          "Storing a SalesReport in a Report variable.",
+          "Calling a concrete method inherited from Report.",
+          "Creating an instance directly with new Report().",
+          "Adding a constructor to initialize Report state."
         ],
         "correct": 2,
-        "explanation": "It can provide shared fields, constructors, implemented methods, and abstract members subclasses must implement. A class can inherit only one class."
+        "explanation": "Abstract classes cannot be instantiated directly. Derived concrete classes can use their constructors and implemented methods."
       },
       {
         "id": "abstract-classes-4",
-        "prompt": "Which is a common mistake related to Abstract classes?",
+        "prompt": "What must SalesReport implement to be concrete?",
         "options": [
-          "Abstract classes can be inherited; they cannot be instantiated directly.",
-          "Writing a clear test case.",
-          "Explaining trade-offs.",
-          "Reviewing a change before merging."
+          "`public string Build(int year)` returning content.",
+          "`public static string Build()` returning content.",
+          "A constructor that calls the base constructor.",
+          "`public override string Build()` returning content."
         ],
-        "correct": 0,
-        "explanation": "Abstract classes can be inherited; they cannot be instantiated directly."
-      },
-      {
-        "id": "abstract-classes-scenario-1",
-        "prompt": "Several report classes need the same Print() implementation but each builds different content. Which approach fits?",
-        "options": [
-          "An abstract Report base class with shared Print() and abstract Build().",
-          "Increment a local integer.",
-          "Put all methods in unrelated static classes.",
-          "Use a database index."
-        ],
-        "correct": 0,
-        "explanation": "Abstract classes can share implementation and require subclasses to implement abstract members."
+        "correct": 3,
+        "explanation": "The abstract member requires an override with a compatible signature; an overload does not satisfy it.",
+        "code": "public abstract class Report\n{\n    public abstract string Build();\n}"
       }
     ],
     "useCase": "Use a base class for related report types that share validation and formatting logic.",
@@ -151,57 +117,46 @@ export const lessons: Lesson[] = [
     "simple": "Encapsulation protects internal state behind a controlled public API.",
     "details": "Keep fields private and expose methods or properties that enforce invariants.",
     "analogy": "An ATM lets you withdraw without accessing its internal vault.",
-    "code": "public class Wallet {\n  private decimal balance;\n  public void Deposit(decimal amount) {\n    if (amount <= 0) throw new ArgumentException();\n    balance += amount;\n  }\n}",
+    "code": "public class Wallet\n{\n    private decimal balance;\n\n    public void Deposit(decimal amount)\n    {\n        if (amount <= 0)\n        {\n            throw new ArgumentException(\"Amount must be positive.\");\n        }\n\n        balance += amount;\n    }\n}",
     "interview": "Encapsulation helps keep objects valid by controlling how their state changes.",
     "pitfall": "Public mutable fields can bypass validation.",
     "questions": [
       {
         "id": "encapsulation-1",
-        "prompt": "What best describes Encapsulation?",
+        "prompt": "A wallet must reject negative deposits. Which API best preserves that rule?",
         "options": [
-          "Avoiding exceptions",
-          "Sharing global variables",
-          "Controlled access to state",
-          "Always using inheritance"
+          "A public balance field checked only by the web controller.",
+          "A public balance setter checked only by the user interface.",
+          "A private balance updated through a validated Deposit method.",
+          "An internal balance field assigned directly by all services."
         ],
         "correct": 2,
-        "explanation": "Encapsulation protects internal state behind a controlled public API."
+        "explanation": "Encapsulation keeps state changes behind the operation that enforces the invariant."
       },
       {
         "id": "encapsulation-2",
-        "prompt": "Which statement about Encapsulation is accurate?",
+        "prompt": "Which change weakens encapsulation?",
         "options": [
-          "It is only useful in frontend code.",
-          "Encapsulation protects internal state behind a controlled public API.",
-          "It always makes code run faster.",
-          "It removes the need for testing."
+          "Returning the balance through a read-only property.",
+          "Rejecting a negative amount inside the Deposit method.",
+          "Keeping balance updates inside the Wallet class.",
+          "Adding a public setter that bypasses balance validation."
         ],
-        "correct": 1,
-        "explanation": "Keep fields private and expose methods or properties that enforce invariants."
+        "correct": 3,
+        "explanation": "A separate unvalidated write path lets callers bypass the rule enforced by Deposit."
       },
       {
         "id": "encapsulation-4",
-        "prompt": "Which is a common mistake related to Encapsulation?",
+        "prompt": "Why can this property expose mutable internal state?",
         "options": [
-          "Writing a clear test case.",
-          "Explaining trade-offs.",
-          "Reviewing a change before merging.",
-          "Public mutable fields can bypass validation."
-        ],
-        "correct": 3,
-        "explanation": "Public mutable fields can bypass validation."
-      },
-      {
-        "id": "encapsulation-scenario-1",
-        "prompt": "A Wallet must reject negative deposits. Which design protects the invariant?",
-        "options": [
-          "Keep balance private and validate the amount in Deposit().",
-          "Expose balance as a public field.",
-          "Allow any caller to assign balance.",
-          "Disable exceptions everywhere."
+          "Callers can add items directly to the returned List.",
+          "The getter makes a new list every time it is called.",
+          "The private setter prevents adding items to the list.",
+          "The List becomes immutable outside the declaring class."
         ],
         "correct": 0,
-        "explanation": "Encapsulation controls changes to state and enforces valid values."
+        "explanation": "A private setter restricts replacing the list, not modifying its contents. Use a read-only view or copy when appropriate.",
+        "code": "public List<string> Items { get; private set; } = new();"
       }
     ],
     "useCase": "Use private fields and validated methods in accounts, shopping carts and business entities.",
@@ -222,51 +177,40 @@ export const lessons: Lesson[] = [
     "questions": [
       {
         "id": "polymorphism-1",
-        "prompt": "What best describes Polymorphism?",
+        "prompt": "A service calls Send on a MessageSender reference holding an SmsSender. What enables the SMS implementation to run?",
         "options": [
-          "A build pipeline",
-          "Different implementations via one contract",
-          "Only private methods",
-          "One database connection"
+          "A static Send method declared on MessageSender.",
+          "A Send overload with an extra parameter on SmsSender.",
+          "A private Send method declared only on SmsSender.",
+          "A virtual Send method overridden by SmsSender."
         ],
-        "correct": 1,
-        "explanation": "Polymorphism lets different types respond to the same operation differently."
+        "correct": 3,
+        "explanation": "Virtual dispatch selects the override using the runtime type of the object."
       },
       {
         "id": "polymorphism-2",
-        "prompt": "Which statement about Polymorphism is accurate?",
+        "prompt": "Which statement mistakes overloading for overriding?",
         "options": [
-          "Polymorphism lets different types respond to the same operation differently.",
-          "It always makes code run faster.",
-          "It removes the need for testing.",
-          "It is only useful in frontend code."
+          "Adding Send(int) changes how an existing Send(string) call dispatches.",
+          "An override keeps a compatible signature with its base member.",
+          "An overload adds a method with a different parameter list.",
+          "A virtual call can execute behavior from a derived class."
         ],
         "correct": 0,
-        "explanation": "An interface or virtual method enables calling common behavior while each implementation handles it in its own way."
+        "explanation": "Overload resolution selects a signature; adding Send(int) does not override Send(string)."
       },
       {
         "id": "polymorphism-4",
-        "prompt": "Which is a common mistake related to Polymorphism?",
+        "prompt": "What is printed by this code?",
         "options": [
-          "Explaining trade-offs.",
-          "Reviewing a change before merging.",
-          "Do not confuse overloading with runtime overriding.",
-          "Writing a clear test case."
+          "Base",
+          "SMS",
+          "Base followed by SMS",
+          "Nothing; the call is ambiguous"
         ],
-        "correct": 2,
-        "explanation": "Do not confuse overloading with runtime overriding."
-      },
-      {
-        "id": "polymorphism-application",
-        "prompt": "Which approach is most appropriate when applying Polymorphism in a project?",
-        "options": [
-          "Polymorphism lets callers use a common contract while implementations vary.",
-          "Use it everywhere regardless of requirements.",
-          "Avoid reviewing trade-offs or writing tests.",
-          "Assume the concept eliminates all software bugs."
-        ],
-        "correct": 0,
-        "explanation": "An interface or virtual method enables calling common behavior while each implementation handles it in its own way."
+        "correct": 1,
+        "explanation": "The variable has the base type, but the virtual call uses the runtime override.",
+        "code": "Sender sender = new SmsSender();\nsender.Send();\n\nclass Sender\n{\n    public virtual void Send() => Console.WriteLine(\"Base\");\n}\n\nclass SmsSender : Sender\n{\n    public override void Send() => Console.WriteLine(\"SMS\");\n}"
       }
     ],
     "useCase": "In a real software project, apply polymorphism when the situation described in this lesson occurs. Example: An interface or virtual method enables calling common behavior while each implementation handles it in its own way.",
@@ -287,51 +231,40 @@ export const lessons: Lesson[] = [
     "questions": [
       {
         "id": "collections-and-linq-1",
-        "prompt": "What best describes Collections & LINQ?",
+        "prompt": "An in-memory sequence is enumerated repeatedly and its source may change. How can you keep one snapshot of the results?",
         "options": [
-          "Filtering and projecting data",
-          "Deploying websites",
-          "Handling HTTP routes",
-          "Replacing SQL transactions"
+          "Materialize the query once with ToList().",
+          "Call AsEnumerable() before each enumeration.",
+          "Store the Where query in a readonly variable.",
+          "Append Select(x => x) to the query."
         ],
         "correct": 0,
-        "explanation": "Collections store groups of values; LINQ queries them."
+        "explanation": "ToList executes the query and stores the results at that point; the other operations do not create a snapshot."
       },
       {
         "id": "collections-and-linq-2",
-        "prompt": "Which statement about Collections & LINQ is accurate?",
+        "prompt": "Which assumption causes a deferred-execution bug?",
         "options": [
-          "It always makes code run faster.",
-          "It removes the need for testing.",
-          "It is only useful in frontend code.",
-          "Collections store groups of values; LINQ queries them."
+          "Expecting ToList to enumerate the source immediately.",
+          "Expecting Where to capture values before enumeration.",
+          "Expecting Select to transform each enumerated element.",
+          "Expecting Any to stop once it finds a matching element."
         ],
-        "correct": 3,
-        "explanation": "List<T> preserves ordered items; Dictionary<TKey,TValue> enables keyed lookups. LINQ Where filters, Select projects, and FirstOrDefault retrieves a match."
+        "correct": 1,
+        "explanation": "Where usually defers work until enumeration, so changes to an in-memory source can affect later results."
       },
       {
         "id": "collections-and-linq-4",
-        "prompt": "Which is a common mistake related to Collections & LINQ?",
+        "prompt": "How many values are in result?",
         "options": [
-          "Reviewing a change before merging.",
-          "Deferred execution means some queries run only when enumerated.",
-          "Writing a clear test case.",
-          "Explaining trade-offs."
+          "1",
+          "3",
+          "2",
+          "0"
         ],
-        "correct": 1,
-        "explanation": "Deferred execution means some queries run only when enumerated."
-      },
-      {
-        "id": "collections-and-linq-application",
-        "prompt": "Which approach is most appropriate when applying Collections & LINQ in a project?",
-        "options": [
-          "LINQ helps express data transformations clearly. I avoid unnecessary repeated enumeration.",
-          "Use it everywhere regardless of requirements.",
-          "Avoid reviewing trade-offs or writing tests.",
-          "Assume the concept eliminates all software bugs."
-        ],
-        "correct": 0,
-        "explanation": "List<T> preserves ordered items; Dictionary<TKey,TValue> enables keyed lookups. LINQ Where filters, Select projects, and FirstOrDefault retrieves a match."
+        "correct": 2,
+        "explanation": "The query runs at ToList, after 3 has been added, so both 2 and 3 match.",
+        "code": "var values = new List<int> { 1, 2 };\nvar query = values.Where(x => x > 1);\nvalues.Add(3);\nvar result = query.ToList();"
       }
     ],
     "useCase": "In a real software project, apply collections & linq when the situation described in this lesson occurs. Example: List<T> preserves ordered items; Dictionary<TKey,TValue> enables keyed lookups. LINQ Where filters, Select projects, and FirstOrDefault retrieves a match.",
@@ -346,57 +279,46 @@ export const lessons: Lesson[] = [
     "simple": "Async and await make asynchronous operations easier to write and compose.",
     "details": "Await suspends the current async operation without blocking its thread while an I/O task is pending. Use Task and propagate cancellation when appropriate.",
     "analogy": "You place an order and do something else while it is prepared.",
-    "code": "public async Task<string> LoadAsync(HttpClient client) {\n  return await client.GetStringAsync(\"https://example.org\");\n}",
+    "code": "public async Task<string> LoadAsync(HttpClient client)\n{\n    return await client.GetStringAsync(\"https://example.org\");\n}",
     "interview": "Async/await is especially useful for I/O-bound operations like HTTP and database calls.",
     "pitfall": "Async does not automatically make CPU-bound work faster; avoid .Result deadlocks.",
     "questions": [
       {
         "id": "async---await-1",
-        "prompt": "What best describes Async / Await?",
+        "prompt": "An API waits for an HTTP response. Which approach avoids blocking a request thread during the wait?",
         "options": [
-          "Guaranteed parallelism",
-          "Replacing all threads",
-          "Preventing every exception",
-          "Non-blocking I/O composition"
+          "Call Result on the HttpClient asynchronous operation.",
+          "Await the HttpClient asynchronous operation.",
+          "Wrap a synchronous HTTP call in Task.FromResult.",
+          "Run a synchronous HTTP call before returning Task.CompletedTask."
         ],
-        "correct": 3,
-        "explanation": "Async and await make asynchronous operations easier to write and compose."
+        "correct": 1,
+        "explanation": "Awaiting asynchronous I/O allows the thread to serve other work while the operation is pending."
       },
       {
         "id": "async---await-2",
-        "prompt": "Which statement about Async / Await is accurate?",
+        "prompt": "Which expectation about async is incorrect?",
         "options": [
-          "It removes the need for testing.",
-          "It is only useful in frontend code.",
-          "Async and await make asynchronous operations easier to write and compose.",
-          "It always makes code run faster."
+          "An async method can resume after an I/O operation completes.",
+          "A Task-returning method can propagate errors to its awaiter.",
+          "Adding async makes a CPU-heavy calculation run on another thread.",
+          "An async method may finish without suspending its execution."
         ],
         "correct": 2,
-        "explanation": "Await suspends the current async operation without blocking its thread while an I/O task is pending. Use Task and propagate cancellation when appropriate."
+        "explanation": "The async modifier enables await; it does not move CPU work onto a worker thread."
       },
       {
         "id": "async---await-4",
-        "prompt": "Which is a common mistake related to Async / Await?",
+        "prompt": "How should an ASP.NET Core action consume this method?",
         "options": [
-          "Async does not automatically make CPU-bound work faster; avoid .Result deadlocks.",
-          "Writing a clear test case.",
-          "Explaining trade-offs.",
-          "Reviewing a change before merging."
+          "Read LoadAsync().Result to avoid a state machine.",
+          "Call LoadAsync().Wait() before returning.",
+          "Discard LoadAsync() and immediately return OK.",
+          "Await LoadAsync and return its result."
         ],
-        "correct": 0,
-        "explanation": "Async does not automatically make CPU-bound work faster; avoid .Result deadlocks."
-      },
-      {
-        "id": "async---await-application",
-        "prompt": "Which approach is most appropriate when applying Async / Await in a project?",
-        "options": [
-          "Async/await is especially useful for I/O-bound operations like HTTP and database calls.",
-          "Use it everywhere regardless of requirements.",
-          "Avoid reviewing trade-offs or writing tests.",
-          "Assume the concept eliminates all software bugs."
-        ],
-        "correct": 0,
-        "explanation": "Await suspends the current async operation without blocking its thread while an I/O task is pending. Use Task and propagate cancellation when appropriate."
+        "correct": 3,
+        "explanation": "Await preserves asynchronous flow and observes failures. Blocking can exhaust request threads, even without a synchronization-context deadlock.",
+        "code": "Task<string> LoadAsync(HttpClient client)\n{\n    return client.GetStringAsync(\"https://example.org\");\n}"
       }
     ],
     "useCase": "In a real software project, apply async / await when the situation described in this lesson occurs. Example: Await suspends the current async operation without blocking its thread while an I/O task is pending. Use Task and propagate cancellation when appropriate.",
@@ -411,57 +333,46 @@ export const lessons: Lesson[] = [
     "simple": "Exceptions represent unexpected failures; logging records diagnostic events.",
     "details": "Catch exceptions where you can handle them meaningfully. Use structured logging, appropriate levels, and never log passwords or secrets.",
     "analogy": "A fire alarm reports an incident; an incident log records context.",
-    "code": "try { await service.RunAsync(); }\ncatch (TimeoutException ex) {\n  logger.LogWarning(ex, \"Request timed out\");\n}",
+    "code": "try\n{\n    await service.RunAsync();\n}\ncatch (TimeoutException ex)\n{\n    logger.LogWarning(ex, \"Request timed out\");\n}",
     "interview": "I catch specific exceptions, log useful context, and avoid hiding failures.",
     "pitfall": "Avoid empty catch blocks and logging sensitive information.",
     "questions": [
       {
         "id": "exceptions-and-logging-1",
-        "prompt": "What best describes Exceptions & Logging?",
+        "prompt": "An upstream service times out. What log entry is most useful without exposing customer data?",
         "options": [
-          "Hiding bugs",
-          "Removing validation",
-          "Diagnosing failures safely",
-          "Making every operation succeed"
+          "The exception and the full customer request payload.",
+          "The error message without operation or request context.",
+          "The exception, an operation name, and a correlation ID.",
+          "The entire authorization header and request URL."
         ],
         "correct": 2,
-        "explanation": "Exceptions represent unexpected failures; logging records diagnostic events."
+        "explanation": "An exception and correlation context help diagnosis without copying credentials or sensitive payloads into logs."
       },
       {
         "id": "exceptions-and-logging-2",
-        "prompt": "Which statement about Exceptions & Logging is accurate?",
+        "prompt": "Which error-handling approach hides a failed operation?",
         "options": [
-          "It is only useful in frontend code.",
-          "Exceptions represent unexpected failures; logging records diagnostic events.",
-          "It always makes code run faster.",
-          "It removes the need for testing."
+          "Catching a timeout and returning a documented failure response.",
+          "Adding useful context before rethrowing with throw.",
+          "Allowing unexpected errors to reach centralized handling.",
+          "Catching an exception and returning success without handling it."
         ],
-        "correct": 1,
-        "explanation": "Catch exceptions where you can handle them meaningfully. Use structured logging, appropriate levels, and never log passwords or secrets."
+        "correct": 3,
+        "explanation": "An empty or misleading catch path makes callers believe the operation succeeded."
       },
       {
         "id": "exceptions-and-logging-4",
-        "prompt": "Which is a common mistake related to Exceptions & Logging?",
+        "prompt": "Which replacement preserves the original exception stack?",
         "options": [
-          "Writing a clear test case.",
-          "Explaining trade-offs.",
-          "Reviewing a change before merging.",
-          "Avoid empty catch blocks and logging sensitive information."
-        ],
-        "correct": 3,
-        "explanation": "Avoid empty catch blocks and logging sensitive information."
-      },
-      {
-        "id": "exceptions-and-logging-application",
-        "prompt": "Which approach is most appropriate when applying Exceptions & Logging in a project?",
-        "options": [
-          "I catch specific exceptions, log useful context, and avoid hiding failures.",
-          "Use it everywhere regardless of requirements.",
-          "Avoid reviewing trade-offs or writing tests.",
-          "Assume the concept eliminates all software bugs."
+          "`throw;`",
+          "`throw ex;`",
+          "`return;`",
+          "`throw new Exception(ex.Message);`"
         ],
         "correct": 0,
-        "explanation": "Catch exceptions where you can handle them meaningfully. Use structured logging, appropriate levels, and never log passwords or secrets."
+        "explanation": "A bare throw rethrows the current exception while preserving its original stack information.",
+        "code": "try\n{\n    await service.RunAsync();\n}\ncatch (Exception ex)\n{\n    logger.LogError(ex, \"Operation failed\");\n    throw ex;\n}"
       }
     ],
     "useCase": "In a real software project, apply exceptions & logging when the situation described in this lesson occurs. Example: Catch exceptions where you can handle them meaningfully. Use structured logging, appropriate levels, and never log passwords or secrets.",
@@ -476,57 +387,45 @@ export const lessons: Lesson[] = [
     "simple": "SOLID is a set of five design principles for maintainable object-oriented code.",
     "details": "S: single responsibility; O: open/closed; L: Liskov substitution; I: interface segregation; D: dependency inversion. Apply pragmatically, not mechanically.",
     "analogy": "Clear job descriptions prevent one worker from owning everything.",
-    "code": "public interface IPriceCalculator { decimal Calculate(Order order); }",
+    "code": "public interface IPriceCalculator\n{\n    decimal Calculate(Order order);\n}",
     "interview": "SOLID encourages modularity, testability, and clear responsibilities.",
     "pitfall": "SOLID is guidance, not a requirement to create interfaces for every class.",
     "questions": [
       {
         "id": "solid-overview-1",
-        "prompt": "What best describes SOLID Overview?",
+        "prompt": "A checkout service constructs SqlOrderRepository internally. Which change best supports Dependency Inversion?",
         "options": [
-          "Azure pricing",
-          "Maintainable OO design",
-          "Five HTTP verbs",
-          "SQL normalization"
+          "Move the constructor call into a private factory method.",
+          "Make SqlOrderRepository static and call it directly.",
+          "Inherit CheckoutService from SqlOrderRepository.",
+          "Depend on an order-storage contract supplied externally."
         ],
-        "correct": 1,
-        "explanation": "SOLID is a set of five design principles for maintainable object-oriented code."
+        "correct": 3,
+        "explanation": "The high-level workflow should depend on an abstraction rather than a specific persistence implementation."
       },
       {
         "id": "solid-overview-2",
-        "prompt": "Which statement about SOLID Overview is accurate?",
+        "prompt": "Which use of SOLID adds abstraction without a demonstrated need?",
         "options": [
-          "SOLID is a set of five design principles for maintainable object-oriented code.",
-          "It always makes code run faster.",
-          "It removes the need for testing.",
-          "It is only useful in frontend code."
+          "Creating a separate interface for every data-only DTO.",
+          "Separating pricing rules from HTTP response mapping.",
+          "Keeping a derived implementation valid for base-type clients.",
+          "Splitting a broad contract when consumers need different parts."
         ],
         "correct": 0,
-        "explanation": "S: single responsibility; O: open/closed; L: Liskov substitution; I: interface segregation; D: dependency inversion. Apply pragmatically, not mechanically."
+        "explanation": "SOLID guides design trade-offs; a one-to-one interface for each DTO may add ceremony without an interchangeable behavior."
       },
       {
         "id": "solid-overview-4",
-        "prompt": "Which is a common mistake related to SOLID Overview?",
+        "prompt": "A Report class builds report data and sends email. Email formatting changes frequently. Which principle most directly suggests separating the responsibilities?",
         "options": [
-          "Explaining trade-offs.",
-          "Reviewing a change before merging.",
-          "SOLID is guidance, not a requirement to create interfaces for every class.",
-          "Writing a clear test case."
+          "Liskov Substitution",
+          "Single Responsibility",
+          "Interface Segregation",
+          "Dependency Inversion"
         ],
-        "correct": 2,
-        "explanation": "SOLID is guidance, not a requirement to create interfaces for every class."
-      },
-      {
-        "id": "solid-overview-application",
-        "prompt": "Which approach is most appropriate when applying SOLID Overview in a project?",
-        "options": [
-          "SOLID encourages modularity, testability, and clear responsibilities.",
-          "Use it everywhere regardless of requirements.",
-          "Avoid reviewing trade-offs or writing tests.",
-          "Assume the concept eliminates all software bugs."
-        ],
-        "correct": 0,
-        "explanation": "S: single responsibility; O: open/closed; L: Liskov substitution; I: interface segregation; D: dependency inversion. Apply pragmatically, not mechanically."
+        "correct": 1,
+        "explanation": "Building report data and delivering email introduce different reasons to change."
       }
     ],
     "useCase": "In a real software project, apply solid overview when the situation described in this lesson occurs. Example: S: single responsibility; O: open/closed; L: Liskov substitution; I: interface segregation; D: dependency inversion. Apply pragmatically, not mechanically.",
@@ -541,57 +440,46 @@ export const lessons: Lesson[] = [
     "simple": "Dependency Injection provides a class with dependencies instead of making it construct them.",
     "details": "ASP.NET Core has a built-in container. Register abstractions and implementations, then request them through constructors. DI improves testing and reduces coupling.",
     "analogy": "A chef receives ingredients rather than running a farm.",
-    "code": "builder.Services.AddScoped<IMessageSender, EmailSender>();\npublic class Alerts(IMessageSender sender) {\n  public Task Send(string text) => sender.SendAsync(text);\n}",
+    "code": "builder.Services.AddScoped<IMessageSender, EmailSender>();\n\npublic class Alerts(IMessageSender sender)\n{\n    public Task Send(string text) => sender.SendAsync(text);\n}",
     "interview": "DI reduces coupling and helps testing. The ASP.NET Core container creates registered services.",
     "pitfall": "DI and the Dependency Inversion Principle are related but not identical.",
     "questions": [
       {
         "id": "dependency-injection-1",
-        "prompt": "What best describes Dependency Injection?",
+        "prompt": "A service needs a clock that can be replaced in tests. Which approach exposes the dependency clearly?",
         "options": [
-          "Receiving dependencies from outside",
-          "Avoiding every constructor",
-          "Hiding runtime errors",
-          "Making code synchronous"
+          "Accept IClock through the service constructor.",
+          "Resolve IClock from a global container in each method.",
+          "Create SystemClock inside the service constructor.",
+          "Read DateTime.Now directly inside each business rule."
         ],
         "correct": 0,
-        "explanation": "Dependency Injection provides a class with dependencies instead of making it construct them."
+        "explanation": "Constructor injection makes the dependency explicit and lets tests supply a controlled clock."
       },
       {
         "id": "dependency-injection-2",
-        "prompt": "Which statement about Dependency Injection is accurate?",
+        "prompt": "Which statement confuses DI with Dependency Inversion?",
         "options": [
-          "It always makes code run faster.",
-          "It removes the need for testing.",
-          "It is only useful in frontend code.",
-          "Dependency Injection provides a class with dependencies instead of making it construct them."
+          "DI supplies dependencies instead of constructing them internally.",
+          "Using constructor injection guarantees dependency on abstractions.",
+          "A constructor can receive a concrete dependency through DI.",
+          "Dependency Inversion concerns the direction of dependencies."
         ],
-        "correct": 3,
-        "explanation": "ASP.NET Core has a built-in container. Register abstractions and implementations, then request them through constructors. DI improves testing and reduces coupling."
+        "correct": 1,
+        "explanation": "DI can inject concrete types too; it does not by itself enforce Dependency Inversion."
       },
       {
         "id": "dependency-injection-4",
-        "prompt": "Which is a common mistake related to Dependency Injection?",
+        "prompt": "What registration lets the container construct Alerts?",
         "options": [
-          "Reviewing a change before merging.",
-          "DI and the Dependency Inversion Principle are related but not identical.",
-          "Writing a clear test case.",
-          "Explaining trade-offs."
+          "`services.AddScoped<Alerts, EmailSender>();`",
+          "`services.AddScoped<IMessageSender>();`",
+          "`services.AddScoped<IMessageSender, EmailSender>();`",
+          "`services.AddScoped<EmailSender, IMessageSender>();`"
         ],
-        "correct": 1,
-        "explanation": "DI and the Dependency Inversion Principle are related but not identical."
-      },
-      {
-        "id": "dependency-injection-application",
-        "prompt": "Which approach is most appropriate when applying Dependency Injection in a project?",
-        "options": [
-          "DI reduces coupling and helps testing. The ASP.NET Core container creates registered services.",
-          "Use it everywhere regardless of requirements.",
-          "Avoid reviewing trade-offs or writing tests.",
-          "Assume the concept eliminates all software bugs."
-        ],
-        "correct": 0,
-        "explanation": "ASP.NET Core has a built-in container. Register abstractions and implementations, then request them through constructors. DI improves testing and reduces coupling."
+        "correct": 2,
+        "explanation": "The container needs a mapping from the requested interface to a concrete implementation.",
+        "code": "public class Alerts(IMessageSender sender)\n{\n    public Task SendAsync() => sender.SendAsync(\"Hello\");\n}"
       }
     ],
     "useCase": "In a real software project, apply dependency injection when the situation described in this lesson occurs. Example: ASP.NET Core has a built-in container. Register abstractions and implementations, then request them through constructors. DI improves testing and reduces coupling.",
@@ -612,51 +500,40 @@ export const lessons: Lesson[] = [
     "questions": [
       {
         "id": "service-lifetimes-1",
-        "prompt": "What best describes Service Lifetimes?",
+        "prompt": "An ASP.NET Core service uses a request-scoped DbContext. Which lifetime is normally suitable for that service?",
         "options": [
-          "HTTP response body",
-          "Database isolation level",
-          "Compiler optimization",
-          "Object creation and reuse scope"
+          "Singleton, sharing the context across requests.",
+          "Scoped, matching the request unit of work.",
+          "Singleton, resolving the context at startup.",
+          "Transient, captured by a singleton at startup."
         ],
-        "correct": 3,
-        "explanation": "ASP.NET Core supports transient, scoped, and singleton service lifetimes."
+        "correct": 1,
+        "explanation": "A scoped service can safely consume the request-scoped context; a singleton must not capture it."
       },
       {
         "id": "service-lifetimes-2",
-        "prompt": "Which statement about Service Lifetimes is accurate?",
+        "prompt": "Which registration risks a captive dependency?",
         "options": [
-          "It removes the need for testing.",
-          "It is only useful in frontend code.",
-          "ASP.NET Core supports transient, scoped, and singleton service lifetimes.",
-          "It always makes code run faster."
+          "A scoped service receiving a singleton clock.",
+          "A transient service resolved inside a request scope.",
+          "A singleton constructor receiving a scoped repository.",
+          "A singleton receiving a thread-safe singleton cache."
         ],
         "correct": 2,
-        "explanation": "Transient creates a service when requested; scoped normally lasts for one HTTP request; singleton is shared for the application lifetime."
+        "explanation": "The singleton retains the scoped object beyond its intended lifetime. Explicit short-lived scopes are a different design."
       },
       {
         "id": "service-lifetimes-4",
-        "prompt": "Which is a common mistake related to Service Lifetimes?",
+        "prompt": "Within one HTTP request, how many instances does this registration normally return when resolved twice from the request scope?",
         "options": [
-          "Do not inject a scoped service directly into a singleton.",
-          "Writing a clear test case.",
-          "Explaining trade-offs.",
-          "Reviewing a change before merging."
+          "Two separate instances",
+          "One shared across all requests",
+          "One per controller type",
+          "One shared instance"
         ],
-        "correct": 0,
-        "explanation": "Do not inject a scoped service directly into a singleton."
-      },
-      {
-        "id": "service-lifetimes-application",
-        "prompt": "Which approach is most appropriate when applying Service Lifetimes in a project?",
-        "options": [
-          "I choose lifetimes based on state and thread safety. DbContext is normally scoped.",
-          "Use it everywhere regardless of requirements.",
-          "Avoid reviewing trade-offs or writing tests.",
-          "Assume the concept eliminates all software bugs."
-        ],
-        "correct": 0,
-        "explanation": "Transient creates a service when requested; scoped normally lasts for one HTTP request; singleton is shared for the application lifetime."
+        "correct": 3,
+        "explanation": "Scoped dependencies are reused within the same scope and differ between request scopes.",
+        "code": "services.AddScoped<OrderService>();"
       }
     ],
     "useCase": "In a real software project, apply service lifetimes when the situation described in this lesson occurs. Example: Transient creates a service when requested; scoped normally lasts for one HTTP request; singleton is shared for the application lifetime.",
@@ -677,51 +554,39 @@ export const lessons: Lesson[] = [
     "questions": [
       {
         "id": "http-methods-1",
-        "prompt": "What best describes HTTP Methods?",
+        "prompt": "A client replaces the full representation of a resource at a known URI. Which method best expresses that intent?",
         "options": [
-          "C# access modifiers",
-          "Service lifetimes",
-          "Resource operation semantics",
-          "Database table types"
+          "POST",
+          "PATCH",
+          "PUT",
+          "GET"
         ],
         "correct": 2,
-        "explanation": "HTTP methods express the intended operation on a resource."
+        "explanation": "PUT expresses creating or replacing the target representation. PATCH describes partial modification."
       },
       {
         "id": "http-methods-2",
-        "prompt": "Which statement about HTTP Methods is accurate?",
+        "prompt": "Which implementation violates the intended semantics of a safe HTTP method?",
         "options": [
-          "It is only useful in frontend code.",
-          "HTTP methods express the intended operation on a resource.",
-          "It always makes code run faster.",
-          "It removes the need for testing."
+          "A PUT endpoint that replaces an existing profile.",
+          "A PATCH endpoint that changes a profile field.",
+          "A DELETE endpoint that removes an existing profile.",
+          "A GET endpoint that charges a stored payment card."
         ],
-        "correct": 1,
-        "explanation": "GET reads; POST creates or triggers processing; PUT replaces; PATCH partially updates; DELETE removes. GET, PUT, and DELETE are intended to be idempotent."
+        "correct": 3,
+        "explanation": "GET is intended to be safe and should not trigger a requested state-changing business operation."
       },
       {
         "id": "http-methods-4",
-        "prompt": "Which is a common mistake related to HTTP Methods?",
+        "prompt": "A client repeats the same PUT after a network timeout. What does idempotent mean here?",
         "options": [
-          "Writing a clear test case.",
-          "Explaining trade-offs.",
-          "Reviewing a change before merging.",
-          "POST is not guaranteed idempotent; PUT normally replaces the target representation."
-        ],
-        "correct": 3,
-        "explanation": "POST is not guaranteed idempotent; PUT normally replaces the target representation."
-      },
-      {
-        "id": "http-methods-application",
-        "prompt": "Which approach is most appropriate when applying HTTP Methods in a project?",
-        "options": [
-          "For creation I typically return 201 Created; for missing resources, 404 Not Found.",
-          "Use it everywhere regardless of requirements.",
-          "Avoid reviewing trade-offs or writing tests.",
-          "Assume the concept eliminates all software bugs."
+          "The intended server state matches applying it once.",
+          "Every response must contain the same status code.",
+          "The server must skip authentication on the retry.",
+          "The request must execute exactly once on the server."
         ],
         "correct": 0,
-        "explanation": "GET reads; POST creates or triggers processing; PUT replaces; PATCH partially updates; DELETE removes. GET, PUT, and DELETE are intended to be idempotent."
+        "explanation": "Idempotency concerns intended effects, not identical responses or exactly-once execution."
       }
     ],
     "useCase": "In a real software project, apply http methods when the situation described in this lesson occurs. Example: GET reads; POST creates or triggers processing; PUT replaces; PATCH partially updates; DELETE removes. GET, PUT, and DELETE are intended to be idempotent.",
@@ -736,57 +601,45 @@ export const lessons: Lesson[] = [
     "simple": "HTTP status codes tell clients the outcome of a request.",
     "details": "200 OK, 201 Created, 204 No Content, 400 Bad Request, 401 Unauthorized, 403 Forbidden, 404 Not Found, 409 Conflict, 500 Server Error.",
     "analogy": "A delivery receipt says accepted, missing, or failed.",
-    "code": "return CreatedAtAction(nameof(Get), new { id = item.Id }, item);",
+    "code": "return CreatedAtAction(\n    nameof(Get),\n    new { id = item.Id },\n    item\n);",
     "interview": "I return 201 when creating a resource and 404 when the requested resource does not exist.",
     "pitfall": "401 and 403 have different meanings.",
     "questions": [
       {
         "id": "http-status-codes-1",
-        "prompt": "What best describes HTTP Status Codes?",
+        "prompt": "A validly authenticated user lacks permission for an endpoint. Which status best represents the result?",
         "options": [
-          "Compiler target",
-          "Request outcome",
-          "Dependency lifetime",
-          "Query plan"
+          "401 Unauthorized",
+          "404 Not Found",
+          "409 Conflict",
+          "403 Forbidden"
         ],
-        "correct": 1,
-        "explanation": "HTTP status codes tell clients the outcome of a request."
+        "correct": 3,
+        "explanation": "403 expresses insufficient permission. 401 indicates missing or invalid authentication credentials."
       },
       {
         "id": "http-status-codes-2",
-        "prompt": "Which statement about HTTP Status Codes is accurate?",
+        "prompt": "Which response incorrectly treats missing authentication as insufficient permission?",
         "options": [
-          "HTTP status codes tell clients the outcome of a request.",
-          "It always makes code run faster.",
-          "It removes the need for testing.",
-          "It is only useful in frontend code."
+          "Returning 403 for an endpoint requiring credentials when none were sent.",
+          "Returning 401 when the supplied access token is invalid.",
+          "Returning 403 when a signed-in user lacks a required role.",
+          "Returning 404 when the requested public resource does not exist."
         ],
         "correct": 0,
-        "explanation": "200 OK, 201 Created, 204 No Content, 400 Bad Request, 401 Unauthorized, 403 Forbidden, 404 Not Found, 409 Conflict, 500 Server Error."
+        "explanation": "For this endpoint, missing credentials call for 401. Permission checks apply after identity is established."
       },
       {
         "id": "http-status-codes-4",
-        "prompt": "Which is a common mistake related to HTTP Status Codes?",
+        "prompt": "An API creates an order and returns its new resource URI. Which response fits best?",
         "options": [
-          "Explaining trade-offs.",
-          "Reviewing a change before merging.",
-          "401 and 403 have different meanings.",
-          "Writing a clear test case."
+          "200 OK with a Retry-After header.",
+          "201 Created with a Location header.",
+          "204 No Content with a response body.",
+          "202 Accepted after completing all processing."
         ],
-        "correct": 2,
-        "explanation": "401 and 403 have different meanings."
-      },
-      {
-        "id": "http-status-codes-application",
-        "prompt": "Which approach is most appropriate when applying HTTP Status Codes in a project?",
-        "options": [
-          "I return 201 when creating a resource and 404 when the requested resource does not exist.",
-          "Use it everywhere regardless of requirements.",
-          "Avoid reviewing trade-offs or writing tests.",
-          "Assume the concept eliminates all software bugs."
-        ],
-        "correct": 0,
-        "explanation": "200 OK, 201 Created, 204 No Content, 400 Bad Request, 401 Unauthorized, 403 Forbidden, 404 Not Found, 409 Conflict, 500 Server Error."
+        "correct": 1,
+        "explanation": "201 communicates creation; Location can identify the new resource. 202 means processing has been accepted but is incomplete."
       }
     ],
     "useCase": "In a real software project, apply http status codes when the situation described in this lesson occurs. Example: 200 OK, 201 Created, 204 No Content, 400 Bad Request, 401 Unauthorized, 403 Forbidden, 404 Not Found, 409 Conflict, 500 Server Error.",
@@ -801,57 +654,46 @@ export const lessons: Lesson[] = [
     "simple": "Controllers map HTTP routes to application actions.",
     "details": "Use attributes such as ApiController, Route, HttpGet and HttpPost. Keep controllers thin and delegate business logic to services.",
     "analogy": "A receptionist routes a request to the right specialist.",
-    "code": "[ApiController]\n[Route(\"api/orders\")]\npublic class OrdersController : ControllerBase {\n  [HttpGet] public IActionResult List() => Ok();\n}",
+    "code": "[ApiController]\n[Route(\"api/orders\")]\npublic class OrdersController : ControllerBase\n{\n    [HttpGet]\n    public IActionResult List() => Ok();\n}",
     "interview": "Controllers receive requests, validate inputs, call services, and return HTTP responses.",
     "pitfall": "Avoid putting all business logic in controllers.",
     "questions": [
       {
         "id": "controllers-and-routing-1",
-        "prompt": "What best describes Controllers & Routing?",
+        "prompt": "Two endpoints and a background job must enforce the same order-pricing rule. Where should that rule live?",
         "options": [
-          "Mapping requests to actions",
-          "Replacing SQL indexes",
-          "Compiling TypeScript",
-          "Creating service workers"
+          "In an application or domain service called by all three.",
+          "In a controller helper called by the background job.",
+          "In route attributes applied to both controller actions.",
+          "In response DTO constructors shared by the endpoints."
         ],
         "correct": 0,
-        "explanation": "Controllers map HTTP routes to application actions."
+        "explanation": "Business rules need a reusable home independent of HTTP routing and response serialization."
       },
       {
         "id": "controllers-and-routing-2",
-        "prompt": "Which statement about Controllers & Routing is accurate?",
+        "prompt": "Which controller design is a common mistake?",
         "options": [
-          "It always makes code run faster.",
-          "It removes the need for testing.",
-          "It is only useful in frontend code.",
-          "Controllers map HTTP routes to application actions."
+          "Mapping service results to HTTP response codes.",
+          "Putting all business logic in controller actions.",
+          "Binding route values to action parameters.",
+          "Delegating order creation to an application service."
         ],
-        "correct": 3,
-        "explanation": "Use attributes such as ApiController, Route, HttpGet and HttpPost. Keep controllers thin and delegate business logic to services."
+        "correct": 1,
+        "explanation": "Controllers should coordinate HTTP concerns. Keeping business rules elsewhere supports reuse and focused tests."
       },
       {
         "id": "controllers-and-routing-4",
-        "prompt": "Which is a common mistake related to Controllers & Routing?",
+        "prompt": "Which request matches this action route?",
         "options": [
-          "Reviewing a change before merging.",
-          "Avoid putting all business logic in controllers.",
-          "Writing a clear test case.",
-          "Explaining trade-offs."
+          "GET /api/orders?id=42",
+          "POST /api/orders/42",
+          "GET /api/orders/42",
+          "GET /orders/api/42"
         ],
-        "correct": 1,
-        "explanation": "Avoid putting all business logic in controllers."
-      },
-      {
-        "id": "controllers-and-routing-application",
-        "prompt": "Which approach is most appropriate when applying Controllers & Routing in a project?",
-        "options": [
-          "Controllers receive requests, validate inputs, call services, and return HTTP responses.",
-          "Use it everywhere regardless of requirements.",
-          "Avoid reviewing trade-offs or writing tests.",
-          "Assume the concept eliminates all software bugs."
-        ],
-        "correct": 0,
-        "explanation": "Use attributes such as ApiController, Route, HttpGet and HttpPost. Keep controllers thin and delegate business logic to services."
+        "correct": 2,
+        "explanation": "The controller prefix and action template combine to api/orders/{id:int}; HttpGet restricts the method.",
+        "code": "[Route(\"api/orders\")]\npublic class OrdersController : ControllerBase\n{\n    [HttpGet(\"{id:int}\")]\n    public IActionResult Get(int id) => Ok(id);\n}"
       }
     ],
     "useCase": "In a real software project, apply controllers & routing when the situation described in this lesson occurs. Example: Use attributes such as ApiController, Route, HttpGet and HttpPost. Keep controllers thin and delegate business logic to services.",
@@ -872,51 +714,40 @@ export const lessons: Lesson[] = [
     "questions": [
       {
         "id": "middleware-1",
-        "prompt": "What best describes Middleware?",
+        "prompt": "An API uses endpoint authorization. Which order allows authorization to use the authenticated identity?",
         "options": [
-          "Class inheritance",
-          "SQL joins",
-          "Git branching",
-          "Request pipeline processing"
+          "Authorization, then authentication, then endpoint execution.",
+          "Authentication, then authorization, then endpoint execution.",
+          "Endpoint execution, then authentication, then authorization.",
+          "Authentication, then endpoint execution, then authorization."
         ],
-        "correct": 3,
-        "explanation": "Middleware components form the ASP.NET Core request/response pipeline."
+        "correct": 1,
+        "explanation": "Authentication populates the identity before authorization evaluates access to the selected endpoint."
       },
       {
         "id": "middleware-2",
-        "prompt": "Which statement about Middleware is accurate?",
+        "prompt": "Which middleware bug prevents downstream handlers from running?",
         "options": [
-          "It removes the need for testing.",
-          "It is only useful in frontend code.",
-          "Middleware components form the ASP.NET Core request/response pipeline.",
-          "It always makes code run faster."
+          "Calling next before adding a response timing header.",
+          "Reading the request path before calling next.",
+          "Returning without calling next when the request should continue.",
+          "Catching an exception thrown by downstream middleware."
         ],
         "correct": 2,
-        "explanation": "Middleware can handle errors, authentication, routing, authorization, and other cross-cutting concerns. Ordering matters."
+        "explanation": "Middleware may intentionally short-circuit, but accidentally omitting next stops requests from reaching later handlers."
       },
       {
         "id": "middleware-4",
-        "prompt": "Which is a common mistake related to Middleware?",
+        "prompt": "In what order are the messages written?",
         "options": [
-          "Authorization should not run before authentication.",
-          "Writing a clear test case.",
-          "Explaining trade-offs.",
-          "Reviewing a change before merging."
+          "Before, After, Endpoint",
+          "Endpoint, Before, After",
+          "After, Endpoint, Before",
+          "Before, Endpoint, After"
         ],
-        "correct": 0,
-        "explanation": "Authorization should not run before authentication."
-      },
-      {
-        "id": "middleware-application",
-        "prompt": "Which approach is most appropriate when applying Middleware in a project?",
-        "options": [
-          "Middleware runs around HTTP requests and responses; the order is important.",
-          "Use it everywhere regardless of requirements.",
-          "Avoid reviewing trade-offs or writing tests.",
-          "Assume the concept eliminates all software bugs."
-        ],
-        "correct": 0,
-        "explanation": "Middleware can handle errors, authentication, routing, authorization, and other cross-cutting concerns. Ordering matters."
+        "correct": 3,
+        "explanation": "Code before next runs on the incoming path; code after the await resumes when downstream processing returns.",
+        "code": "app.Use(async (context, next) =>\n{\n    Console.WriteLine(\"Before\");\n    await next(context);\n    Console.WriteLine(\"After\");\n});\napp.Run(context =>\n{\n    Console.WriteLine(\"Endpoint\");\n    return Task.CompletedTask;\n});"
       }
     ],
     "useCase": "In a real software project, apply middleware when the situation described in this lesson occurs. Example: Middleware can handle errors, authentication, routing, authorization, and other cross-cutting concerns. Ordering matters.",
@@ -931,57 +762,46 @@ export const lessons: Lesson[] = [
     "simple": "DTOs shape API input/output; validation checks whether input is acceptable.",
     "details": "Avoid exposing database entities directly. Use validation attributes or validators and return useful 400 responses for invalid input.",
     "analogy": "A form collects only the fields needed for one task.",
-    "code": "public record CreateOrderDto(\n  [property: Required] string CustomerName);",
+    "code": "public record CreateOrderDto(\n    [property: Required] string CustomerName\n);",
     "interview": "I use DTOs to control API contracts and validate input at the boundary.",
     "pitfall": "Never trust client-side validation alone.",
     "questions": [
       {
         "id": "validation-and-dtos-1",
-        "prompt": "What best describes Validation & DTOs?",
+        "prompt": "A public registration endpoint must not accept an administrator flag. Which request model is safest?",
         "options": [
-          "Caching passwords",
-          "Creating threads",
-          "Safe API contracts",
-          "Replacing authentication"
+          "The User entity with IsAdmin hidden in the browser.",
+          "The User entity with IsAdmin documented as read-only.",
+          "A dedicated DTO containing only allowed input fields.",
+          "A dictionary copied directly onto the persisted User."
         ],
         "correct": 2,
-        "explanation": "DTOs shape API input/output; validation checks whether input is acceptable."
+        "explanation": "A dedicated input model limits the accepted surface and avoids exposing privileged entity fields to binding."
       },
       {
         "id": "validation-and-dtos-2",
-        "prompt": "Which statement about Validation & DTOs is accurate?",
+        "prompt": "Which validation design leaves the API exposed?",
         "options": [
-          "It is only useful in frontend code.",
-          "DTOs shape API input/output; validation checks whether input is acceptable.",
-          "It always makes code run faster.",
-          "It removes the need for testing."
+          "Checking input constraints on the server boundary.",
+          "Checking business invariants in the domain operation.",
+          "Returning structured errors for invalid request data.",
+          "Checking required fields only in browser JavaScript."
         ],
-        "correct": 1,
-        "explanation": "Avoid exposing database entities directly. Use validation attributes or validators and return useful 400 responses for invalid input."
+        "correct": 3,
+        "explanation": "Clients can bypass browser validation by sending requests directly. Server validation remains necessary."
       },
       {
         "id": "validation-and-dtos-4",
-        "prompt": "Which is a common mistake related to Validation & DTOs?",
+        "prompt": "What does this validation attribute check?",
         "options": [
-          "Writing a clear test case.",
-          "Explaining trade-offs.",
-          "Reviewing a change before merging.",
-          "Never trust client-side validation alone."
-        ],
-        "correct": 3,
-        "explanation": "Never trust client-side validation alone."
-      },
-      {
-        "id": "validation-and-dtos-application",
-        "prompt": "Which approach is most appropriate when applying Validation & DTOs in a project?",
-        "options": [
-          "I use DTOs to control API contracts and validate input at the boundary.",
-          "Use it everywhere regardless of requirements.",
-          "Avoid reviewing trade-offs or writing tests.",
-          "Assume the concept eliminates all software bugs."
+          "That the bound CustomerName value is present and valid for Required.",
+          "That the customer exists in the database.",
+          "That the caller may create orders for this customer.",
+          "That every customer name is unique in the database."
         ],
         "correct": 0,
-        "explanation": "Avoid exposing database entities directly. Use validation attributes or validators and return useful 400 responses for invalid input."
+        "explanation": "Required checks a field-level constraint. Existence, authorization, and uniqueness need separate rules.",
+        "code": "public record CreateOrderDto(\n    [property: Required] string CustomerName\n);"
       }
     ],
     "useCase": "In a real software project, apply validation & dtos when the situation described in this lesson occurs. Example: Avoid exposing database entities directly. Use validation attributes or validators and return useful 400 responses for invalid input.",
@@ -996,57 +816,46 @@ export const lessons: Lesson[] = [
     "simple": "SELECT chooses columns; WHERE filters rows; ORDER BY sorts results.",
     "details": "Use parameters for user input. Explicit column selection often improves clarity.",
     "analogy": "Choosing products by category and sorting by price.",
-    "code": "SELECT Id, Name FROM Customers\nWHERE IsActive = 1 ORDER BY Name;",
+    "code": "SELECT Id, Name\nFROM Customers\nWHERE IsActive = 1\nORDER BY Name;",
     "interview": "I use WHERE to filter rows and ORDER BY to define result ordering.",
     "pitfall": "Do not concatenate untrusted values into SQL strings.",
     "questions": [
       {
         "id": "select,-where,-order-by-1",
-        "prompt": "What best describes SELECT, WHERE, ORDER BY?",
+        "prompt": "A report needs active customer names in alphabetical order. Which clauses have the correct roles?",
         "options": [
-          "Testing browser UI",
-          "Filtering and sorting rows",
-          "Creating an HTTP endpoint",
-          "Registering DI"
+          "SELECT filters rows, WHERE sorts, ORDER BY picks columns.",
+          "SELECT sorts rows, WHERE picks columns, ORDER BY filters.",
+          "SELECT groups rows, WHERE sorts, ORDER BY removes duplicates.",
+          "SELECT picks columns, WHERE filters rows, ORDER BY sorts."
         ],
-        "correct": 1,
-        "explanation": "SELECT chooses columns; WHERE filters rows; ORDER BY sorts results."
+        "correct": 3,
+        "explanation": "Projection, filtering, and ordering are separate parts of the query."
       },
       {
         "id": "select,-where,-order-by-2",
-        "prompt": "Which statement about SELECT, WHERE, ORDER BY is accurate?",
+        "prompt": "Which query construction introduces an injection risk?",
         "options": [
-          "SELECT chooses columns; WHERE filters rows; ORDER BY sorts results.",
-          "It always makes code run faster.",
-          "It removes the need for testing.",
-          "It is only useful in frontend code."
+          "Concatenating a submitted name into a SQL string.",
+          "Passing a submitted name as a SQL parameter.",
+          "Selecting named columns instead of using SELECT *.",
+          "Using a fixed ORDER BY clause in the query text."
         ],
         "correct": 0,
-        "explanation": "Use parameters for user input. Explicit column selection often improves clarity."
+        "explanation": "Untrusted input must be passed as data through parameters, not assembled into executable SQL text."
       },
       {
         "id": "select,-where,-order-by-4",
-        "prompt": "Which is a common mistake related to SELECT, WHERE, ORDER BY?",
+        "prompt": "Which ordering guarantees stable ordering of customers with the same Name?",
         "options": [
-          "Explaining trade-offs.",
-          "Reviewing a change before merging.",
-          "Do not concatenate untrusted values into SQL strings.",
-          "Writing a clear test case."
+          "`ORDER BY Name`",
+          "`ORDER BY Name, Id`",
+          "`ORDER BY IsActive`",
+          "No ORDER BY clause"
         ],
-        "correct": 2,
-        "explanation": "Do not concatenate untrusted values into SQL strings."
-      },
-      {
-        "id": "select,-where,-order-by-application",
-        "prompt": "Which approach is most appropriate when applying SELECT, WHERE, ORDER BY in a project?",
-        "options": [
-          "I use WHERE to filter rows and ORDER BY to define result ordering.",
-          "Use it everywhere regardless of requirements.",
-          "Avoid reviewing trade-offs or writing tests.",
-          "Assume the concept eliminates all software bugs."
-        ],
-        "correct": 0,
-        "explanation": "Use parameters for user input. Explicit column selection often improves clarity."
+        "correct": 1,
+        "explanation": "A unique tie-breaker such as Id makes the order deterministic when names match.",
+        "code": "SELECT Id, Name\nFROM Customers\nWHERE IsActive = 1;"
       }
     ],
     "useCase": "In a real software project, apply select, where, order by when the situation described in this lesson occurs. Example: Use parameters for user input. Explicit column selection often improves clarity.",
@@ -1061,57 +870,46 @@ export const lessons: Lesson[] = [
     "simple": "JOINs combine related rows from different tables.",
     "details": "INNER JOIN returns matching rows; LEFT JOIN keeps every row from the left table and adds matches from the right.",
     "analogy": "Matching orders to customers by customer ID.",
-    "code": "SELECT c.Name, o.Id\nFROM Customers c\nLEFT JOIN Orders o ON o.CustomerId = c.Id;",
+    "code": "SELECT c.Name, o.Id\nFROM Customers AS c\nLEFT JOIN Orders AS o\n    ON o.CustomerId = c.Id;",
     "interview": "I use LEFT JOIN when I need customers even if they have no orders.",
     "pitfall": "A WHERE condition on the right table can accidentally remove unmatched LEFT JOIN rows.",
     "questions": [
       {
         "id": "sql-joins-1",
-        "prompt": "What best describes SQL JOINs?",
+        "prompt": "A report must include customers who have no orders. Which join is appropriate?",
         "options": [
-          "Combining related tables",
-          "Retrying HTTP requests",
-          "Creating interfaces",
-          "Encrypting data"
+          "Customers LEFT JOIN Orders",
+          "Customers INNER JOIN Orders",
+          "Customers CROSS JOIN Orders",
+          "Orders LEFT JOIN Customers"
         ],
         "correct": 0,
-        "explanation": "JOINs combine related rows from different tables."
+        "explanation": "A LEFT JOIN preserves every row from Customers, including those with no matching order."
       },
       {
         "id": "sql-joins-2",
-        "prompt": "Which statement about SQL JOINs is accurate?",
+        "prompt": "Which change accidentally removes unmatched customers from a LEFT JOIN result?",
         "options": [
-          "It always makes code run faster.",
-          "It removes the need for testing.",
-          "It is only useful in frontend code.",
-          "JOINs combine related rows from different tables."
+          "Adding AND o.Status = 'Open' to the ON clause.",
+          "Filtering with WHERE o.Status = 'Open'.",
+          "Selecting o.Id alongside the customer name.",
+          "Keeping c.Id = o.CustomerId in the ON clause."
         ],
-        "correct": 3,
-        "explanation": "INNER JOIN returns matching rows; LEFT JOIN keeps every row from the left table and adds matches from the right."
+        "correct": 1,
+        "explanation": "For unmatched rows o.Status is NULL, so the WHERE predicate removes them. Put that matching condition in ON to preserve customers."
       },
       {
         "id": "sql-joins-4",
-        "prompt": "Which is a common mistake related to SQL JOINs?",
+        "prompt": "A customer has three matching orders. How many rows does this query return for that customer?",
         "options": [
-          "Reviewing a change before merging.",
-          "A WHERE condition on the right table can accidentally remove unmatched LEFT JOIN rows.",
-          "Writing a clear test case.",
-          "Explaining trade-offs."
+          "1",
+          "0",
+          "3",
+          "4"
         ],
-        "correct": 1,
-        "explanation": "A WHERE condition on the right table can accidentally remove unmatched LEFT JOIN rows."
-      },
-      {
-        "id": "sql-joins-application",
-        "prompt": "Which approach is most appropriate when applying SQL JOINs in a project?",
-        "options": [
-          "I use LEFT JOIN when I need customers even if they have no orders.",
-          "Use it everywhere regardless of requirements.",
-          "Avoid reviewing trade-offs or writing tests.",
-          "Assume the concept eliminates all software bugs."
-        ],
-        "correct": 0,
-        "explanation": "INNER JOIN returns matching rows; LEFT JOIN keeps every row from the left table and adds matches from the right."
+        "correct": 2,
+        "explanation": "The join produces a row for each matching order. It does not automatically group results by customer.",
+        "code": "SELECT c.Id, o.Id\nFROM Customers c\nLEFT JOIN Orders o ON o.CustomerId = c.Id;"
       }
     ],
     "useCase": "In a real software project, apply sql joins when the situation described in this lesson occurs. Example: INNER JOIN returns matching rows; LEFT JOIN keeps every row from the left table and adds matches from the right.",
@@ -1126,57 +924,46 @@ export const lessons: Lesson[] = [
     "simple": "An index is a data structure that can speed up lookups and sorting.",
     "details": "Indexes improve reads for suitable queries but cost storage and write overhead. Inspect execution plans before optimizing.",
     "analogy": "A book index helps find topics without reading every page.",
-    "code": "CREATE INDEX IX_Orders_CustomerId\nON Orders(CustomerId);",
+    "code": "CREATE INDEX IX_Orders_CustomerId\n    ON Orders(CustomerId);",
     "interview": "Indexes can improve query performance, but too many indexes slow writes.",
     "pitfall": "An index is not guaranteed to help every query.",
     "questions": [
       {
         "id": "indexes-1",
-        "prompt": "What best describes Indexes?",
+        "prompt": "A large Orders table is frequently searched by CustomerId. What is the best starting point?",
         "options": [
-          "Preventing every deadlock",
-          "Replacing backups",
-          "Enabling HTTP caching",
-          "Faster selective lookups"
+          "Add an index to every column before inspecting the plan.",
+          "Inspect the plan and evaluate an index on CustomerId.",
+          "Replace the primary key with CustomerId immediately.",
+          "Add an index on Total without checking the workload."
         ],
-        "correct": 3,
-        "explanation": "An index is a data structure that can speed up lookups and sorting."
+        "correct": 1,
+        "explanation": "Index selection should match predicates and workload, then be checked against actual execution plans and measurements."
       },
       {
         "id": "indexes-2",
-        "prompt": "Which statement about Indexes is accurate?",
+        "prompt": "Which indexing assumption is a mistake?",
         "options": [
-          "It removes the need for testing.",
-          "It is only useful in frontend code.",
-          "An index is a data structure that can speed up lookups and sorting.",
-          "It always makes code run faster."
+          "An index can increase the cost of inserts and updates.",
+          "A scan can be reasonable for a query returning most rows.",
+          "Adding an index will improve every query on the table.",
+          "Composite index key order can affect query usefulness."
         ],
         "correct": 2,
-        "explanation": "Indexes improve reads for suitable queries but cost storage and write overhead. Inspect execution plans before optimizing."
+        "explanation": "Indexes have maintenance and storage costs, and the optimizer may choose a scan when that is cheaper."
       },
       {
         "id": "indexes-4",
-        "prompt": "Which is a common mistake related to Indexes?",
+        "prompt": "Which filter most directly matches the leading key of this index?",
         "options": [
-          "An index is not guaranteed to help every query.",
-          "Writing a clear test case.",
-          "Explaining trade-offs.",
-          "Reviewing a change before merging."
+          "`WHERE CreatedAt = @CreatedAt`",
+          "`WHERE Total = @Total`",
+          "`WHERE Status = @Status`",
+          "`WHERE CustomerId = @CustomerId`"
         ],
-        "correct": 0,
-        "explanation": "An index is not guaranteed to help every query."
-      },
-      {
-        "id": "indexes-application",
-        "prompt": "Which approach is most appropriate when applying Indexes in a project?",
-        "options": [
-          "Indexes can improve query performance, but too many indexes slow writes.",
-          "Use it everywhere regardless of requirements.",
-          "Avoid reviewing trade-offs or writing tests.",
-          "Assume the concept eliminates all software bugs."
-        ],
-        "correct": 0,
-        "explanation": "Indexes improve reads for suitable queries but cost storage and write overhead. Inspect execution plans before optimizing."
+        "correct": 3,
+        "explanation": "CustomerId is the leading key. The index can also support CreatedAt filtering within a specified customer.",
+        "code": "CREATE INDEX IX_Orders_Customer_Created\nON Orders(CustomerId, CreatedAt);"
       }
     ],
     "useCase": "In a real software project, apply indexes when the situation described in this lesson occurs. Example: Indexes improve reads for suitable queries but cost storage and write overhead. Inspect execution plans before optimizing.",
@@ -1191,57 +978,46 @@ export const lessons: Lesson[] = [
     "simple": "A transaction groups database operations into an all-or-nothing unit.",
     "details": "ACID means Atomicity, Consistency, Isolation, Durability. Use transactions when multiple writes must succeed or fail together.",
     "analogy": "Moving money requires a debit and credit together.",
-    "code": "BEGIN TRANSACTION;\nUPDATE Accounts SET Balance = Balance - 10 WHERE Id = 1;\nUPDATE Accounts SET Balance = Balance + 10 WHERE Id = 2;\nCOMMIT;",
+    "code": "BEGIN TRANSACTION;\n\nUPDATE Accounts\nSET Balance = Balance - 10\nWHERE Id = 1;\n\nUPDATE Accounts\nSET Balance = Balance + 10\nWHERE Id = 2;\n\nCOMMIT;",
     "interview": "Transactions help preserve consistency across related database changes.",
     "pitfall": "A transaction does not replace validation or concurrency design.",
     "questions": [
       {
         "id": "transactions-1",
-        "prompt": "What best describes Transactions?",
+        "prompt": "A transfer debits one account and credits another. What keeps a failure between the writes from leaving only the debit?",
         "options": [
-          "Styling buttons",
-          "Sending notifications",
-          "Atomic multi-step updates",
-          "Compiling code"
+          "Execute each write in its own committed transaction.",
+          "Log the debit before independently saving the credit.",
+          "Execute both writes in one database transaction.",
+          "Retry the credit indefinitely after committing the debit."
         ],
         "correct": 2,
-        "explanation": "A transaction groups database operations into an all-or-nothing unit."
+        "explanation": "A single transaction can roll back both writes when the transfer fails before commit."
       },
       {
         "id": "transactions-2",
-        "prompt": "Which statement about Transactions is accurate?",
+        "prompt": "Which assumption about transactions is unsafe?",
         "options": [
-          "It is only useful in frontend code.",
-          "A transaction groups database operations into an all-or-nothing unit.",
-          "It always makes code run faster.",
-          "It removes the need for testing."
+          "A rollback can discard uncommitted changes.",
+          "Long transactions can increase lock contention.",
+          "Isolation level influences concurrent behavior.",
+          "A transaction automatically prevents every concurrent-update bug."
         ],
-        "correct": 1,
-        "explanation": "ACID means Atomicity, Consistency, Isolation, Durability. Use transactions when multiple writes must succeed or fail together."
+        "correct": 3,
+        "explanation": "Isolation, concurrency checks, and business validation still need deliberate design."
       },
       {
         "id": "transactions-4",
-        "prompt": "Which is a common mistake related to Transactions?",
+        "prompt": "If the second update fails, what must the application do to avoid committing only the first?",
         "options": [
-          "Writing a clear test case.",
-          "Explaining trade-offs.",
-          "Reviewing a change before merging.",
-          "A transaction does not replace validation or concurrency design."
-        ],
-        "correct": 3,
-        "explanation": "A transaction does not replace validation or concurrency design."
-      },
-      {
-        "id": "transactions-application",
-        "prompt": "Which approach is most appropriate when applying Transactions in a project?",
-        "options": [
-          "Transactions help preserve consistency across related database changes.",
-          "Use it everywhere regardless of requirements.",
-          "Avoid reviewing trade-offs or writing tests.",
-          "Assume the concept eliminates all software bugs."
+          "Roll back the transaction on failure.",
+          "Commit the transaction in a finally block.",
+          "Open a new transaction for the second update.",
+          "Return success before the second update completes."
         ],
         "correct": 0,
-        "explanation": "ACID means Atomicity, Consistency, Isolation, Durability. Use transactions when multiple writes must succeed or fail together."
+        "explanation": "The transaction must be rolled back if either required operation fails.",
+        "code": "BEGIN TRANSACTION;\nUPDATE Accounts SET Balance = Balance - 10 WHERE Id = 1;\nUPDATE Accounts SET Balance = Balance + 10 WHERE Id = 2;\nCOMMIT;"
       }
     ],
     "useCase": "In a real software project, apply transactions when the situation described in this lesson occurs. Example: ACID means Atomicity, Consistency, Isolation, Durability. Use transactions when multiple writes must succeed or fail together.",
@@ -1256,57 +1032,46 @@ export const lessons: Lesson[] = [
     "simple": "Parameterized queries keep SQL structure separate from user-supplied values.",
     "details": "Parameters prevent user input from becoming executable SQL and can help query plan reuse. Validate inputs as well.",
     "analogy": "Filling blanks on a fixed form rather than rewriting the form.",
-    "code": "const string sql = \"SELECT * FROM Users WHERE Id = @Id\";\nvar user = await connection.QueryFirstOrDefaultAsync<User>(sql, new { Id = id });",
+    "code": "const string sql = \"SELECT Id, Name FROM Users WHERE Id = @Id\";\n\nvar user = await connection.QueryFirstOrDefaultAsync<User>(\n    sql,\n    new { Id = id }\n);",
     "interview": "I use parameters instead of string concatenation to reduce SQL injection risk.",
     "pitfall": "Parameterization does not replace authorization checks.",
     "questions": [
       {
         "id": "parameterized-queries-1",
-        "prompt": "What best describes Parameterized Queries?",
+        "prompt": "A search endpoint accepts a customer name. Which approach keeps that value separate from SQL syntax?",
         "options": [
-          "Avoiding transactions",
-          "Separating SQL from values",
-          "Escaping all HTML automatically",
-          "Encrypting disk"
+          "Escape quotes and concatenate it into the statement.",
+          "Strip spaces and concatenate it into the statement.",
+          "URL-encode it before interpolating the SQL text.",
+          "Bind it to a parameter in a fixed SQL statement."
         ],
-        "correct": 1,
-        "explanation": "Parameterized queries keep SQL structure separate from user-supplied values."
+        "correct": 3,
+        "explanation": "Binding parameters passes values as data. String transformations are not a substitute for parameterization."
       },
       {
         "id": "parameterized-queries-2",
-        "prompt": "Which statement about Parameterized Queries is accurate?",
+        "prompt": "Which assumption leaves a parameterized endpoint insecure?",
         "options": [
-          "Parameterized queries keep SQL structure separate from user-supplied values.",
-          "It always makes code run faster.",
-          "It removes the need for testing.",
-          "It is only useful in frontend code."
+          "Knowing a valid order ID is enough permission to read it.",
+          "Parameter values should be handled as data.",
+          "Resource access requires an authorization check.",
+          "Dynamic column names need an explicit allowlist."
         ],
         "correct": 0,
-        "explanation": "Parameters prevent user input from becoming executable SQL and can help query plan reuse. Validate inputs as well."
+        "explanation": "Parameterization addresses injection through values, not whether the caller may access a particular resource."
       },
       {
         "id": "parameterized-queries-4",
-        "prompt": "Which is a common mistake related to Parameterized Queries?",
+        "prompt": "A user chooses the sort column. How should this query be built?",
         "options": [
-          "Explaining trade-offs.",
-          "Reviewing a change before merging.",
-          "Parameterization does not replace authorization checks.",
-          "Writing a clear test case."
+          "Bind the column name as a normal value parameter.",
+          "Map allowed sort keys to fixed column expressions.",
+          "Concatenate any value that contains no spaces.",
+          "HTML-encode the column name before concatenation."
         ],
-        "correct": 2,
-        "explanation": "Parameterization does not replace authorization checks."
-      },
-      {
-        "id": "parameterized-queries-application",
-        "prompt": "Which approach is most appropriate when applying Parameterized Queries in a project?",
-        "options": [
-          "I use parameters instead of string concatenation to reduce SQL injection risk.",
-          "Use it everywhere regardless of requirements.",
-          "Avoid reviewing trade-offs or writing tests.",
-          "Assume the concept eliminates all software bugs."
-        ],
-        "correct": 0,
-        "explanation": "Parameters prevent user input from becoming executable SQL and can help query plan reuse. Validate inputs as well."
+        "correct": 1,
+        "explanation": "SQL value parameters do not substitute identifiers. Choose dynamic identifiers from a trusted allowlist.",
+        "code": "SELECT Id, Name\nFROM Customers\nORDER BY /* selected column */;"
       }
     ],
     "useCase": "In a real software project, apply parameterized queries when the situation described in this lesson occurs. Example: Parameters prevent user input from becoming executable SQL and can help query plan reuse. Validate inputs as well.",
@@ -1321,57 +1086,46 @@ export const lessons: Lesson[] = [
     "simple": "Dapper is a lightweight object mapper for .NET.",
     "details": "It maps query results to C# objects while you write SQL explicitly. Useful for controlled queries and performance-sensitive access patterns.",
     "analogy": "A translator turns rows into C# objects without writing the SQL for you.",
-    "code": "var orders = await connection.QueryAsync<Order>(\n  \"SELECT Id, Total FROM Orders WHERE Total > @Min\",\n  new { Min = 100 });",
+    "code": "var orders = await connection.QueryAsync<Order>(\n    \"SELECT Id, Total FROM Orders WHERE Total > @Min\",\n    new { Min = 100 }\n);",
     "interview": "Dapper maps SQL query results to .NET objects while keeping SQL under developer control.",
     "pitfall": "Dapper is not a full change-tracking ORM like EF Core.",
     "questions": [
       {
         "id": "dapper-1",
-        "prompt": "What best describes Dapper?",
+        "prompt": "An application needs explicit SQL and lightweight result mapping. Which tool matches that requirement?",
         "options": [
-          "Mapping manual SQL results",
-          "Generating UI components",
-          "Replacing Git",
-          "Running Selenium tests"
+          "Dapper",
+          "EF Core change tracking",
+          "ASP.NET Core model binding",
+          "AutoMapper object mapping"
         ],
         "correct": 0,
-        "explanation": "Dapper is a lightweight object mapper for .NET."
+        "explanation": "Dapper executes SQL and maps result rows to objects without a full entity change-tracking system."
       },
       {
         "id": "dapper-2",
-        "prompt": "Which statement about Dapper is accurate?",
+        "prompt": "Which Dapper assumption can cause a lost update?",
         "options": [
-          "It always makes code run faster.",
-          "It removes the need for testing.",
-          "It is only useful in frontend code.",
-          "Dapper is a lightweight object mapper for .NET."
+          "QueryAsync can map result columns to object members.",
+          "Changing a mapped object automatically persists it.",
+          "A command can receive named parameters.",
+          "Commands can share an explicitly supplied transaction."
         ],
-        "correct": 3,
-        "explanation": "It maps query results to C# objects while you write SQL explicitly. Useful for controlled queries and performance-sensitive access patterns."
+        "correct": 1,
+        "explanation": "Dapper does not track changes for automatic persistence. Send an explicit UPDATE command."
       },
       {
         "id": "dapper-4",
-        "prompt": "Which is a common mistake related to Dapper?",
+        "prompt": "When multiple rows are returned, what does this call do?",
         "options": [
-          "Reviewing a change before merging.",
-          "Dapper is not a full change-tracking ORM like EF Core.",
-          "Writing a clear test case.",
-          "Explaining trade-offs."
+          "Returns the first Order and ignores later rows.",
+          "Throws because the result contains multiple rows.",
+          "Returns one mapped Order per result row.",
+          "Starts tracking each Order for a later SaveChanges."
         ],
-        "correct": 1,
-        "explanation": "Dapper is not a full change-tracking ORM like EF Core."
-      },
-      {
-        "id": "dapper-application",
-        "prompt": "Which approach is most appropriate when applying Dapper in a project?",
-        "options": [
-          "Dapper maps SQL query results to .NET objects while keeping SQL under developer control.",
-          "Use it everywhere regardless of requirements.",
-          "Avoid reviewing trade-offs or writing tests.",
-          "Assume the concept eliminates all software bugs."
-        ],
-        "correct": 0,
-        "explanation": "It maps query results to C# objects while you write SQL explicitly. Useful for controlled queries and performance-sensitive access patterns."
+        "correct": 2,
+        "explanation": "QueryAsync maps a sequence. QueryFirstOrDefault and QuerySingle have different cardinality semantics.",
+        "code": "var orders = await connection.QueryAsync<Order>(\n    \"SELECT Id, Total FROM Orders WHERE Total > @Min\",\n    new { Min = 100 }\n);"
       }
     ],
     "useCase": "In a real software project, apply dapper when the situation described in this lesson occurs. Example: It maps query results to C# objects while you write SQL explicitly. Useful for controlled queries and performance-sensitive access patterns.",
@@ -1386,57 +1140,46 @@ export const lessons: Lesson[] = [
     "simple": "EF Core is an ORM that maps .NET objects to relational data.",
     "details": "DbContext tracks entities, translates LINQ to SQL, and can manage migrations. Consider AsNoTracking for read-only queries.",
     "analogy": "A librarian manages both the catalog and updates for you.",
-    "code": "var orders = await db.Orders\n  .AsNoTracking()\n  .Where(x => x.Total > 100)\n  .ToListAsync();",
+    "code": "var orders = await db.Orders\n    .AsNoTracking()\n    .Where(x => x.Total > 100)\n    .ToListAsync();",
     "interview": "EF Core reduces repetitive data-access code and supports LINQ queries.",
     "pitfall": "Watch for N+1 queries and unintended tracking.",
     "questions": [
       {
         "id": "entity-framework-core-1",
-        "prompt": "What best describes Entity Framework Core?",
+        "prompt": "A read-only API returns a large list of orders without modifying them. Which option avoids unnecessary change tracking?",
         "options": [
-          "A browser test runner",
-          "A CI service",
-          "A CSS framework",
-          "ORM with change tracking"
+          "Call SaveChanges before enumerating the query.",
+          "Use AsNoTracking on the query.",
+          "Call AsEnumerable before applying every filter.",
+          "Load every entity with Find in a separate loop."
         ],
-        "correct": 3,
-        "explanation": "EF Core is an ORM that maps .NET objects to relational data."
+        "correct": 1,
+        "explanation": "AsNoTracking skips tracking overhead for results that will not be updated through that context."
       },
       {
         "id": "entity-framework-core-2",
-        "prompt": "Which statement about Entity Framework Core is accurate?",
+        "prompt": "Which access pattern commonly causes N+1 queries?",
         "options": [
-          "It removes the need for testing.",
-          "It is only useful in frontend code.",
-          "EF Core is an ORM that maps .NET objects to relational data.",
-          "It always makes code run faster."
+          "Projecting required related fields in a single SQL query.",
+          "Eager-loading a needed relationship in the initial query.",
+          "Loading a lazy navigation property inside a loop over results.",
+          "Filtering rows in the database before materializing them."
         ],
         "correct": 2,
-        "explanation": "DbContext tracks entities, translates LINQ to SQL, and can manage migrations. Consider AsNoTracking for read-only queries."
+        "explanation": "One initial query followed by one query per result is the N+1 pattern. Use suitable projection or eager loading."
       },
       {
         "id": "entity-framework-core-4",
-        "prompt": "Which is a common mistake related to Entity Framework Core?",
+        "prompt": "When is the database query normally executed?",
         "options": [
-          "Watch for N+1 queries and unintended tracking.",
-          "Writing a clear test case.",
-          "Explaining trade-offs.",
-          "Reviewing a change before merging."
+          "When Where is added to the query.",
+          "When AsNoTracking is added to the query.",
+          "When db.Orders is assigned to a variable.",
+          "When ToListAsync is awaited."
         ],
-        "correct": 0,
-        "explanation": "Watch for N+1 queries and unintended tracking."
-      },
-      {
-        "id": "entity-framework-core-application",
-        "prompt": "Which approach is most appropriate when applying Entity Framework Core in a project?",
-        "options": [
-          "EF Core reduces repetitive data-access code and supports LINQ queries.",
-          "Use it everywhere regardless of requirements.",
-          "Avoid reviewing trade-offs or writing tests.",
-          "Assume the concept eliminates all software bugs."
-        ],
-        "correct": 0,
-        "explanation": "DbContext tracks entities, translates LINQ to SQL, and can manage migrations. Consider AsNoTracking for read-only queries."
+        "correct": 3,
+        "explanation": "Building an IQueryable composes an expression. Materialization triggers execution.",
+        "code": "var query = db.Orders\n    .AsNoTracking()\n    .Where(order => order.Total > 100);\nvar orders = await query.ToListAsync();"
       }
     ],
     "useCase": "In a real software project, apply entity framework core when the situation described in this lesson occurs. Example: DbContext tracks entities, translates LINQ to SQL, and can manage migrations. Consider AsNoTracking for read-only queries.",
@@ -1451,57 +1194,46 @@ export const lessons: Lesson[] = [
     "simple": "A unit test checks a small behavior in isolation.",
     "details": "NUnit uses attributes such as Test and assertions to verify expected behavior. Tests should be deterministic and readable.",
     "analogy": "Checking one Lego brick before assembling the model.",
-    "code": "[Test]\npublic void Add_TwoNumbers_ReturnsSum() {\n  Assert.That(2 + 3, Is.EqualTo(5));\n}",
+    "code": "[Test]\npublic void Add_TwoNumbers_ReturnsSum()\n{\n    var calculator = new Calculator();\n\n    var result = calculator.Add(2, 3);\n\n    Assert.That(result, Is.EqualTo(5));\n}",
     "interview": "I write unit tests for business rules and edge cases to catch regressions early.",
     "pitfall": "Avoid relying on external network or current time in unit tests.",
     "questions": [
       {
         "id": "unit-tests-with-nunit-1",
-        "prompt": "What best describes Unit Tests with NUnit?",
+        "prompt": "A discount rule depends on today. How can its unit test be repeatable?",
         "options": [
-          "Querying SQL indexes",
-          "Handling CSS",
-          "Testing isolated behavior",
-          "Deploying production"
+          "Read the system date in both the test and the rule.",
+          "Skip assertions if the date changes during execution.",
+          "Inject a clock and fix its value in the test.",
+          "Use a real time service with retry logic in the test."
         ],
         "correct": 2,
-        "explanation": "A unit test checks a small behavior in isolation."
+        "explanation": "Controlling time avoids failures caused by the wall clock, time zone, or execution date."
       },
       {
         "id": "unit-tests-with-nunit-2",
-        "prompt": "Which statement about Unit Tests with NUnit is accurate?",
+        "prompt": "Which dependency makes a focused unit test unreliable?",
         "options": [
-          "It is only useful in frontend code.",
-          "A unit test checks a small behavior in isolation.",
-          "It always makes code run faster.",
-          "It removes the need for testing."
+          "A fake clock with a fixed timestamp.",
+          "An in-memory input constructed in the test.",
+          "A deterministic calculation with explicit arguments.",
+          "A live external API with changing responses."
         ],
-        "correct": 1,
-        "explanation": "NUnit uses attributes such as Test and assertions to verify expected behavior. Tests should be deterministic and readable."
+        "correct": 3,
+        "explanation": "A unit test should control its dependencies. Live services introduce availability and data variability."
       },
       {
         "id": "unit-tests-with-nunit-4",
-        "prompt": "Which is a common mistake related to Unit Tests with NUnit?",
+        "prompt": "What meaningful behavior should replace the expression under test?",
         "options": [
-          "Writing a clear test case.",
-          "Explaining trade-offs.",
-          "Reviewing a change before merging.",
-          "Avoid relying on external network or current time in unit tests."
-        ],
-        "correct": 3,
-        "explanation": "Avoid relying on external network or current time in unit tests."
-      },
-      {
-        "id": "unit-tests-with-nunit-application",
-        "prompt": "Which approach is most appropriate when applying Unit Tests with NUnit in a project?",
-        "options": [
-          "I write unit tests for business rules and edge cases to catch regressions early.",
-          "Use it everywhere regardless of requirements.",
-          "Avoid reviewing trade-offs or writing tests.",
-          "Assume the concept eliminates all software bugs."
+          "Call the production calculator.Add(2, 3).",
+          "Compare the constant 5 with the constant 5.",
+          "Assert that the test method completed.",
+          "Repeat 2 + 3 in a second local variable."
         ],
         "correct": 0,
-        "explanation": "NUnit uses attributes such as Test and assertions to verify expected behavior. Tests should be deterministic and readable."
+        "explanation": "A useful test exercises production behavior and checks the result, rather than only verifying the language arithmetic.",
+        "code": "[Test]\npublic void Add_TwoNumbers_ReturnsSum()\n{\n    Assert.That(2 + 3, Is.EqualTo(5));\n}"
       }
     ],
     "useCase": "In a real software project, apply unit tests with nunit when the situation described in this lesson occurs. Example: NUnit uses attributes such as Test and assertions to verify expected behavior. Tests should be deterministic and readable.",
@@ -1522,51 +1254,40 @@ export const lessons: Lesson[] = [
     "questions": [
       {
         "id": "mocking-dependencies-1",
-        "prompt": "What best describes Mocking Dependencies?",
+        "prompt": "A notification service should send exactly one message after a valid order. What is a useful test double?",
         "options": [
-          "Avoiding interfaces",
-          "Replacing external collaborators",
-          "Converting SQL to LINQ",
-          "Increasing HTTP latency"
+          "The real SMTP server with a shared test mailbox.",
+          "A mock of every private method in the order service.",
+          "A sender returning success without recording any calls.",
+          "A fake sender recording messages without network calls."
         ],
-        "correct": 1,
-        "explanation": "Mocks and fakes replace dependencies during tests."
+        "correct": 3,
+        "explanation": "A recording fake lets the test verify the observable interaction while avoiding an external service."
       },
       {
         "id": "mocking-dependencies-2",
-        "prompt": "Which statement about Mocking Dependencies is accurate?",
+        "prompt": "Which test is most tightly coupled to implementation details?",
         "options": [
-          "Mocks and fakes replace dependencies during tests.",
-          "It always makes code run faster.",
-          "It removes the need for testing.",
-          "It is only useful in frontend code."
+          "Asserting every internal helper invocation in exact order.",
+          "Asserting that one required notification was sent.",
+          "Asserting that an invalid order sends no notification.",
+          "Asserting the documented result of a valid order."
         ],
         "correct": 0,
-        "explanation": "They let you control behavior and verify interactions without hitting real external services. Test outcomes rather than implementation details where possible."
+        "explanation": "Tests that depend on incidental internal calls can break during refactors that preserve observable behavior."
       },
       {
         "id": "mocking-dependencies-4",
-        "prompt": "Which is a common mistake related to Mocking Dependencies?",
+        "prompt": "What does this assertion verify?",
         "options": [
-          "Explaining trade-offs.",
-          "Reviewing a change before merging.",
-          "Excessive mocking can make tests brittle.",
-          "Writing a clear test case."
+          "The email reached a real recipient inbox.",
+          "The sender recorded a send during the operation.",
+          "The service retried after a transient timeout.",
+          "The message contained the correct subject."
         ],
-        "correct": 2,
-        "explanation": "Excessive mocking can make tests brittle."
-      },
-      {
-        "id": "mocking-dependencies-application",
-        "prompt": "Which approach is most appropriate when applying Mocking Dependencies in a project?",
-        "options": [
-          "Mocking lets me test service logic without sending real emails or calling external APIs.",
-          "Use it everywhere regardless of requirements.",
-          "Avoid reviewing trade-offs or writing tests.",
-          "Assume the concept eliminates all software bugs."
-        ],
-        "correct": 0,
-        "explanation": "They let you control behavior and verify interactions without hitting real external services. Test outcomes rather than implementation details where possible."
+        "correct": 1,
+        "explanation": "The boolean only shows that the fake recorded sending. Delivery, payload, and retry behavior require other checks.",
+        "code": "var sender = new FakeSender();\nvar service = new Alerts(sender);\nawait service.Send(\"Hi\");\nAssert.That(sender.Sent, Is.True);"
       }
     ],
     "useCase": "In a real software project, apply mocking dependencies when the situation described in this lesson occurs. Example: They let you control behavior and verify interactions without hitting real external services. Test outcomes rather than implementation details where possible.",
@@ -1587,51 +1308,39 @@ export const lessons: Lesson[] = [
     "questions": [
       {
         "id": "selenium-and-ui-testing-1",
-        "prompt": "What best describes Selenium & UI Testing?",
+        "prompt": "A page renders a button after an asynchronous request. What wait strategy is most reliable?",
         "options": [
-          "Browser automation",
-          "SQL migrations",
-          "Dependency registration",
-          "Object serialization"
+          "Wait until the button is present and clickable.",
+          "Sleep for a fixed two seconds before every click.",
+          "Retry the whole test until it eventually passes.",
+          "Increase every test sleep to the slowest observed time."
         ],
         "correct": 0,
-        "explanation": "Selenium automates interactions with a web browser."
+        "explanation": "Condition-based waits adapt to actual readiness and avoid arbitrary fixed delays."
       },
       {
         "id": "selenium-and-ui-testing-2",
-        "prompt": "Which statement about Selenium & UI Testing is accurate?",
+        "prompt": "Which testing strategy creates avoidable fragility?",
         "options": [
-          "It always makes code run faster.",
-          "It removes the need for testing.",
-          "It is only useful in frontend code.",
-          "Selenium automates interactions with a web browser."
+          "Testing a critical checkout flow through the browser.",
+          "Testing every pricing edge case through the browser.",
+          "Testing pricing edge cases in focused unit tests.",
+          "Using a small integration test for database behavior."
         ],
-        "correct": 3,
-        "explanation": "Use it for end-to-end browser workflows, not every small business rule. Prefer stable selectors and wait for conditions rather than fixed sleeps."
+        "correct": 1,
+        "explanation": "Pure business rules are usually faster and more stable to test below the UI; keep browser tests focused on end-to-end behavior."
       },
       {
         "id": "selenium-and-ui-testing-4",
-        "prompt": "Which is a common mistake related to Selenium & UI Testing?",
+        "prompt": "Which locator is least coupled to layout and presentation when the team maintains it as a test contract?",
         "options": [
-          "Reviewing a change before merging.",
-          "UI tests are slower and more fragile than unit tests.",
-          "Writing a clear test case.",
-          "Explaining trade-offs."
+          "An absolute XPath through every ancestor element.",
+          "The button position among all buttons on the page.",
+          "A stable data-testid on the login button.",
+          "A CSS class generated from the current style build."
         ],
-        "correct": 1,
-        "explanation": "UI tests are slower and more fragile than unit tests."
-      },
-      {
-        "id": "selenium-and-ui-testing-application",
-        "prompt": "Which approach is most appropriate when applying Selenium & UI Testing in a project?",
-        "options": [
-          "Selenium tests user-facing browser flows; NUnit can run the test cases.",
-          "Use it everywhere regardless of requirements.",
-          "Avoid reviewing trade-offs or writing tests.",
-          "Assume the concept eliminates all software bugs."
-        ],
-        "correct": 0,
-        "explanation": "Use it for end-to-end browser workflows, not every small business rule. Prefer stable selectors and wait for conditions rather than fixed sleeps."
+        "correct": 2,
+        "explanation": "A stable semantic test contract survives many layout and styling changes better than structural or generated selectors."
       }
     ],
     "useCase": "In a real software project, apply selenium & ui testing when the situation described in this lesson occurs. Example: Use it for end-to-end browser workflows, not every small business rule. Prefer stable selectors and wait for conditions rather than fixed sleeps.",
@@ -1652,51 +1361,40 @@ export const lessons: Lesson[] = [
     "questions": [
       {
         "id": "git-workflow-1",
-        "prompt": "What best describes Git Workflow?",
+        "prompt": "A pull request needs one small correction while preserving review history. What is a reasonable workflow?",
         "options": [
-          "SQL query execution",
-          "HTTP routing",
-          "C# reflection",
-          "Version control collaboration"
+          "Edit the main branch directly and close the pull request.",
+          "Commit the correction on its feature branch and push.",
+          "Delete the branch and recreate all commits manually.",
+          "Copy the fix into an unrelated feature pull request."
         ],
-        "correct": 3,
-        "explanation": "Git tracks code changes and supports collaborative development."
+        "correct": 1,
+        "explanation": "An additional focused commit updates the existing pull request and keeps the correction reviewable."
       },
       {
         "id": "git-workflow-2",
-        "prompt": "Which statement about Git Workflow is accurate?",
+        "prompt": "A secret was pushed to a private repository. What must happen first?",
         "options": [
-          "It removes the need for testing.",
-          "It is only useful in frontend code.",
-          "Git tracks code changes and supports collaborative development.",
-          "It always makes code run faster."
+          "Delete the line in the next commit only.",
+          "Add the file to .gitignore and keep the credential.",
+          "Revoke or rotate the exposed credential.",
+          "Rename the file and assume history is inaccessible."
         ],
         "correct": 2,
-        "explanation": "Typical workflow: create a branch, commit small changes, open a pull request, review, and merge."
+        "explanation": "Treat the credential as exposed. Revocation or rotation is necessary; removing history may be an additional cleanup step."
       },
       {
         "id": "git-workflow-4",
-        "prompt": "Which is a common mistake related to Git Workflow?",
+        "prompt": "What does this command create?",
         "options": [
-          "Never commit secrets or credentials.",
-          "Writing a clear test case.",
-          "Explaining trade-offs.",
-          "Reviewing a change before merging."
+          "A new remote branch without a local branch.",
+          "A commit containing the current working tree.",
+          "A pull request against the default branch.",
+          "A new local branch and switches to it."
         ],
-        "correct": 0,
-        "explanation": "Never commit secrets or credentials."
-      },
-      {
-        "id": "git-workflow-application",
-        "prompt": "Which approach is most appropriate when applying Git Workflow in a project?",
-        "options": [
-          "I use feature branches and pull requests to keep changes reviewable.",
-          "Use it everywhere regardless of requirements.",
-          "Avoid reviewing trade-offs or writing tests.",
-          "Assume the concept eliminates all software bugs."
-        ],
-        "correct": 0,
-        "explanation": "Typical workflow: create a branch, commit small changes, open a pull request, review, and merge."
+        "correct": 3,
+        "explanation": "checkout -b creates and checks out a local branch. Publishing and opening a pull request are separate operations.",
+        "code": "git checkout -b feature/alerts"
       }
     ],
     "useCase": "In a real software project, apply git workflow when the situation described in this lesson occurs. Example: Typical workflow: create a branch, commit small changes, open a pull request, review, and merge.",
@@ -1711,57 +1409,46 @@ export const lessons: Lesson[] = [
     "simple": "CI automatically builds and tests changes; CD automates delivery or deployment.",
     "details": "Azure DevOps provides pipelines, repositories, boards, and artifacts. A pipeline can restore, build, test, and publish a .NET application.",
     "analogy": "An assembly line checks each product before shipping.",
-    "code": "steps:\n- script: dotnet restore\n- script: dotnet build --no-restore\n- script: dotnet test --no-build",
+    "code": "steps:\n  - script: dotnet restore\n  - script: dotnet build --no-restore\n  - script: dotnet test --no-build",
     "interview": "CI/CD reduces manual deployment mistakes and catches regressions early.",
     "pitfall": "A green pipeline does not guarantee bug-free software.",
     "questions": [
       {
         "id": "ci-cd-and-azure-devops-1",
-        "prompt": "What best describes CI/CD & Azure DevOps?",
+        "prompt": "A team wants the deployed package to match what was tested. Which approach supports that?",
         "options": [
-          "SQL constraint",
-          "An HTTP method",
-          "Automated build/test/deploy",
-          "A C# collection"
+          "Rebuild from the branch separately in every environment.",
+          "Deploy the newest local developer build after CI passes.",
+          "Build once, test it, and promote that versioned artifact.",
+          "Copy source files onto production after running unit tests."
         ],
         "correct": 2,
-        "explanation": "CI automatically builds and tests changes; CD automates delivery or deployment."
+        "explanation": "Promoting the tested artifact avoids introducing differences through separate builds or local state."
       },
       {
         "id": "ci-cd-and-azure-devops-2",
-        "prompt": "Which statement about CI/CD & Azure DevOps is accurate?",
+        "prompt": "Which conclusion overstates a green pipeline?",
         "options": [
-          "It is only useful in frontend code.",
-          "CI automatically builds and tests changes; CD automates delivery or deployment.",
-          "It always makes code run faster.",
-          "It removes the need for testing."
+          "The configured automated checks passed.",
+          "Coverage depends on which checks were configured.",
+          "Production monitoring still provides useful feedback.",
+          "The release cannot contain production defects."
         ],
-        "correct": 1,
-        "explanation": "Azure DevOps provides pipelines, repositories, boards, and artifacts. A pipeline can restore, build, test, and publish a .NET application."
+        "correct": 3,
+        "explanation": "A pipeline provides evidence from its configured checks; it cannot prove the absence of bugs."
       },
       {
         "id": "ci-cd-and-azure-devops-4",
-        "prompt": "Which is a common mistake related to CI/CD & Azure DevOps?",
+        "prompt": "What prerequisite must hold for the final step?",
         "options": [
-          "Writing a clear test case.",
-          "Explaining trade-offs.",
-          "Reviewing a change before merging.",
-          "A green pipeline does not guarantee bug-free software."
-        ],
-        "correct": 3,
-        "explanation": "A green pipeline does not guarantee bug-free software."
-      },
-      {
-        "id": "ci-cd-and-azure-devops-application",
-        "prompt": "Which approach is most appropriate when applying CI/CD & Azure DevOps in a project?",
-        "options": [
-          "CI/CD reduces manual deployment mistakes and catches regressions early.",
-          "Use it everywhere regardless of requirements.",
-          "Avoid reviewing trade-offs or writing tests.",
-          "Assume the concept eliminates all software bugs."
+          "The previous build produced the test binaries.",
+          "The repository contains no test projects.",
+          "The restore step also executed all tests.",
+          "The deployment has already completed."
         ],
         "correct": 0,
-        "explanation": "Azure DevOps provides pipelines, repositories, boards, and artifacts. A pipeline can restore, build, test, and publish a .NET application."
+        "explanation": "--no-build tells dotnet test to use existing build output. The preceding build must include the test projects.",
+        "code": "steps:\n  - script: dotnet restore\n  - script: dotnet build --no-restore\n  - script: dotnet test --no-build"
       }
     ],
     "useCase": "In a real software project, apply ci/cd & azure devops when the situation described in this lesson occurs. Example: Azure DevOps provides pipelines, repositories, boards, and artifacts. A pipeline can restore, build, test, and publish a .NET application.",
@@ -1782,51 +1469,40 @@ export const lessons: Lesson[] = [
     "questions": [
       {
         "id": "idempotency-and-retries-1",
-        "prompt": "What best describes Idempotency & Retries?",
+        "prompt": "A payment request times out after the server may have charged the card. What makes a retry safer?",
         "options": [
-          "Replacing authorization",
-          "Safe repeated operations",
-          "Always creating a new record",
-          "Avoiding monitoring"
+          "Generate a new operation key for each retry.",
+          "Send the retry to a different server without shared state.",
+          "Retry immediately until any request returns success.",
+          "Reuse the operation key with server-side deduplication."
         ],
-        "correct": 1,
-        "explanation": "An idempotent operation can be repeated without changing the final intended result."
+        "correct": 3,
+        "explanation": "The same key must identify the logical operation, and the server must persistently handle duplicates."
       },
       {
         "id": "idempotency-and-retries-2",
-        "prompt": "Which statement about Idempotency & Retries is accurate?",
+        "prompt": "Which retry policy risks duplicate side effects?",
         "options": [
-          "An idempotent operation can be repeated without changing the final intended result.",
-          "It always makes code run faster.",
-          "It removes the need for testing.",
-          "It is only useful in frontend code."
+          "Retrying a payment POST without deduplication after a timeout.",
+          "Reusing an idempotency key for the same payment attempt.",
+          "Limiting retries for transient network failures.",
+          "Applying backoff with jitter between transient retries."
         ],
         "correct": 0,
-        "explanation": "Retries help with transient failures but need backoff, timeouts, and duplicate protection. Avoid blindly retrying non-idempotent operations."
+        "explanation": "A timeout does not prove the first request failed. Retrying a non-idempotent operation can repeat its side effects."
       },
       {
         "id": "idempotency-and-retries-4",
-        "prompt": "Which is a common mistake related to Idempotency & Retries?",
+        "prompt": "What server behavior is needed for this header to protect a retry?",
         "options": [
-          "Explaining trade-offs.",
-          "Reviewing a change before merging.",
-          "Never retry forever or duplicate payments accidentally.",
-          "Writing a clear test case."
+          "Ignore repeated keys and execute a new payment each time.",
+          "Recognize the same key and reuse the recorded operation result.",
+          "Use the key only to choose the response content type.",
+          "Replace the key with a random value before processing."
         ],
-        "correct": 2,
-        "explanation": "Never retry forever or duplicate payments accidentally."
-      },
-      {
-        "id": "idempotency-and-retries-application",
-        "prompt": "Which approach is most appropriate when applying Idempotency & Retries in a project?",
-        "options": [
-          "For reliable automation, I use timeouts, bounded retries, logging, and idempotency where needed.",
-          "Use it everywhere regardless of requirements.",
-          "Avoid reviewing trade-offs or writing tests.",
-          "Assume the concept eliminates all software bugs."
-        ],
-        "correct": 0,
-        "explanation": "Retries help with transient failures but need backoff, timeouts, and duplicate protection. Avoid blindly retrying non-idempotent operations."
+        "correct": 1,
+        "explanation": "A header alone provides no guarantee. The server needs concurrency-safe deduplication and a policy for repeated or conflicting payloads.",
+        "code": "request.Headers.Add(\"Idempotency-Key\", operationId);"
       }
     ],
     "useCase": "In a real software project, apply idempotency & retries when the situation described in this lesson occurs. Example: Retries help with transient failures but need backoff, timeouts, and duplicate protection. Avoid blindly retrying non-idempotent operations.",
@@ -1847,51 +1523,40 @@ export const lessons: Lesson[] = [
     "questions": [
       {
         "id": "security-and-least-privilege-1",
-        "prompt": "What best describes Security & Least Privilege?",
+        "prompt": "A reporting worker only reads aggregated sales data. Which database permissions fit least privilege?",
         "options": [
-          "Minimal necessary permissions",
-          "Making all users administrators",
-          "Logging passwords",
-          "Disabling validation"
+          "Read access to the required reporting views.",
+          "Read access to all customer and payment tables.",
+          "Write access to every table used by the application.",
+          "Schema-owner access limited by a naming convention."
         ],
         "correct": 0,
-        "explanation": "Least privilege gives users and services only the permissions they need."
+        "explanation": "Grant only the operations and resources needed for the worker responsibility."
       },
       {
         "id": "security-and-least-privilege-2",
-        "prompt": "Which statement about Security & Least Privilege is accurate?",
+        "prompt": "Which authorization shortcut violates least privilege?",
         "options": [
-          "It always makes code run faster.",
-          "It removes the need for testing.",
-          "It is only useful in frontend code.",
-          "Least privilege gives users and services only the permissions they need."
+          "Giving report readers access only to reporting endpoints.",
+          "Granting every signed-in user the administrator role.",
+          "Checking resource ownership before returning an order.",
+          "Using a separate restricted identity for a background job."
         ],
-        "correct": 3,
-        "explanation": "Validate input, authorize each operation, store secrets securely, and avoid leaking sensitive data in logs or error responses."
+        "correct": 1,
+        "explanation": "Being authenticated does not justify broad permissions unrelated to the user responsibilities."
       },
       {
         "id": "security-and-least-privilege-4",
-        "prompt": "Which is a common mistake related to Security & Least Privilege?",
+        "prompt": "What does this attribute require in a configured ASP.NET Core app?",
         "options": [
-          "Reviewing a change before merging.",
-          "Authentication is not the same as authorization.",
-          "Writing a clear test case.",
-          "Explaining trade-offs."
+          "Any authenticated user regardless of their roles.",
+          "Any user whose display name contains Analyst.",
+          "An authenticated user satisfying the Analyst role requirement.",
+          "A user with read access to every database table."
         ],
-        "correct": 1,
-        "explanation": "Authentication is not the same as authorization."
-      },
-      {
-        "id": "security-and-least-privilege-application",
-        "prompt": "Which approach is most appropriate when applying Security & Least Privilege in a project?",
-        "options": [
-          "In risk-related systems, I prioritize access control, auditability, and safe error handling.",
-          "Use it everywhere regardless of requirements.",
-          "Avoid reviewing trade-offs or writing tests.",
-          "Assume the concept eliminates all software bugs."
-        ],
-        "correct": 0,
-        "explanation": "Validate input, authorize each operation, store secrets securely, and avoid leaking sensitive data in logs or error responses."
+        "correct": 2,
+        "explanation": "Role authorization checks the principal against the required role; it does not grant database permissions.",
+        "code": "[Authorize(Roles = \"Analyst\")]\n[HttpGet(\"risk-report\")]\npublic IActionResult Report() => Ok();"
       }
     ],
     "useCase": "In a real software project, apply security & least privilege when the situation described in this lesson occurs. Example: Validate input, authorize each operation, store secrets securely, and avoid leaking sensitive data in logs or error responses.",
@@ -1912,51 +1577,39 @@ export const lessons: Lesson[] = [
     "questions": [
       {
         "id": "clear-technical-answers-1",
-        "prompt": "What best describes Clear Technical Answers?",
+        "prompt": "An interviewer asks about a tool you have studied but never used professionally. Which response is strongest?",
         "options": [
-          "Memorizing jargon only",
-          "Guessing confidently",
-          "Changing the subject",
-          "Definition → benefit → example"
+          "Describe a production rollout as if you personally delivered it.",
+          "State that limit, explain its purpose, and discuss a plausible use case.",
+          "List its terminology without connecting it to a use case.",
+          "Avoid the question and describe an unrelated project instead."
         ],
-        "correct": 3,
-        "explanation": "A strong interview answer defines a concept, explains its benefit, and gives an example."
+        "correct": 1,
+        "explanation": "An accurate answer distinguishes experience from understanding and demonstrates reasoning with a concrete example."
       },
       {
         "id": "clear-technical-answers-2",
-        "prompt": "Which statement about Clear Technical Answers is accurate?",
+        "prompt": "Which answer is hardest to assess technically?",
         "options": [
-          "It removes the need for testing.",
-          "It is only useful in frontend code.",
-          "A strong interview answer defines a concept, explains its benefit, and gives an example.",
-          "It always makes code run faster."
+          "A definition followed by a specific use case.",
+          "A concise explanation that identifies its assumptions.",
+          "A long list of claims without a concrete example or trade-off.",
+          "A partial answer that names what remains uncertain."
         ],
         "correct": 2,
-        "explanation": "Use simple accurate sentences. If unsure, state what you know, reason aloud, and avoid inventing experience."
+        "explanation": "Unsupported claims make it difficult to assess understanding. Explain the concept, application, and relevant limits."
       },
       {
         "id": "clear-technical-answers-4",
-        "prompt": "Which is a common mistake related to Clear Technical Answers?",
+        "prompt": "Which explanation best communicates a decision?",
         "options": [
-          "Avoid long unstructured sentences and unsupported claims.",
-          "Writing a clear test case.",
-          "Explaining trade-offs.",
-          "Reviewing a change before merging."
+          "We chose a queue because distributed systems need messaging.",
+          "We chose a queue because the team recognizes the product name.",
+          "We chose a queue because it was present in a sample project.",
+          "We chose a queue to absorb bursts, accepting eventual processing."
         ],
-        "correct": 0,
-        "explanation": "Avoid long unstructured sentences and unsupported claims."
-      },
-      {
-        "id": "clear-technical-answers-application",
-        "prompt": "Which approach is most appropriate when applying Clear Technical Answers in a project?",
-        "options": [
-          "I have not used that tool professionally yet, but I understand its purpose and can explain how I would learn it.",
-          "Use it everywhere regardless of requirements.",
-          "Avoid reviewing trade-offs or writing tests.",
-          "Assume the concept eliminates all software bugs."
-        ],
-        "correct": 0,
-        "explanation": "Use simple accurate sentences. If unsure, state what you know, reason aloud, and avoid inventing experience."
+        "correct": 3,
+        "explanation": "The answer connects a requirement to a benefit and identifies the trade-off."
       }
     ],
     "useCase": "In a real software project, apply clear technical answers when the situation described in this lesson occurs. Example: Use simple accurate sentences. If unsure, state what you know, reason aloud, and avoid inventing experience.",
@@ -1977,15 +1630,40 @@ export const lessons: Lesson[] = [
     "questions": [
       {
         "id": "security-application",
-        "prompt": "Which approach is most appropriate when applying Authentication vs Authorization in a project?",
+        "prompt": "A valid token identifies Alice, but the order belongs to Bob. Which check is still required?",
         "options": [
-          "Authentication answers who you are; authorization answers what you can do.",
-          "Use it everywhere regardless of requirements.",
-          "Avoid reviewing trade-offs or writing tests.",
-          "Assume the concept eliminates all software bugs."
+          "Whether Alice can parse the order identifier.",
+          "Whether the request uses the GET HTTP method.",
+          "Whether Alice is authorized to read that order.",
+          "Whether the response DTO has public properties."
+        ],
+        "correct": 2,
+        "explanation": "Authentication establishes identity. Authorization must evaluate access to the requested resource."
+      },
+      {
+        "id": "security-practice-2",
+        "prompt": "Which endpoint design confuses authentication with authorization?",
+        "options": [
+          "Checking ownership after validating a user token.",
+          "Evaluating a policy for an authenticated user.",
+          "Rejecting an expired token before checking permissions.",
+          "Allowing any valid token to read every customer account."
+        ],
+        "correct": 3,
+        "explanation": "A valid token is not permission to access every resource. Ownership or policy checks are still needed."
+      },
+      {
+        "id": "security-practice-3",
+        "prompt": "What decision does the policy represent?",
+        "options": [
+          "Whether the caller is permitted to edit orders.",
+          "How the caller token is cryptographically signed.",
+          "How the caller password is stored in the database.",
+          "Which serializer writes the order response."
         ],
         "correct": 0,
-        "explanation": "Protect endpoints with identity verification and role/policy checks."
+        "explanation": "An authorization policy specifies access requirements. Token validation and password storage are authentication concerns.",
+        "code": "[Authorize(Policy = \"CanEditOrders\")]"
       }
     ],
     "useCase": "In a real software project, apply authentication vs authorization when the situation described in this lesson occurs. Example: Protect endpoints with identity verification and role/policy checks.",
@@ -2006,15 +1684,40 @@ export const lessons: Lesson[] = [
     "questions": [
       {
         "id": "algorithms-application",
-        "prompt": "Which approach is most appropriate when applying Big O and Data Structures in a project?",
+        "prompt": "A service performs many membership checks against a large, mostly unchanged set. Which structure is a good candidate?",
         "options": [
-          "I compare complexity and choose structures based on expected operations.",
-          "Use it everywhere regardless of requirements.",
-          "Avoid reviewing trade-offs or writing tests.",
-          "Assume the concept eliminates all software bugs."
+          "A List scanned from the start for every lookup.",
+          "A Queue dequeued until the target is found.",
+          "A Stack popped until the target is found.",
+          "A HashSet with suitable equality and hashing."
+        ],
+        "correct": 3,
+        "explanation": "A HashSet provides average constant-time membership checks, with memory and hashing trade-offs."
+      },
+      {
+        "id": "algorithms-practice-2",
+        "prompt": "Which performance conclusion misuses Big O?",
+        "options": [
+          "An O(n) implementation must be faster for every input size.",
+          "An O(n²) algorithm may be acceptable for very small inputs.",
+          "Allocation and constant factors can affect observed speed.",
+          "Representative benchmarks can inform a structure choice."
         ],
         "correct": 0,
-        "explanation": "Understand O(1), O(log n), O(n), O(n log n), and O(n²)."
+        "explanation": "Asymptotic growth does not predict every small-input runtime. Constants, allocation, and workload matter."
+      },
+      {
+        "id": "algorithms-practice-3",
+        "prompt": "For a List<int> with n elements, what is the worst-case time complexity?",
+        "options": [
+          "O(1)",
+          "O(n)",
+          "O(log n)",
+          "O(n log n)"
+        ],
+        "correct": 1,
+        "explanation": "List membership can require examining every element. A HashSet has different expected lookup behavior.",
+        "code": "bool exists = values.Contains(target);"
       }
     ],
     "useCase": "In a real software project, apply big o and data structures when the situation described in this lesson occurs. Example: Understand O(1), O(log n), O(n), O(n log n), and O(n²).",
@@ -2029,21 +1732,46 @@ export const lessons: Lesson[] = [
     "simple": "Separate responsibilities into clear application layers.",
     "details": "Keep HTTP concerns away from business rules and persistence details.",
     "analogy": "A restaurant separates waiter, chef, and supplier.",
-    "code": "public class OrdersController(OrderService service) { }",
+    "code": "public class OrdersController(OrderService service)\n    : ControllerBase\n{\n    [HttpGet(\"{id:int}\")]\n    public async Task<IActionResult> Get(int id)\n    {\n        var order = await service.FindAsync(id);\n\n        if (order is null)\n        {\n            return NotFound();\n        }\n\n        return Ok(order);\n    }\n}",
     "interview": "I keep controllers thin and business logic testable.",
     "pitfall": "Avoid creating layers with no clear responsibility.",
     "questions": [
       {
         "id": "architecture-application",
-        "prompt": "Which approach is most appropriate when applying Layered Architecture in a project?",
+        "prompt": "An order workflow is invoked from HTTP and a scheduled job. Where should its business rules be implemented?",
         "options": [
-          "I keep controllers thin and business logic testable.",
-          "Use it everywhere regardless of requirements.",
-          "Avoid reviewing trade-offs or writing tests.",
-          "Assume the concept eliminates all software bugs."
+          "In an application/domain service shared by both entry points.",
+          "In the HTTP controller called directly by the scheduled job.",
+          "In middleware that simulates an HTTP request for the job.",
+          "In a response DTO used only by the HTTP serializer."
         ],
         "correct": 0,
-        "explanation": "Keep HTTP concerns away from business rules and persistence details."
+        "explanation": "Business behavior should be accessible independently of a transport-specific entry point."
+      },
+      {
+        "id": "architecture-practice-2",
+        "prompt": "Which layering decision adds complexity without clarifying responsibilities?",
+        "options": [
+          "Keeping HTTP status mapping in the API layer.",
+          "Adding pass-through layers with no distinct policy or boundary.",
+          "Keeping persistence implementation behind a defined boundary.",
+          "Keeping pricing rules testable without a running web server."
+        ],
+        "correct": 1,
+        "explanation": "Each layer should have a reason to exist, such as an independent policy, responsibility, or integration boundary."
+      },
+      {
+        "id": "architecture-practice-3",
+        "prompt": "What responsibility best belongs in this controller?",
+        "options": [
+          "Implement all discount rules directly inside each action.",
+          "Manage SQL connection strings and migration scripts.",
+          "Map HTTP input and service outcomes to HTTP responses.",
+          "Send payment retries through a controller-owned loop."
+        ],
+        "correct": 2,
+        "explanation": "A thin controller coordinates the HTTP boundary and delegates the application workflow.",
+        "code": "public class OrdersController(OrderService service)\n    : ControllerBase\n{\n    // Action methods\n}"
       }
     ],
     "useCase": "In a real software project, apply layered architecture when the situation described in this lesson occurs. Example: Keep HTTP concerns away from business rules and persistence details.",
